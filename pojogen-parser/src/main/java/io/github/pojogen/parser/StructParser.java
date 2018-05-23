@@ -30,16 +30,70 @@ import io.github.pojogen.struct.Struct;
  */
 public interface StructParser {
 
+  /**
+   * Parses {@code {@link Struct} structs} from the given {@code source}.
+   *
+   * The amount of {@code {@link Struct} structs} parsed are from 0 to {@value Integer#MAX_VALUE}.
+   *
+   * @param source The source that contains a {@code prototype} that is parsed.
+   * @return Collection of parsed {@code {@link Struct}} instances.
+   * @throws StructParserException Checked Exception that might be thrown during the process of
+   * parsing {@code Structures}.
+   */
   Collection<Struct> parse(final InputStream source) throws StructParserException;
 
+  /**
+   * Parses {@code {@link Struct} structs} from the given {@code source}.
+   *
+   * The amount of {@code {@link Struct} structs} parsed are from 0 to {@value Integer#MAX_VALUE}.
+   *
+   * @param source The source that contains a {@code prototype} that is parsed.
+   * @return Collection of parsed {@code {@link Struct}} instances.
+   * @throws StructParserException Checked Exception that might be thrown during the process of
+   * parsing {@code Structures}.
+   */
   Collection<Struct> parse(final Reader source) throws StructParserException;
 
+  /**
+   * Parses {@code {@link Struct} structs} from the given {@code source}.
+   *
+   * The amount of {@code {@link Struct} structs} parsed are from 0 to {@value Integer#MAX_VALUE}.
+   *
+   * @param source The source that contains a {@code prototype} that is parsed.
+   * @return Collection of parsed {@code {@link Struct}} instances.
+   * @throws StructParserException Checked Exception that might be thrown during the process of
+   * parsing {@code Structures}.
+   */
   Collection<Struct> parse(final CharSequence source) throws StructParserException;
 
+  /**
+   * Parses one {@code {@link Struct}} from the {@code source}.
+   *
+   * @param source The source that contains a {@code prototype} that is parsed.
+   * @return Collection of parsed {@code {@link Struct}} instances.
+   * @throws StructParserException Checked Exception that might be thrown during the process of
+   * parsing {@code Structures}.
+   */
   Struct parseOne(final InputStream source) throws StructParserException;
 
+  /**
+   * Parses one {@code {@link Struct}} from the {@code source}.
+   *
+   * @param source The source that contains a {@code prototype} that is parsed.
+   * @return Collection of parsed {@code {@link Struct}} instances.
+   * @throws StructParserException Checked Exception that might be thrown during the process of
+   * parsing {@code Structures}.
+   */
   Struct parseOne(final Reader source) throws StructParserException;
 
+  /**
+   * Parses one {@code {@link Struct}} from the {@code source}.
+   *
+   * @param source The source that contains a {@code prototype} that is parsed.
+   * @return Collection of parsed {@code {@link Struct}} instances.
+   * @throws StructParserException Checked Exception that might be thrown during the process of
+   * parsing {@code Structures}.
+   */
   Struct parseOne(final CharSequence source) throws StructParserException;
 
 }
