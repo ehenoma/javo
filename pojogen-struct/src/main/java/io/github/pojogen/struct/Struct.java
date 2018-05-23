@@ -1,10 +1,11 @@
 package io.github.pojogen.struct;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 public final class Struct {
 
