@@ -30,7 +30,7 @@ final class InternalStructParser implements StructParser {
    * Expression that parses struct definitions.
    */
   private static final Pattern STRUCT_REGEX = Pattern.compile(
-      "^(\\w+[ \\t])?(\\w+)[ \\t]+(\\w+)[ \\t]*\\{([\\w\\s:;]*)}$");
+      "(\\w+[ \\t])?(\\w+)[ \\t]+(\\w+)[ \\t]*\\{([\\w\\s:;]*)}");
 
   /**
    * Expression that parses attributes in the body of a struct definition.
