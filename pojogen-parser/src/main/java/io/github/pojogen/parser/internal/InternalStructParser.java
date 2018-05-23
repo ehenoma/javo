@@ -21,14 +21,26 @@ import io.github.pojogen.struct.StructAttribute;
 
 final class InternalStructParser implements StructParser {
 
-  private static final String CONST_KEYWORD = "const";
+  /**
+   * Modifier indicating that a struct or attribute is unmodifiable.
+   */
+  private static final String STRUCT_MODIFIER_CONST = "const";
 
+  /**
+   * Expression that parses struct definitions.
+   */
   private static final Pattern STRUCT_REGEX = Pattern.compile(
       "^(\\w+[ \\t])?(\\w+)[ \\t]+(\\w+)[ \\t]*\\{([\\w\\s:;]*)}$");
 
+  /**
+   * Expression that parses attributes in the body of a struct definition.
+   */
   private static final Pattern STRUCT_ATTRIBUTE_REGEX = Pattern.compile(
       "[ \\t]*(\\w+[ \\t]+)?(\\w+)[ \\t]*:[ \\t]*(\\w+).*");
 
+  /**
+   * Package private constructor of the {@code InternalStructParser}.
+   */
   InternalStructParser() {
   }
 
@@ -47,8 +59,8 @@ final class InternalStructParser implements StructParser {
     return this.firstOrNone(this.parse(source));
   }
 
-  private Struct firstOrNone(final Collection<Struct> structs) {
-    return structs.stream().findFirst().orElseGet(MoreSuppliers.supplyNull());
+  private Struct firstOrNone(final Collection<Struct> entry) {
+    return entry.stream().findFirst().orElseGet(MoreSuppliers.supplyNull());
   }
 
   @Override
@@ -88,7 +100,7 @@ final class InternalStructParser implements StructParser {
     while (parsedSource.find()) {
       switch (parsedSource.groupCount()) {
         case 4:
-          structs.add(this.parseConstStructFromMatcher(parsedSource));
+          structs.add(this.parseStructWithModifierFromMatcher(parsedSource));
           break;
         case 3:
           structs.add(this.parseStructFromMatcher(parsedSource));
@@ -102,7 +114,8 @@ final class InternalStructParser implements StructParser {
     return structs;
   }
 
-  private Struct parseConstStructFromMatcher(final Matcher source) throws StructParserException {
+  private Struct parseStructWithModifierFromMatcher(final Matcher source)
+      throws StructParserException {
     final String structModifier = source.group(1);
     final String structType = source.group(2);
     final String structName = source.group(3);
@@ -111,7 +124,7 @@ final class InternalStructParser implements StructParser {
     return new Struct(
         structName,
         this.parseAttributesFromBody(structBody),
-        CONST_KEYWORD.equalsIgnoreCase(structModifier));
+        STRUCT_MODIFIER_CONST.equalsIgnoreCase(structModifier));
   }
 
   private Struct parseStructFromMatcher(final Matcher source) throws StructParserException {
@@ -129,7 +142,7 @@ final class InternalStructParser implements StructParser {
     while (parsedBody.find()) {
       switch (parsedBody.groupCount()) {
         case 3:
-          attributes.add(this.parseConstAttributeFromMatcher(parsedBody));
+          attributes.add(this.parseAttributeWithModifierFromMatcher(parsedBody));
           break;
         case 2:
           attributes.add(this.parseAttributeFromMatcher(parsedBody));
@@ -146,10 +159,12 @@ final class InternalStructParser implements StructParser {
     return new StructAttribute(parsedAttribute.group(1), parsedAttribute.group(2));
   }
 
-  private StructAttribute parseConstAttributeFromMatcher(final Matcher parsedAttribute) {
+  private StructAttribute parseAttributeWithModifierFromMatcher(final Matcher parsedAttribute) {
     final String modifier = parsedAttribute.group(1);
+    // Currently using additional modification of the parsed group because the expression.
+    // TODO: Fix the expression to make the code more scalable and configurable.
     final boolean constant = (modifier != null)
-        && (CONST_KEYWORD.equalsIgnoreCase(modifier.replace(" ", "")));
+        && (STRUCT_MODIFIER_CONST.equalsIgnoreCase(modifier.replace("[ \t]", "")));
     return new StructAttribute(parsedAttribute.group(2), parsedAttribute.group(3), constant);
   }
 
