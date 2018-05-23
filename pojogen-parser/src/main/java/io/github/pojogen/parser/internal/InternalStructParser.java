@@ -240,4 +240,27 @@ final class InternalStructParser implements StructParser {
     return new StructAttribute(parsedAttribute.group(2), parsedAttribute.group(3), constant);
   }
 
+  @Override
+  public String toString() {
+    return String.format("%s{identity=%d}",
+        StructParser.class.getSimpleName(),
+        System.identityHashCode(this));
+  }
+
+  @Override
+  public int hashCode() {
+    return System.identityHashCode(this);
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other == null) {
+      return false;
+    }
+
+    // Since the InternalStructParser is stateless instances have no significance
+    // and are effectively equal to each other.
+    return other instanceof InternalStructParser;
+  }
+
 }
