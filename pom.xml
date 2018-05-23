@@ -12,6 +12,7 @@
   <modules>
     <module>pojogen-parser</module>
     <module>pojogen-struct</module>
+    <module>pojogen-generator</module>
   </modules>
 
   <properties>
