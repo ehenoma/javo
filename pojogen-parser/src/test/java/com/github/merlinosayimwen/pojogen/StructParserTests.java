@@ -15,7 +15,7 @@ public class StructParserTests {
   private static final String INPUT_READ_STOP_COMMAND = "/end";
 
   public static void main(final String... ignoredArguments) {
-    final StructParser parser = new StructParserFactory().create();
+    final StructParser parser = new StructParserFactory().getInstance();
 
     try (final Scanner userInput = new Scanner(System.in)) {
       final String prototype = StructParserTests.readInputUntil(userInput, INPUT_READ_STOP_COMMAND);
