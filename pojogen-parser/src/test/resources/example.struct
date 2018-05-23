@@ -1,0 +1,7 @@
+const struct Address {
+
+  streetName  : String #Name of the addresses street
+  houseNumber : String #Number of the addresses house
+  postalCode  : short  #PostalCode of the address.
+
+}
