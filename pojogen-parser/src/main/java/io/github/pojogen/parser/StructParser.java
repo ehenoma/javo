@@ -13,7 +13,7 @@ import io.github.pojogen.struct.Struct;
  * Following {@code {@link Struct}} objects are the blueprints for generating a {@code Pojo}. The
  * {@code {@link Struct} prototypes} might be written down to a file or simply passed as a {@code
  * {@link CharSequence}} to the {@code {@link StructParser}}. Internally implementations might use
- * techniques (like {@code RegEX}) which are known to be slow. This causes the parsing of large
+ * technologies (like {@code RegEX}) which are known to be slow. This causes the parsing of large
  * input to block the {@code caller {@link Thread}} for quite some time. Therefore using the {@code
  * {@link StructParser}} in a non-blocking fashion ({@code Async}), will increase the responsiveness
  * of the software that is using it.
