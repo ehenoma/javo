@@ -24,10 +24,10 @@ final class InternalStructParser implements StructParser {
   private static final String CONST_KEYWORD = "const";
 
   private static final Pattern STRUCT_REGEX = Pattern.compile(
-      "^(\\w+[ \\t])?(\\w+)[ \\t]+(\\w+)[ \\t]*\\{([\\w\\s\\:\\;]*)\\}$");
+      "^(\\w+[ \\t])?(\\w+)[ \\t]+(\\w+)[ \\t]*\\{([\\w\\s:;]*)}$");
 
   private static final Pattern STRUCT_ATTRIBUTE_REGEX = Pattern.compile(
-      "[ \\t]*(\\w+[ \\t]+)?(\\w+)[ \\t]*\\:[ \\t]*(\\w+).*");
+      "[ \\t]*(\\w+[ \\t]+)?(\\w+)[ \\t]*:[ \\t]*(\\w+).*");
 
   InternalStructParser() {
   }
@@ -43,7 +43,7 @@ final class InternalStructParser implements StructParser {
   }
 
   @Override
-  public Struct parseOne(final String source) throws StructParserException {
+  public Struct parseOne(final CharSequence source) throws StructParserException {
     return this.firstOrNone(this.parse(source));
   }
 
@@ -79,8 +79,9 @@ final class InternalStructParser implements StructParser {
   }
 
   @Override
-  public Collection<Struct> parse(final String source) throws StructParserException {
-    Preconditions.checkArgument(!Strings.isNullOrEmpty(source));
+  public Collection<Struct> parse(final CharSequence source) throws StructParserException {
+    Preconditions.checkNotNull(source);
+    Preconditions.checkArgument(source.length() > 0);
 
     final Collection<Struct> structs = new LinkedList<>();
     final Matcher parsedSource = STRUCT_REGEX.matcher(source);
