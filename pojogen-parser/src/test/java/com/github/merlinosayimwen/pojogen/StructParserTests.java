@@ -1,5 +1,6 @@
 package com.github.merlinosayimwen.pojogen;
 
+import java.util.Collection;
 import java.util.Scanner;
 
 import com.google.common.base.Preconditions;
@@ -17,9 +18,11 @@ public class StructParserTests {
     final StructParser parser = new StructParserFactory().create();
 
     try (final Scanner userInput = new Scanner(System.in)) {
-      final Struct struct = parser
-          .parseOne(StructParserTests.readInputUntil(userInput, INPUT_READ_STOP_COMMAND));
-      System.out.println(struct);
+      final String prototype = StructParserTests.readInputUntil(userInput, INPUT_READ_STOP_COMMAND);
+      final Collection<Struct> parsedStructures = parser
+          .parse(prototype);
+
+      parsedStructures.forEach(System.out::println);
     } catch (final StructParserException parsingFailure) {
       parsingFailure.printStackTrace();
     }
@@ -35,7 +38,7 @@ public class StructParserTests {
         break;
       }
 
-      readInput.append(line);
+      readInput.append(line).append('\n');
     }
 
     return readInput.toString();
