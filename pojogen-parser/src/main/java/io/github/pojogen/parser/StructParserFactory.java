@@ -1,7 +1,8 @@
 package io.github.pojogen.parser;
 
-import io.github.pojogen.parser.internal.InternalAccess;
 import java.util.function.Supplier;
+
+import io.github.pojogen.parser.internal.InternalAccess;
 
 public final class StructParserFactory {
 

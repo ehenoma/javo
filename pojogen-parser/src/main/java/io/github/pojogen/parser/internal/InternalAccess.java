@@ -1,7 +1,10 @@
 package io.github.pojogen.parser.internal;
 
-import io.github.pojogen.parser.StructParser;
 import java.util.function.Supplier;
+
+import com.google.common.base.Suppliers;
+
+import io.github.pojogen.parser.StructParser;
 
 public final class InternalAccess {
 
@@ -9,7 +12,7 @@ public final class InternalAccess {
   }
 
   public static Supplier<StructParser> internalStructParserSupply() {
-    return InternalStructParser::new;
+    return Suppliers.memoize(InternalStructParser::new);
   }
 
 }
