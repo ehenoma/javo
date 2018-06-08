@@ -18,6 +18,7 @@ class InternalImportStatementGenerator {
 
     return String.format("import %s;", entry.getName());
   }
+
   private Optional<Class<?>> resolveClassInCurrentLoader(final String typeName) {
     try {
       return Optional.of(Class.forName(typeName));

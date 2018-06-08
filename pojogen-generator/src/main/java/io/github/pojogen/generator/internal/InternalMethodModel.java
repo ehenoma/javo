@@ -5,9 +5,10 @@ import com.google.common.collect.ImmutableList;
 import io.github.pojogen.generator.GenerationFlag;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.OptionalInt;
 import java.util.function.Consumer;
 
-public abstract class InternalMethodModel extends InternalClassMemberModel {
+public abstract class InternalMethodModel  {
 
   protected final String returnType;
   protected final String methodName;
@@ -47,7 +48,7 @@ public abstract class InternalMethodModel extends InternalClassMemberModel {
 
     final Iterator<InternalFieldModel> parameterIterator = parameters.iterator();
     while (parameterIterator.hasNext()) {
-      if (buffer.getProfile().hasFlag(GenerationFlag.MAKE_LOCAL_VARIABLE_FINAL)) {
+      if (buffer.profile().hasFlag(GenerationFlag.MAKE_LOCAL_VARIABLE_FINAL)) {
         buffer.append("final ");
       }
 
@@ -93,6 +94,18 @@ public abstract class InternalMethodModel extends InternalClassMemberModel {
       }
 
     };
+  }
+
+  private static void handleConsoleInput(final String line) {
+    parseIntFromString(line).orElseThrow(IllegalArgumentException::new);
+  }
+
+  private static OptionalInt parseIntFromString(final String source) {
+    try {
+      return OptionalInt.of(Integer.parseInt(source));
+    } catch (final NumberFormatException parsingFailure) {
+      return OptionalInt.empty();
+    }
   }
 
 }

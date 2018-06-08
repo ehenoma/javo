@@ -4,14 +4,20 @@ import com.google.common.base.Preconditions;
 import io.github.pojogen.generator.GenerationProfile;
 import java.text.MessageFormat;
 
-final class InternalGenerationContext {
+
+/**
+ * @author Merlin Osayimwen
+ * @see InternalGenerationStep
+ * @since 1.0
+ */
+final class InternalGenerationContext implements AutoCloseable {
 
   private final GenerationProfile profile;
   private final StringBuilder dedicatedBuffer;
   private final String depthPrefix;
   private short currentDepth;
 
-  public InternalGenerationContext(final GenerationProfile profile, final String depthPrefix) {
+  InternalGenerationContext(final GenerationProfile profile, final String depthPrefix) {
     this.dedicatedBuffer = new StringBuilder();
     this.depthPrefix = depthPrefix;
     this.profile = profile;
@@ -52,6 +58,30 @@ final class InternalGenerationContext {
     return this;
   }
 
+  InternalGenerationContext increaseDepth() {
+    this.currentDepth += 1;
+    return this;
+  }
+
+  InternalGenerationContext increaseDepthBy(final int amount) {
+    this.currentDepth += amount;
+    return this;
+  }
+
+  InternalGenerationContext decreaseDepth() {
+    this.currentDepth -= 1;
+    return this;
+  }
+
+  InternalGenerationContext decreaseDepthBy(final int amount) {
+    this.currentDepth -= amount;
+    return this;
+  }
+
+  String produceResult() {
+    return this.dedicatedBuffer.toString();
+  }
+
   String generateLinePrefix() {
     final StringBuilder prefixBuilder = new StringBuilder(this.currentDepth * depthPrefix.length());
     for (int iteration = 0; iteration < this.currentDepth; iteration++) {
@@ -61,18 +91,14 @@ final class InternalGenerationContext {
     return prefixBuilder.toString();
   }
 
-  InternalGenerationContext increaseDepth() {
-    this.currentDepth += 1;
-    return this;
+  GenerationProfile profile() {
+    return this.profile;
   }
 
-  InternalGenerationContext decreaseDepth() {
-    this.currentDepth -= 1;
-    return this;
-  }
-
-  GenerationProfile getProfile() {
-    return profile;
+  @Override
+  public void close() {
+    // Discards the buffer.
+    this.dedicatedBuffer.setLength(0);
   }
 
 }

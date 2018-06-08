@@ -2,9 +2,9 @@ package io.github.pojogen.generator.internal;
 
 import java.util.Collection;
 
-final class InternalConstructorPrototype extends InternalMethodModel {
+final class InternalConstructorModel extends InternalMethodModel {
 
-  InternalConstructorPrototype(
+  InternalConstructorModel(
       final AccessModifier accessModifier,
       final String className,
       final Collection<InternalFieldModel> parameters) {

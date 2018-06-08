@@ -20,17 +20,17 @@ import com.google.common.base.Preconditions;
  * @see InternalFieldModel
  * @since 1.0
  */
-class InternalVariableModel {
+class InternalVariableModel implements InternalGenerationStep {
 
   /**
    * The default {typename} that is used as a {fallback value}.
    */
-  private static final String DEFAULT_TYPENAME = Object.class.getSimpleName();
+  protected static final String DEFAULT_TYPENAME = Object.class.getSimpleName();
 
   /**
    * The default {modifiable} flag that is used as a {fallback value}.
    */
-  private static final boolean DEFAULT_MODIFIABLE = true;
+  protected static final boolean DEFAULT_MODIFIABLE = true;
 
   /**
    * Name of the variable.
@@ -106,6 +106,15 @@ class InternalVariableModel {
    */
   final boolean isModifiable() {
     return this.modifiable;
+  }
+
+  @Override
+  public void writeToContext(final InternalGenerationContext context) {
+    if (!this.modifiable) {
+      context.write("final ");
+    }
+
+    context.writeFormatted("{0} {1}", this.typeName, this.name);
   }
 
   @Override

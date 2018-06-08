@@ -7,13 +7,13 @@ final class InternalClassModel implements InternalGenerationStep {
 
   private final String className;
   private final Collection<InternalFieldModel> fields;
-  private final Collection<InternalConstructorPrototype> constructors;
+  private final Collection<InternalConstructorModel> constructors;
   private final Collection<InternalMethodModel> methods;
 
   public InternalClassModel(
       final String className,
       final Collection<InternalFieldModel> fields,
-      final Collection<InternalConstructorPrototype> constructors,
+      final Collection<InternalConstructorModel> constructors,
       final Collection<InternalMethodModel> methods) {
     this.className = className;
     this.fields = ImmutableList.copyOf(fields);
@@ -22,7 +22,7 @@ final class InternalClassModel implements InternalGenerationStep {
   }
 
   @Override
-  public void writeToContext(final InternalGenerationContext buffer) {
+  public void writeToContext(final InternalGenerationContext context) {
 
   }
 
@@ -34,7 +34,7 @@ final class InternalClassModel implements InternalGenerationStep {
     return this.fields;
   }
 
-  public Collection<InternalConstructorPrototype> getConstructors() {
+  public Collection<InternalConstructorModel> getConstructors() {
     return this.constructors;
   }
 
