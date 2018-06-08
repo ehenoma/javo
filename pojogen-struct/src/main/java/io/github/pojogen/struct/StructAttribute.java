@@ -1,5 +1,6 @@
 package io.github.pojogen.struct;
 
+import com.google.common.base.Preconditions;
 import java.util.Objects;
 
 public class StructAttribute {
@@ -8,26 +9,19 @@ public class StructAttribute {
   private final String typeName;
   private final boolean constant;
 
-  public StructAttribute() {
-    this("undefined");
-  }
-
-  public StructAttribute(final StructAttribute attribute) {
+  private StructAttribute(final StructAttribute attribute) {
     this(attribute.name, attribute.typeName, attribute.constant);
   }
 
-  public StructAttribute(final String name) {
+  private StructAttribute(final String name) {
     this(name, Object.class.getSimpleName());
   }
 
-  public StructAttribute(final String name, final String typeName) {
+  private StructAttribute(final String name, final String typeName) {
     this(name, typeName, false);
   }
 
-  public StructAttribute(
-      final String name,
-      final String typeName,
-      final boolean constant) {
+  public StructAttribute(final String name, final String typeName, final boolean constant) {
     this.name = name;
     this.typeName = typeName;
     this.constant = constant;
@@ -52,10 +46,7 @@ public class StructAttribute {
       contentBuilder.append("const ");
     }
 
-    return contentBuilder.append(this.name)
-        .append(": ")
-        .append(typeName)
-        .toString();
+    return contentBuilder.append(this.name).append(": ").append(typeName).toString();
   }
 
   @Override
@@ -79,4 +70,31 @@ public class StructAttribute {
     return Objects.hash(this.name, this.typeName, this.constant);
   }
 
+  public static StructAttribute create(final String name) {
+    Preconditions.checkNotNull(name);
+
+    return new StructAttribute(name);
+  }
+
+  public static StructAttribute create(final String name, final String typeName) {
+    Preconditions.checkNotNull(name);
+    Preconditions.checkNotNull(typeName);
+
+    return new StructAttribute(name, typeName);
+  }
+
+  public static StructAttribute create(
+      final String name, final String typeName, final boolean constant) {
+
+    Preconditions.checkNotNull(name);
+    Preconditions.checkNotNull(typeName);
+
+    return new StructAttribute(name, typeName, constant);
+  }
+
+  public static StructAttribute copyOf(final StructAttribute parent) {
+    Preconditions.checkNotNull(parent);
+
+    return new StructAttribute(parent);
+  }
 }

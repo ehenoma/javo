@@ -1,11 +1,12 @@
 package io.github.pojogen.struct;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 
 public final class Struct {
 
@@ -13,24 +14,19 @@ public final class Struct {
   private final Collection<StructAttribute> attributes;
   private final boolean constant;
 
-  public Struct() {
-    this("Undefined");
-  }
-
-  public Struct(final String name) {
+  private Struct(final String name) {
     this(name, Collections.emptyList());
   }
 
-  public Struct(final String name, final Collection<StructAttribute> attributes) {
+  private Struct(final String name, final Collection<StructAttribute> attributes) {
     this(name, attributes, false);
   }
 
-  public Struct(
-      final String name,
-      final Collection<StructAttribute> attributes,
-      final boolean constant) {
+  private Struct(
+      final String name, final Collection<StructAttribute> attributes, final boolean constant) {
+
     this.name = name;
-    this.attributes = Lists.newLinkedList(attributes);
+    this.attributes = ImmutableList.copyOf(attributes);
     this.constant = constant;
   }
 
@@ -39,7 +35,7 @@ public final class Struct {
   }
 
   public Collection<StructAttribute> getAttributes() {
-    return ImmutableList.copyOf(this.attributes);
+    return this.attributes;
   }
 
   public boolean isConstant() {
@@ -48,22 +44,13 @@ public final class Struct {
 
   @Override
   public String toString() {
-    final StringBuilder contentBuilder = new StringBuilder();
-    if (this.constant) {
-      contentBuilder.append("const ");
-    }
+    final ToStringHelper representationBuilder =
+        MoreObjects.toStringHelper(this)
+            .add("name", this.name)
+            .add("const", this.constant)
+            .add("attributes", this.attributes.size());
 
-    contentBuilder.append("struct ")
-        .append(name)
-        .append(" {\n");
-
-    for (final StructAttribute attribute : this.attributes) {
-      contentBuilder.append("  ")
-          .append(attribute.toString())
-          .append('\n');
-    }
-
-    return contentBuilder.append('}').toString();
+    return representationBuilder.toString();
   }
 
   @Override
@@ -85,5 +72,29 @@ public final class Struct {
   @Override
   public int hashCode() {
     return Objects.hash(this.name, this.constant, this.attributes);
+  }
+
+  public static Struct create(final String name) {
+    Preconditions.checkNotNull(name);
+
+    return Struct.create(name, Collections.emptyList());
+  }
+
+  public static Struct create(final String name, final Collection<StructAttribute> attributes) {
+    return Struct.create(name, attributes, false);
+  }
+
+  public static Struct create(
+      final String name, final Collection<StructAttribute> attributes, final boolean constant) {
+    Preconditions.checkNotNull(name);
+    Preconditions.checkNotNull(attributes);
+
+    return new Struct(name, attributes, constant);
+  }
+
+  public static Struct copyOf(final Struct struct) {
+    Preconditions.checkNotNull(struct);
+
+    return new Struct(struct.name, struct.attributes, struct.constant);
   }
 }

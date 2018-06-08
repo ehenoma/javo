@@ -23,9 +23,9 @@ import io.github.pojogen.struct.StructAttribute;
  * Internal implementation of the {@code {@link StructParser}} interface that follows the default
  * specification of {@code {@link Struct} prototypes}.
  *
- * The {@code Parser Library} is using abstraction to hide internal implementation and encapsulate
- * code or data. The {@code {@link InternalStructParser}} class is package-private and can only be
- * accessed through the {@code {@link InternalAccess}} class.
+ * <p>The {@code Parser Library} is using abstraction to hide internal implementation and
+ * encapsulate code or data. The {@code {@link InternalStructParser}} class is package-private and
+ * can only be accessed through the {@code {@link InternalAccess}} class.
  *
  * @author Merlin Osayimwen
  * @see StructParser
@@ -35,28 +35,19 @@ import io.github.pojogen.struct.StructAttribute;
  */
 final class InternalStructParser implements StructParser {
 
-  /**
-   * Modifier indicating that a struct or attribute is unmodifiable.
-   */
+  /** Modifier indicating that a struct or attribute is unmodifiable. */
   private static final String STRUCT_MODIFIER_CONST = "const";
 
-  /**
-   * Expression that parses struct definitions.
-   */
-  private static final Pattern STRUCT_REGEX = Pattern.compile(
-      "(\\w+[ \\t])?(\\w+)[ \\t]+(\\w+)[ \\t]*\\{([\\w\\s:;]*)}");
+  /** Expression that parses struct definitions. */
+  private static final Pattern STRUCT_REGEX =
+      Pattern.compile("(\\w+[ \\t])?(\\w+)[ \\t]+(\\w+)[ \\t]*\\{([\\w\\s:;]*)}");
 
-  /**
-   * Expression that parses attributes in the body of a struct definition.
-   */
-  private static final Pattern STRUCT_ATTRIBUTE_REGEX = Pattern.compile(
-      "[ \\t]*(\\w+[ \\t]+)?(\\w+)[ \\t]*:[ \\t]*(\\w+).*");
+  /** Expression that parses attributes in the body of a struct definition. */
+  private static final Pattern STRUCT_ATTRIBUTE_REGEX =
+      Pattern.compile("[ \\t]*(\\w+[ \\t]+)?(\\w+)[ \\t]*:[ \\t]*(\\w+).*");
 
-  /**
-   * Package private constructor of the {@code InternalStructParser}.
-   */
-  InternalStructParser() {
-  }
+  /** Package private constructor of the {@code InternalStructParser}. */
+  InternalStructParser() {}
 
   @Override
   public Struct parseOne(final InputStream source) throws StructParserException {
@@ -147,7 +138,7 @@ final class InternalStructParser implements StructParser {
    * @param source {@code {@link Matcher Source}} that the {@code {@link Struct}} is parsed from.
    * @return Nonnull parsed {@code {@link Struct}} instance.
    * @throws StructParserException Exception that occurred while parsing the {@code {@link Struct}}
-   * from the {@code source}.
+   *     from the {@code source}.
    */
   private Struct parseStructWithModifierFromMatcher(final Matcher source)
       throws StructParserException {
@@ -156,7 +147,7 @@ final class InternalStructParser implements StructParser {
     final String structName = source.group(3);
     final String structBody = source.group(4);
 
-    return new Struct(
+    return Struct.create(
         structName,
         this.parseAttributesFromBody(structBody),
         STRUCT_MODIFIER_CONST.equalsIgnoreCase(structModifier));
@@ -171,14 +162,14 @@ final class InternalStructParser implements StructParser {
    * @param source {@code {@link Matcher Source}} that the {@code {@link Struct}} is parsed from.
    * @return Nonnull parsed {@code {@link Struct}} instance.
    * @throws StructParserException Exception that occurred while parsing the {@code {@link Struct}}
-   * from the {@code source}.
+   *     from the {@code source}.
    */
   private Struct parseStructFromMatcher(final Matcher source) throws StructParserException {
     final String structType = source.group(1);
     final String structName = source.group(2);
     final String structBody = source.group(3);
 
-    return new Struct(structName, this.parseAttributesFromBody(structBody));
+    return Struct.create(structName, this.parseAttributesFromBody(structBody));
   }
 
   /**
@@ -188,7 +179,7 @@ final class InternalStructParser implements StructParser {
    * @param structBody Body of the struct which contains zero or more attributes.
    * @return Collection with one or more attributes that were contained in the {@code structBody}.
    * @throws StructParserException Checked Exception that might be thrown when the amount of a
-   * parsed attributes groups is invalid.
+   *     parsed attributes groups is invalid.
    */
   private Collection<StructAttribute> parseAttributesFromBody(final String structBody)
       throws StructParserException {
@@ -221,7 +212,7 @@ final class InternalStructParser implements StructParser {
    * @return Instance of a {@code {@link StructAttribute}} parsed from the {@code parsedAttribute}.
    */
   private StructAttribute parseAttributeFromMatcher(final Matcher parsedAttribute) {
-    return new StructAttribute(parsedAttribute.group(1), parsedAttribute.group(2));
+    return StructAttribute.create(parsedAttribute.group(1), parsedAttribute.group(2));
   }
 
   /**
@@ -235,16 +226,16 @@ final class InternalStructParser implements StructParser {
     final String modifier = parsedAttribute.group(1);
     // Currently using additional modification of the parsed group because the expression.
     // TODO: Fix the expression to make the code more scalable and configurable.
-    final boolean constant = (modifier != null)
-        && (STRUCT_MODIFIER_CONST.equalsIgnoreCase(modifier.replace("[ \t]", "")));
+    final boolean constant =
+        (modifier != null)
+            && (STRUCT_MODIFIER_CONST.equalsIgnoreCase(modifier.replace("[ \t]", "")));
     return new StructAttribute(parsedAttribute.group(2), parsedAttribute.group(3), constant);
   }
 
   @Override
   public String toString() {
-    return String.format("%s{identity=%d}",
-        StructParser.class.getSimpleName(),
-        System.identityHashCode(this));
+    return String.format(
+        "%s{identity=%d}", StructParser.class.getSimpleName(), System.identityHashCode(this));
   }
 
   @Override
@@ -262,5 +253,4 @@ final class InternalStructParser implements StructParser {
     // and are effectively equal to each other.
     return other instanceof InternalStructParser;
   }
-
 }
