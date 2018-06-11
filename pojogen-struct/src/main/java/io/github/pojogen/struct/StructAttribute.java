@@ -16,53 +16,103 @@
 
 package io.github.pojogen.struct;
 
-import com.google.common.base.Preconditions;
+import com.google.common.base.MoreObjects;
 import java.util.Objects;
 
+import com.google.common.base.Preconditions;
+
+/**
+ * Represents an attribute in a {@code Struct-Blueprint}.
+ *
+ * @author Merlin Osayimwen
+ * @see Struct
+ */
 public class StructAttribute {
 
+  /** Name of the attribute. */
   private final String name;
+
+  /** Name of the attributes type. */
   private final String typeName;
+
+  /** Flag that indicates whether the attribute is constant. */
   private final boolean constant;
 
+  /**
+   * Parameterized constructor that takes a attribute.
+   *
+   * @param attribute Attribute that is copied.
+   */
   private StructAttribute(final StructAttribute attribute) {
     this(attribute.name, attribute.typeName, attribute.constant);
   }
 
+  /**
+   * Parameterized constructor that initializes the instance with a name.
+   *
+   * @param name Name of the attribute.
+   */
   private StructAttribute(final String name) {
     this(name, Object.class.getSimpleName());
   }
 
+  /**
+   * Parameterized constructor that initializes the instance with a name and typeName.
+   *
+   * @param name Name of the attribute.
+   * @param typeName Name of the attributes type.
+   */
   private StructAttribute(final String name, final String typeName) {
     this(name, typeName, false);
   }
 
+  /**
+   * Parameterized constructor that initializes the instance with all possible arguments.
+   *
+   * @param name Name of the attribute.
+   * @param typeName Name of the attributes type.
+   * @param constant Flag that indicates whether the attribute is final.
+   */
   public StructAttribute(final String name, final String typeName, final boolean constant) {
     this.name = name;
     this.typeName = typeName;
     this.constant = constant;
   }
 
+  /**
+   * Gets the name of the attribute.
+   *
+   * @return Name of the attribute.
+   */
   public String getName() {
     return this.name;
   }
 
+  /**
+   * Gets the name of the attributes type.
+   *
+   * @return Name of the attributes type
+   */
   public String getTypeName() {
     return this.typeName;
   }
 
+  /**
+   * Returns whether the attribute is a constant.
+   *
+   * @return Is the attribute a constant?
+   */
   public boolean isConstant() {
     return this.constant;
   }
 
   @Override
   public String toString() {
-    final StringBuilder contentBuilder = new StringBuilder();
-    if (this.constant) {
-      contentBuilder.append("const ");
-    }
-
-    return contentBuilder.append(this.name).append(": ").append(typeName).toString();
+    return MoreObjects.toStringHelper(this)
+        .add("name", this.name)
+        .add("type-name", this.typeName)
+        .add("constant", this.constant)
+        .toString();
   }
 
   @Override

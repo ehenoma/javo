@@ -40,6 +40,9 @@ public final class StructParserFactory {
     StructParserFactory.supplier = InternalAccess.internalStructParserSupply();
   }
 
+  /** Private No-Args constructor that prevents instantiation by using a constructor. */
+  private StructParserFactory() {}
+
   /**
    * Resolves the instance of a {@code {@link StructParser}} implementation.
    *
@@ -50,5 +53,14 @@ public final class StructParserFactory {
    */
   public StructParser getInstance() {
     return StructParserFactory.supplier.get();
+  }
+
+  /**
+   * Creates a new instance of the StructParserFactory.
+   *
+   * @return Instance of the factory.
+   */
+  public static StructParserFactory create() {
+    return new StructParserFactory();
   }
 }
