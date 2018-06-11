@@ -158,6 +158,7 @@ final class InternalStructParser implements StructParser {
    */
   private Struct parseStructWithModifierFromMatcher(final Matcher source)
       throws StructParserException {
+
     final String structModifier = source.group(1);
     final String structType = source.group(2);
     final String structName = source.group(3);
@@ -199,6 +200,7 @@ final class InternalStructParser implements StructParser {
    */
   private Collection<StructAttribute> parseAttributesFromBody(final String structBody)
       throws StructParserException {
+
     final Collection<StructAttribute> attributes = Lists.newLinkedList();
     final Matcher parsedBody = STRUCT_ATTRIBUTE_REGEX.matcher(structBody);
     while (parsedBody.find()) {
