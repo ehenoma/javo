@@ -32,6 +32,11 @@
       <artifactId>pojogen-struct</artifactId>
       <version>1.0</version>
     </dependency>
+    <dependency>
+      <groupId>io.github.pojogen</groupId>
+      <artifactId>pojogen-parser</artifactId>
+      <version>1.0</version>
+    </dependency>
   </dependencies>
 
 </project>
