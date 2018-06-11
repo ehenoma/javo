@@ -125,6 +125,7 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
     return this.streamFlags().mapToInt(GenerationFlag::hashCode).map(entry -> entry * 32).sum();
   }
 
+  /** Builder that allows easy creation of a GenerationProfile. */
   public static final class Builder {
 
     private Collection<GenerationFlag> flags;
@@ -142,15 +143,26 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
       return GenerationProfile.create(this.flags);
     }
 
-    public static final Builder newBuilder() {
+    public static Builder newBuilder() {
       return new Builder();
     }
   }
 
+  /**
+   * Creates a GenerationProfile without any flags given.
+   *
+   * @return Newly created plain GenerationProfile.
+   */
   public static GenerationProfile create() {
     return new GenerationProfile();
   }
 
+  /**
+   * Creates a GenerationProfile from the given {@code flags}.
+   *
+   * @param flags Flags chosen for the generation.
+   * @return Newly created profile with the given flags.
+   */
   public static GenerationProfile create(final Iterable<GenerationFlag> flags) {
     Preconditions.checkNotNull(flags);
 
