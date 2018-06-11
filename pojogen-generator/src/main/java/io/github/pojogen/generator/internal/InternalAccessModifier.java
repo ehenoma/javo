@@ -1,3 +1,19 @@
+/*
+ * Copyright 2018 Merlin Osayimwen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.github.pojogen.generator.internal;
 
 import com.google.common.base.Preconditions;
@@ -7,7 +23,7 @@ import java.util.Optional;
  * The {@code {@link InternalAccessModifier}} enum represents the common {@code Java
  * access-modifiers}.
  *
- * It is used in the {@code Class-member models} contained in the {@code internal} package. And
+ * <p>It is used in the {@code Class-member models} contained in the {@code internal} package. And
  * provides a {@code keyword} for its {@code code representation}.
  *
  * @author Merlin
@@ -19,24 +35,16 @@ import java.util.Optional;
  */
 enum InternalAccessModifier {
 
-  /**
-   * Member or Class can only be accessed from within its package.
-   */
+  /** Member or Class can only be accessed from within its package. */
   PACKAGE_PRIVATE,
 
-  /**
-   * Member can only be accessed from within its class.
-   */
+  /** Member can only be accessed from within its class. */
   PRIVATE("private"),
 
-  /**
-   * Member can only be accessed from within its package or implementation.
-   */
+  /** Member can only be accessed from within its package or implementation. */
   PROTECTED("protected"),
 
-  /**
-   * Member can be accessed from everywhere.
-   */
+  /** Member can be accessed from everywhere. */
   PUBLIC("public");
 
   /**
@@ -45,9 +53,7 @@ enum InternalAccessModifier {
    */
   private final Optional<String> keyword;
 
-  /**
-   * Initializes the {@code {@link InternalAccessModifier}} with an absent {@code keyword}.
-   */
+  /** Initializes the {@code {@link InternalAccessModifier}} with an absent {@code keyword}. */
   InternalAccessModifier() {
     this.keyword = Optional.empty();
   }
@@ -72,5 +78,4 @@ enum InternalAccessModifier {
   final Optional<String> getKeyword() {
     return this.keyword;
   }
-
 }

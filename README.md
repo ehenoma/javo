@@ -1,5 +1,10 @@
+[![Picture](http://icons.iconarchive.com/icons/andreasmyrup/cubicons/256/blueprint-icon.png)](https://github.com/merlinosayimwen/pojogen)
+
 What is *PojoGen*?
 ------------------
+[![Java Version](https://img.shields.io/badge/java-v1.8-blue.svg)](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+[![Latest](https://img.shields.io/badge/latest-v1.0-blue.svg)](https://github.com/merlinosayimwen/pojogen)
+[![License](https://img.shields.io/badge/license-apache--2.0-lightgrey.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 The *PojoGen-Framework* is aiming to allow fast creation and highly
 configurable creation of *Java object classes* with optional *specifications*.
@@ -33,18 +38,29 @@ struct Blogpost {
 }
 ```
 
-This struct represents a *Blogpost*
+The shown struct represents a *Blogpost*
 
-Wait a minute... What is a Pojo?
---------------------------------
-A Pojo is a **Plain old Java Object** that does not need to follow any explicit
-*specification*. The *PojoGen* can create *JPA Entities* which are not real
-*POJOS*.
+Getting started
+--
 
-Notice
-------
-This *README* file is not yet finished !!!
+Following shows how you can add the `pojogen-generator` module to your dependencies when using a common *build tool*.
 
+To add it to your **maven** project use following code:
+```xml
+<dependency>
+  <groupId>io.github.pojogen</groupId>
+  <artifactId>pojogen-generator</artifactId>
+  <version>1.0</version>
+</dependency>
+```
 
+If you use **gradle** this is the code for you:
+```groovy
+dependencies {
+  compile 'io.github.pojogen:pojogen-generator:1.0'
+}
+```
 
-
+Links
+--
+- https://de.wikipedia.org/wiki/Plain_Old_Java_Object

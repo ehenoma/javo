@@ -1,10 +1,26 @@
+/*
+ * Copyright 2018 Merlin Osayimwen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.github.pojogen.parser;
 
 /**
  * Checked {@code {@link Exception}} that is thrown in operations of the {@code {@link
  * StructParser}}.
  *
- * This {@code {@link Exception}} indicates, that the input is invalid and probably against the
+ * <p>This {@code {@link Exception}} indicates, that the input is invalid and probably against the
  * specifications. It is also thrown when another checked exception occurred during the process or
  * {@code parsing} an {@code prototype}.
  *
@@ -61,5 +77,4 @@ public final class StructParserException extends Exception {
   public static StructParserException createWithMessage(final String message) {
     return new StructParserException(message);
   }
-
 }

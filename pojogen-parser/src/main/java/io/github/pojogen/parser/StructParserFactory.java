@@ -1,3 +1,19 @@
+/*
+ * Copyright 2018 Merlin Osayimwen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.github.pojogen.parser;
 
 import java.util.function.Supplier;
@@ -17,9 +33,7 @@ import io.github.pojogen.parser.internal.InternalAccess;
  */
 public final class StructParserFactory {
 
-  /**
-   * Supplier that provides implementations of the {@code {@link StructParser}} class.
-   */
+  /** Supplier that provides implementations of the {@code {@link StructParser}} class. */
   private static Supplier<StructParser> supplier;
 
   static {
@@ -29,7 +43,7 @@ public final class StructParserFactory {
   /**
    * Resolves the instance of a {@code {@link StructParser}} implementation.
    *
-   * The {@code return-value} is most probably not created every time that this method is invoked
+   * <p>The {@code return-value} is most probably not created every time that this method is invoked
    * since the implementations are stateless.
    *
    * @return Instance of a {@code {@link StructParser}} implementation.
@@ -37,5 +51,4 @@ public final class StructParserFactory {
   public StructParser getInstance() {
     return StructParserFactory.supplier.get();
   }
-
 }

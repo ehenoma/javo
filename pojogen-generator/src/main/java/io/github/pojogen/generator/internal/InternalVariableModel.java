@@ -1,3 +1,19 @@
+/*
+ * Copyright 2018 Merlin Osayimwen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.github.pojogen.generator.internal;
 
 import java.util.Objects;
@@ -8,12 +24,12 @@ import com.google.common.base.Preconditions;
 /**
  * Immutable {@code value object} that is representing a local or global {@code variable}.
  *
- * The {@code {@link InternalVariableModel}} class is used to describe method parameters, local and
- * global variables that can be {@code immutable (final)}. It is open for implementations in order
- * for more explicit objects of type {@code variable}, to build up on this model. An example for an
- * implementation is the {@code {@link InternalFieldModel}} class which has a additional {@code
- * access modifier}. The constructors are accessible from inside the package but using the {@code
- * factory-methods} is highly encouraged; they will do additional safety checks.
+ * <p>The {@code {@link InternalVariableModel}} class is used to describe method parameters, local
+ * and global variables that can be {@code immutable (final)}. It is open for implementations in
+ * order for more explicit objects of type {@code variable}, to build up on this model. An example
+ * for an implementation is the {@code {@link InternalFieldModel}} class which has a additional
+ * {@code access modifier}. The constructors are accessible from inside the package but using the
+ * {@code factory-methods} is highly encouraged; they will do additional safety checks.
  *
  * @author Merlin Osayimwen
  * @see InternalClassModel
@@ -22,29 +38,19 @@ import com.google.common.base.Preconditions;
  */
 class InternalVariableModel implements InternalGenerationStep {
 
-  /**
-   * The default {typename} that is used as a {fallback value}.
-   */
+  /** The default {typename} that is used as a {fallback value}. */
   protected static final String DEFAULT_TYPENAME = Object.class.getSimpleName();
 
-  /**
-   * The default {modifiable} flag that is used as a {fallback value}.
-   */
+  /** The default {modifiable} flag that is used as a {fallback value}. */
   protected static final boolean DEFAULT_MODIFIABLE = true;
 
-  /**
-   * Name of the variable.
-   */
+  /** Name of the variable. */
   protected final String name;
 
-  /**
-   * Name of the variables type.
-   */
+  /** Name of the variables type. */
   protected final String typeName;
 
-  /**
-   * Flag that indicates whether the variable is not {@code final}.
-   */
+  /** Flag that indicates whether the variable is not {@code final}. */
   protected final boolean modifiable;
 
   /**
@@ -74,8 +80,8 @@ class InternalVariableModel implements InternalGenerationStep {
    * @param typeName Name of the variables type.
    * @param modifiable Flag that indicates whether the variable is not {@code final}.
    */
-  protected InternalVariableModel(final String name, final String typeName,
-      final boolean modifiable) {
+  protected InternalVariableModel(
+      final String name, final String typeName, final boolean modifiable) {
     this.name = name;
     this.typeName = typeName;
     this.modifiable = modifiable;
@@ -182,12 +188,11 @@ class InternalVariableModel implements InternalGenerationStep {
    * @param modifiable Indicates whether the variable is not final.
    * @return New instance of an {@code {@link InternalVariableModel}}.
    */
-  static InternalVariableModel create(final String name, final String typeName,
-      final boolean modifiable) {
+  static InternalVariableModel create(
+      final String name, final String typeName, final boolean modifiable) {
     Preconditions.checkNotNull(name);
     Preconditions.checkNotNull(typeName);
 
     return new InternalVariableModel(name, typeName, modifiable);
   }
-
 }

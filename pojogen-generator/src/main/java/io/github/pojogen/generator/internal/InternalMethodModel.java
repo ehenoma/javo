@@ -1,3 +1,19 @@
+/*
+ * Copyright 2018 Merlin Osayimwen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.github.pojogen.generator.internal;
 
 import com.google.common.base.Strings;
@@ -8,7 +24,7 @@ import java.util.Iterator;
 import java.util.OptionalInt;
 import java.util.function.Consumer;
 
-public abstract class InternalMethodModel  {
+public abstract class InternalMethodModel {
 
   protected final String returnType;
   protected final String methodName;
@@ -17,9 +33,7 @@ public abstract class InternalMethodModel  {
   private InternalMethodModel(
       final String methodName,
       final String returnType,
-      final Collection<InternalFieldModel> parameters) {
-
-  }
+      final Collection<InternalFieldModel> parameters) {}
 
   private InternalMethodModel(
       final String methodName,
@@ -35,13 +49,10 @@ public abstract class InternalMethodModel  {
 
   @Override
   public void writeToContext(InternalGenerationContext buffer) {
-    buffer.append(this.accessModifier.getCodeRepresentation())
-        .append(' ')
-        .append(this.returnType);
+    buffer.append(this.accessModifier.getCodeRepresentation()).append(' ').append(this.returnType);
 
     if (!Strings.isNullOrEmpty(this.methodName)) {
-      buffer.append(' ')
-          .append(this.methodName);
+      buffer.append(' ').append(this.methodName);
     }
 
     buffer.append('(');
@@ -53,17 +64,14 @@ public abstract class InternalMethodModel  {
       }
 
       final InternalFieldModel parameter = parameterIterator.next();
-      buffer.append(parameter.getTypeName())
-          .append(' ')
-          .append(parameter.getName());
+      buffer.append(parameter.getTypeName()).append(' ').append(parameter.getName());
 
       if (parameterIterator.hasNext()) {
         buffer.append(", ");
       }
     }
 
-    buffer.append(") {")
-        .increaseDepth();
+    buffer.append(") {").increaseDepth();
 
     buffer.writeLineBreak();
 
@@ -82,17 +90,12 @@ public abstract class InternalMethodModel  {
       final String methodName,
       final Collection<InternalFieldModel> parameters,
       final Consumer<InternalGenerationContext> writingAction) {
-    return new InternalMethodModel(
-        accessModifier,
-        returnType,
-        methodName,
-        parameters) {
+    return new InternalMethodModel(accessModifier, returnType, methodName, parameters) {
 
       @Override
       protected void writeBodyToContext(InternalGenerationContext buffer) {
         writingAction.accept(buffer);
       }
-
     };
   }
 
@@ -107,5 +110,4 @@ public abstract class InternalMethodModel  {
       return OptionalInt.empty();
     }
   }
-
 }

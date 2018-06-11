@@ -6,7 +6,7 @@
   <parent>
     <artifactId>pojogen-parent</artifactId>
     <groupId>io.github.pojogen</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
   </parent>
 
   <artifactId>pojogen-generator</artifactId>
@@ -15,7 +15,7 @@
     <dependency>
       <groupId>io.github.pojogen</groupId>
       <artifactId>pojogen-struct</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>1.0</version>
     </dependency>
   </dependencies>
 
