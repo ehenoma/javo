@@ -61,6 +61,22 @@ dependencies {
 }
 ```
 
+What it CAN do
+--
+PojoGen can speed up your development process by allowing
+you to rather write blueprints than big classes and pass the work
+to the generator. It allows you to parse and read so called *Structs* and 
+provides multiple *Generator Settings* for the generation of *POJO* classes.
+
+What it CANT do
+--
+While developing the generator I noticed, that automatic imports
+of custom unknown classes would be something
+rather time consuming than useful. While I could use the classpath to search for
+those classes by their simple name, I decided to remove the feature of
+automated imports. If you are using an IDE that should be now problem though.
+
+
 Links
 --
 - https://de.wikipedia.org/wiki/Plain_Old_Java_Object
