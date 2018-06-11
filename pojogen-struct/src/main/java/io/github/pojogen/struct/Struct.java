@@ -16,16 +16,20 @@
 
 package io.github.pojogen.struct;
 
+import com.google.common.base.Joiner;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
 
 /**
  * Value-Object representation of a {@code Struct-Blueprint}.
@@ -113,6 +117,18 @@ public final class Struct {
     return constant;
   }
 
+  /**
+   * Returns whether the struct is effectively immutable.
+   *
+   * <p>This is either {@code true}, if the {@code struct} is declared {@code const} or every of its
+   * {@code attributes} are.
+   *
+   * @return Whether the struct is immutable.
+   */
+  public boolean isImmutable() {
+    return isConstant() || this.attributes.stream().allMatch(StructAttribute::isConstant);
+  }
+
   @Override
   public String toString() {
     final ToStringHelper representationBuilder =
@@ -197,4 +213,6 @@ public final class Struct {
 
     return new Struct(struct.name, struct.attributes, struct.constant);
   }
+
+  public static void main(final String... ignoredArguments) {}
 }
