@@ -16,4 +16,13 @@
 
 package io.github.pojogen.generator;
 
-public abstract class PojoGeneratorFactory {}
+import io.github.pojogen.generator.internal.InternalAccess;
+
+public abstract class PojoGeneratorFactory {
+
+  public abstract PojoGenerator getInstance();
+
+  public static PojoGeneratorFactory create() {
+    return InternalAccess.getInternalGeneratorFactorySupply().get();
+  }
+}
