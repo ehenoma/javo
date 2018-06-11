@@ -16,6 +16,7 @@
 
 package io.github.pojogen.generator;
 
+import com.google.common.collect.ImmutableSet;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
@@ -82,8 +83,16 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
     return this.flags.stream();
   }
 
+  /**
+   * Gets a iterable of all flags configured in the profile.
+   *
+   * @return Iterable of all flags configured in the profile.
+   */
   public Iterable<GenerationFlag> getFlags() {
-    return this.flags;
+    // Adding additional immutability ensurance.
+    // The returned iterable cant be modified with the type {Iterable}
+    // but they might be casted to a normal collection and modified
+    return ImmutableSet.copyOf(this.flags);
   }
 
   @Override
