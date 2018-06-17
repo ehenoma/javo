@@ -17,20 +17,26 @@
 package io.github.pojogen.generator;
 
 import io.github.pojogen.struct.Struct;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.file.Path;
 
+/**
+ * @author Merlin Osayimwen
+ * @since 1.0
+ * @see PojoGeneratorFactory
+ * @see GenerationFlag
+ * @see GenerationProfile
+ */
 public interface PojoGenerator {
 
-  String generatePojoFromStruct(final Struct source);
+  /**
+   * @param model The blueprint used to generate a Pojo.
+   * @return Pojo generated from the {@code model}.
+   */
+  String generate(final Struct model);
 
-  String generatePojoFromStruct(final Struct source, final GenerationProfile profile);
-
-  void generateToFile(final Struct source, final GenerationProfile profile, final Path destination);
-
-  void generateToFile(final Struct source, final GenerationProfile profile, final File destination);
-
-  void generateToFile(
-      final Struct source, final GenerationProfile profile, final FileOutputStream destination);
+  /**
+   * @param model The blueprint used to generate a Pojo.
+   * @param profile Preferences and settings given for the generation.
+   * @return Pojo generated from the {@code model}.
+   */
+  String generate(final Struct model, final GenerationProfile profile);
 }

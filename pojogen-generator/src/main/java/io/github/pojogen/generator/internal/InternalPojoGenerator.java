@@ -16,4 +16,19 @@
 
 package io.github.pojogen.generator.internal;
 
-public class InternalPojoGenerator {}
+import io.github.pojogen.generator.GenerationProfile;
+import io.github.pojogen.generator.PojoGenerator;
+import io.github.pojogen.struct.Struct;
+
+final class InternalPojoGenerator implements PojoGenerator {
+
+  @Override
+  public String generate(Struct model) {
+    return null;
+  }
+
+  @Override
+  public String generate(Struct model, GenerationProfile profile) {
+    return null;
+  }
+}

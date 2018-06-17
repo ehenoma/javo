@@ -16,6 +16,8 @@
 
 package io.github.pojogen.generator.internal;
 
+import com.google.common.base.Suppliers;
+import io.github.pojogen.generator.PojoGenerator;
 import java.util.function.Supplier;
 
 import io.github.pojogen.generator.PojoGeneratorFactory;
@@ -23,6 +25,14 @@ import io.github.pojogen.generator.PojoGeneratorFactory;
 public final class InternalAccess {
 
   public static Supplier<PojoGeneratorFactory> getInternalGeneratorFactorySupply() {
-    return null;
+    return Suppliers.memoize(InternalPojoGeneratorFactory::new);
+  }
+
+  static final class InternalPojoGeneratorFactory extends PojoGeneratorFactory {
+
+    @Override
+    public PojoGenerator getInstance() {
+      return new InternalPojoGenerator();
+    }
   }
 }
