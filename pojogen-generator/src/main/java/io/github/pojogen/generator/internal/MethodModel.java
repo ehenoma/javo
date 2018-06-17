@@ -16,32 +16,43 @@
 
 package io.github.pojogen.generator.internal;
 
+import static java.util.Arrays.deepEquals;
+import static java.util.Arrays.deepHashCode;
+import static java.util.Arrays.deepToString;
+
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import io.github.pojogen.generator.GenerationFlag;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.OptionalInt;
+import java.util.Objects;
 import java.util.function.Consumer;
 
-public abstract class MethodModel {
+public abstract class MethodModel implements GenerationStep {
 
-  protected final String returnType;
-  protected final String methodName;
-  protected final Collection<FieldModel> parameters;
+  private static final AccessModifier FALLBACK_ACCESS_MODIFIER = AccessModifier.PACKAGE_PRIVATE;
 
-  private MethodModel(
-      final String methodName,
-      final String returnType,
-      final Collection<FieldModel> parameters) {}
+  final AccessModifier accessModifier;
+  final String returnType;
+  final String methodName;
+  final Collection<VariableModel> parameters;
 
   private MethodModel(
       final String methodName,
       final String returnType,
-      final Collection<FieldModel> parameters,
-      final AccessModifier InternalAccessModifier) {
+      final Collection<VariableModel> parameters) {
 
-    super(accessModifier);
+    this(methodName, returnType, parameters, MethodModel.FALLBACK_ACCESS_MODIFIER);
+  }
+
+  private MethodModel(
+      final String methodName,
+      final String returnType,
+      final Collection<VariableModel> parameters,
+      final AccessModifier accessModifier) {
+
+    this.accessModifier = accessModifier;
     this.returnType = returnType;
     this.methodName = methodName;
     this.parameters = ImmutableList.copyOf(parameters);
@@ -49,22 +60,23 @@ public abstract class MethodModel {
 
   @Override
   public void writeToContext(GenerationContext context) {
-    context.write(this.accessModifier.getCodeRepresentation()).append(' ').append(this.returnType);
+    context.write(this.accessModifier.getKeyword().orElse(""));
+    context.write(" " + this.returnType);
 
     if (!Strings.isNullOrEmpty(this.methodName)) {
-      context.write(' ').write(this.methodName);
+      context.write(" " + this.methodName);
     }
 
     context.write('(');
 
-    final Iterator<FieldModel> parameterIterator = parameters.iterator();
+    final Iterator<VariableModel> parameterIterator = parameters.iterator();
     while (parameterIterator.hasNext()) {
       if (context.profile().hasFlag(GenerationFlag.LOCAL_VARIABLES_FINAL)) {
         context.write("final ");
       }
 
-      final FieldModel parameter = parameterIterator.next();
-      context.write(parameter.getTypeName()).write(' ').append(parameter.getName());
+      final VariableModel parameter = parameterIterator.next();
+      context.write(parameter.getTypeName()).write(' ').write(parameter.getName());
 
       if (parameterIterator.hasNext()) {
         context.write(", ");
@@ -79,35 +91,63 @@ public abstract class MethodModel {
     this.writeBodyToContext(context);
 
     context.decreaseDepth();
-    context.writeLineBreak().write('}');
+    context.writeLineBreak().write('}').writeLineBreak();
   }
 
   protected abstract void writeBodyToContext(final GenerationContext buffer);
 
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        this.returnType,
+        this.methodName,
+        deepHashCode(this.parameters.toArray()),
+        this.accessModifier.ordinal());
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("name", this.methodName)
+        .add("returnType", this.returnType)
+        .add("parameters", "{" + deepToString(this.parameters.toArray()) + "}")
+        .add("accessModifier", this.accessModifier)
+        .toString();
+  }
+
+  @Override
+  public boolean equals(final Object checkTarget) {
+    if (this == checkTarget) {
+      return true;
+    }
+    if (checkTarget == null) {
+      return false;
+    }
+
+    if (!(checkTarget instanceof MethodModel)) {
+      return false;
+    }
+
+    final MethodModel otherMethod = (MethodModel) checkTarget;
+    return otherMethod.methodName.equals(this.methodName)
+        && otherMethod.returnType.equals(this.returnType)
+        && accessModifier.equals(otherMethod.accessModifier)
+        && deepEquals(this.parameters.toArray(), otherMethod.parameters.toArray());
+  }
+
   static MethodModel fromConsumer(
-      final AccessModifier InternalAccessModifier,
       final String returnType,
       final String methodName,
-      final Collection<FieldModel> parameters,
+      final Collection<VariableModel> parameters,
+      final AccessModifier accessModifier,
       final Consumer<GenerationContext> writingAction) {
-    return new MethodModel(accessModifier, returnType, methodName, parameters) {
+
+    return new MethodModel(returnType, methodName, parameters, accessModifier) {
 
       @Override
-      protected void writeBodyToContext(GenerationContext buffer) {
+      protected void writeBodyToContext(final GenerationContext buffer) {
         writingAction.accept(buffer);
       }
     };
-  }
-
-  private static void handleConsoleInput(final String line) {
-    parseIntFromString(line).orElseThrow(IllegalArgumentException::new);
-  }
-
-  private static OptionalInt parseIntFromString(final String source) {
-    try {
-      return OptionalInt.of(Integer.parseInt(source));
-    } catch (final NumberFormatException parsingFailure) {
-      return OptionalInt.empty();
-    }
   }
 }
