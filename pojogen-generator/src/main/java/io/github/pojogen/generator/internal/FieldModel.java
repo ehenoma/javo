@@ -19,6 +19,7 @@ package io.github.pojogen.generator.internal;
 import static io.github.pojogen.generator.internal.AccessModifier.PACKAGE_PRIVATE;
 
 import com.google.common.base.Preconditions;
+import io.github.pojogen.struct.StructAttribute;
 
 /**
  * @author Merlin Osayimwen
@@ -73,5 +74,13 @@ final class FieldModel extends VariableModel implements GenerationStep {
 
     return new FieldModel(
         variable.getName(), variable.getTypeName(), variable.isModifiable(), accessModifier);
+  }
+
+  public static FieldModel fromStructAttribute(final StructAttribute attribute) {
+    Preconditions.checkNotNull(attribute);
+
+    return fromVariable(
+        VariableModel.create(attribute.getName(), attribute.getTypeName(), attribute.isConstant()),
+        AccessModifier.PRIVATE);
   }
 }

@@ -52,5 +52,12 @@ public enum GenerationFlag {
    * never changing results every time the methods are invoked. This caching is only done, when the
    * {@code struct} or every of its attributes is declared as constant == The pojo is immutable.
    */
-  CACHE_COMMON_METHODS;
+  CACHE_COMMON_METHODS,
+
+  /**
+   * Tells whether the common methods should be generated at all. Common methods are those, defined
+   * in the {@code Object} class. The absence of this flag will lead in no common method to be
+   * generated.
+   */
+  GENERATE_COMMON_METHODS
 }

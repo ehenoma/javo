@@ -115,4 +115,11 @@ final class GenerationContext implements AutoCloseable {
     // Discards the buffer.
     this.dedicatedBuffer.setLength(0);
   }
+
+  static GenerationContext create(final GenerationProfile profile, final String depthPrefix) {
+    Preconditions.checkNotNull(profile);
+    Preconditions.checkNotNull(depthPrefix);
+
+    return new GenerationContext(profile, depthPrefix);
+  }
 }

@@ -16,19 +16,36 @@
 
 package io.github.pojogen.generator.internal;
 
+import com.google.common.base.Preconditions;
 import io.github.pojogen.generator.GenerationProfile;
 import io.github.pojogen.generator.PojoGenerator;
 import io.github.pojogen.struct.Struct;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 final class InternalPojoGenerator implements PojoGenerator {
 
   @Override
-  public String generate(Struct model) {
-    return null;
+  public String generate(final Struct model) {
+    return this.generate(model, GenerationProfile.create());
   }
 
   @Override
-  public String generate(Struct model, GenerationProfile profile) {
-    return null;
+  public String generate(final Struct model, final GenerationProfile profile) {
+    Preconditions.checkNotNull(model);
+    Preconditions.checkNotNull(profile);
+
+    try (final GenerationContext context = GenerationContext.create(profile, "  ")) {
+      final Collection<FieldModel> fieldMembers =
+          model.getAttributes().map(FieldModel::fromStructAttribute).collect(Collectors.toList());
+
+      final ClassModel parentModel =
+          new ClassModel(
+              model.getName(), fieldMembers, Collections.emptyList(), Collections.emptyList());
+
+      parentModel.writeToContext(context);
+      return context.produceResult();
+    }
   }
 }
