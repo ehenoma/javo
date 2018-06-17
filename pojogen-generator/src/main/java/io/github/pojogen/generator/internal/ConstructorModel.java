@@ -16,21 +16,36 @@
 
 package io.github.pojogen.generator.internal;
 
+import com.google.common.base.Preconditions;
 import java.util.Collection;
 
 final class ConstructorModel extends MethodModel {
 
   ConstructorModel(
-      final AccessModifier InternalAccessModifier,
       final String className,
-      final Collection<FieldModel> parameters) {
-    super(accessModifier, className, "", parameters);
+      final Collection<FieldModel> parameters,
+      final AccessModifier accessModifier) {
+
+    super(className, "", parameters, accessModifier);
   }
 
-  public void writeBodyToContext(final GenerationContext buffer) {
-    for (final FieldModel parameter : parameters) {
+  @Override
+  protected void writeBodyToContext(final GenerationContext buffer) {
+    for (final VariableModel parameter : parameters) {
       // TODO: Check whether type is of array or collection and should be shallow copied.
-      buffer.append("this.").append(parameter.getName()).append(" = ").append(parameter.getName());
+      buffer.writeFormatted("this.{0} = {0}", parameter.getName());
+      buffer.writeLineBreak();
     }
+  }
+
+  static ConstructorModel create(
+      final String className,
+      final Collection<FieldModel> parameters,
+      final AccessModifier accessModifier) {
+
+    Preconditions.checkNotNull(className);
+    Preconditions.checkNotNull(parameters);
+    Preconditions.checkNotNull(accessModifier);
+    return new ConstructorModel(className, parameters, accessModifier);
   }
 }

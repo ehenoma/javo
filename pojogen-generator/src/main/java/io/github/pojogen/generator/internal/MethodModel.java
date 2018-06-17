@@ -36,20 +36,20 @@ public abstract class MethodModel implements GenerationStep {
   final AccessModifier accessModifier;
   final String returnType;
   final String methodName;
-  final Collection<VariableModel> parameters;
+  final Collection<? extends VariableModel> parameters;
 
-  private MethodModel(
+  protected MethodModel(
       final String methodName,
       final String returnType,
-      final Collection<VariableModel> parameters) {
+      final Collection<? extends VariableModel> parameters) {
 
     this(methodName, returnType, parameters, MethodModel.FALLBACK_ACCESS_MODIFIER);
   }
 
-  private MethodModel(
+  protected MethodModel(
       final String methodName,
       final String returnType,
-      final Collection<VariableModel> parameters,
+      final Collection<? extends VariableModel> parameters,
       final AccessModifier accessModifier) {
 
     this.accessModifier = accessModifier;
@@ -69,7 +69,7 @@ public abstract class MethodModel implements GenerationStep {
 
     context.write('(');
 
-    final Iterator<VariableModel> parameterIterator = parameters.iterator();
+    final Iterator<? extends VariableModel> parameterIterator = parameters.iterator();
     while (parameterIterator.hasNext()) {
       if (context.profile().hasFlag(GenerationFlag.LOCAL_VARIABLES_FINAL)) {
         context.write("final ");
@@ -138,7 +138,7 @@ public abstract class MethodModel implements GenerationStep {
   static MethodModel fromConsumer(
       final String returnType,
       final String methodName,
-      final Collection<VariableModel> parameters,
+      final Collection<? extends VariableModel> parameters,
       final AccessModifier accessModifier,
       final Consumer<GenerationContext> writingAction) {
 
