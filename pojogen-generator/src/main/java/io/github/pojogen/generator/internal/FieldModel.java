@@ -18,6 +18,8 @@ package io.github.pojogen.generator.internal;
 
 import static io.github.pojogen.generator.internal.AccessModifier.PACKAGE_PRIVATE;
 
+import com.google.common.base.Preconditions;
+
 /**
  * @author Merlin Osayimwen
  * @see VariableModel
@@ -46,10 +48,10 @@ final class FieldModel extends VariableModel implements GenerationStep {
       final String name,
       final String typeName,
       final boolean modifiable,
-      final AccessModifier InternalAccessModifier) {
+      final AccessModifier accessModifier) {
 
     super(name, typeName, modifiable);
-    this.accessModifier = InternalAccessModifier;
+    this.accessModifier = accessModifier;
   }
 
   @Override
@@ -64,8 +66,12 @@ final class FieldModel extends VariableModel implements GenerationStep {
     return this.accessModifier;
   }
 
-  public static FieldModel fromVariable(final VariableModel variable,final AccessModifier accessModifier) {
+  public static FieldModel fromVariable(
+      final VariableModel variable, final AccessModifier accessModifier) {
+    Preconditions.checkNotNull(variable);
+    Preconditions.checkNotNull(accessModifier);
 
+    return new FieldModel(
+        variable.getName(), variable.getTypeName(), variable.isModifiable(), accessModifier);
   }
-
 }
