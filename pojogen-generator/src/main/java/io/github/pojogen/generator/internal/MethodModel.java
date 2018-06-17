@@ -24,22 +24,22 @@ import java.util.Iterator;
 import java.util.OptionalInt;
 import java.util.function.Consumer;
 
-public abstract class InternalMethodModel {
+public abstract class MethodModel {
 
   protected final String returnType;
   protected final String methodName;
-  protected final Collection<InternalFieldModel> parameters;
+  protected final Collection<FieldModel> parameters;
 
-  private InternalMethodModel(
+  private MethodModel(
       final String methodName,
       final String returnType,
-      final Collection<InternalFieldModel> parameters) {}
+      final Collection<FieldModel> parameters) {}
 
-  private InternalMethodModel(
+  private MethodModel(
       final String methodName,
       final String returnType,
-      final Collection<InternalFieldModel> parameters,
-      final AccessModifier accessModifier) {
+      final Collection<FieldModel> parameters,
+      final AccessModifier InternalAccessModifier) {
 
     super(accessModifier);
     this.returnType = returnType;
@@ -48,52 +48,52 @@ public abstract class InternalMethodModel {
   }
 
   @Override
-  public void writeToContext(InternalGenerationContext buffer) {
-    buffer.append(this.accessModifier.getCodeRepresentation()).append(' ').append(this.returnType);
+  public void writeToContext(GenerationContext context) {
+    context.write(this.accessModifier.getCodeRepresentation()).append(' ').append(this.returnType);
 
     if (!Strings.isNullOrEmpty(this.methodName)) {
-      buffer.append(' ').append(this.methodName);
+      context.write(' ').write(this.methodName);
     }
 
-    buffer.append('(');
+    context.write('(');
 
-    final Iterator<InternalFieldModel> parameterIterator = parameters.iterator();
+    final Iterator<FieldModel> parameterIterator = parameters.iterator();
     while (parameterIterator.hasNext()) {
-      if (buffer.profile().hasFlag(GenerationFlag.MAKE_LOCAL_VARIABLE_FINAL)) {
-        buffer.append("final ");
+      if (context.profile().hasFlag(GenerationFlag.LOCAL_VARIABLES_FINAL)) {
+        context.write("final ");
       }
 
-      final InternalFieldModel parameter = parameterIterator.next();
-      buffer.append(parameter.getTypeName()).append(' ').append(parameter.getName());
+      final FieldModel parameter = parameterIterator.next();
+      context.write(parameter.getTypeName()).write(' ').append(parameter.getName());
 
       if (parameterIterator.hasNext()) {
-        buffer.append(", ");
+        context.write(", ");
       }
     }
 
-    buffer.append(") {").increaseDepth();
+    context.write(") {").increaseDepth();
 
-    buffer.writeLineBreak();
+    context.writeLineBreak();
 
-    // Lets the implementation write the body to the buffer.
-    this.writeBodyToContext(buffer);
+    // Lets the implementation write the body to the context.
+    this.writeBodyToContext(context);
 
-    buffer.decreaseDepth();
-    buffer.writeLineBreak().append('}');
+    context.decreaseDepth();
+    context.writeLineBreak().write('}');
   }
 
-  protected abstract void writeBodyToContext(final InternalGenerationContext buffer);
+  protected abstract void writeBodyToContext(final GenerationContext buffer);
 
-  static InternalMethodModel fromConsumer(
-      final AccessModifier accessModifier,
+  static MethodModel fromConsumer(
+      final AccessModifier InternalAccessModifier,
       final String returnType,
       final String methodName,
-      final Collection<InternalFieldModel> parameters,
-      final Consumer<InternalGenerationContext> writingAction) {
-    return new InternalMethodModel(accessModifier, returnType, methodName, parameters) {
+      final Collection<FieldModel> parameters,
+      final Consumer<GenerationContext> writingAction) {
+    return new MethodModel(accessModifier, returnType, methodName, parameters) {
 
       @Override
-      protected void writeBodyToContext(InternalGenerationContext buffer) {
+      protected void writeBodyToContext(GenerationContext buffer) {
         writingAction.accept(buffer);
       }
     };

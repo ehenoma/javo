@@ -24,19 +24,19 @@ import com.google.common.base.Preconditions;
 /**
  * Immutable {@code value object} that is representing a local or global {@code variable}.
  *
- * <p>The {@code {@link InternalVariableModel}} class is used to describe method parameters, local
+ * <p>The {@code {@link VariableModel }} class is used to describe method parameters, local
  * and global variables that can be {@code immutable (final)}. It is open for implementations in
  * order for more explicit objects of type {@code variable}, to build up on this model. An example
- * for an implementation is the {@code {@link InternalFieldModel}} class which has a additional
+ * for an implementation is the {@code {@link FieldModel }} class which has a additional
  * {@code access modifier}. The constructors are accessible from inside the package but using the
  * {@code factory-methods} is highly encouraged; they will do additional safety checks.
  *
  * @author Merlin Osayimwen
- * @see InternalClassModel
- * @see InternalFieldModel
+ * @see ClassModel
+ * @see FieldModel
  * @since 1.0
  */
-class InternalVariableModel implements InternalGenerationStep {
+class VariableModel implements GenerationStep {
 
   /** The default {typename} that is used as a {fallback value}. */
   protected static final String DEFAULT_TYPENAME = Object.class.getSimpleName();
@@ -58,8 +58,8 @@ class InternalVariableModel implements InternalGenerationStep {
    *
    * @param name Name of the variable.
    */
-  protected InternalVariableModel(final String name) {
-    this(name, InternalVariableModel.DEFAULT_TYPENAME);
+  protected VariableModel(final String name) {
+    this(name, VariableModel.DEFAULT_TYPENAME);
   }
 
   /**
@@ -69,8 +69,8 @@ class InternalVariableModel implements InternalGenerationStep {
    * @param name Name of the variable.
    * @param typeName Name of the variables type.
    */
-  protected InternalVariableModel(final String name, final String typeName) {
-    this(name, typeName, InternalVariableModel.DEFAULT_MODIFIABLE);
+  protected VariableModel(final String name, final String typeName) {
+    this(name, typeName, VariableModel.DEFAULT_MODIFIABLE);
   }
 
   /**
@@ -80,7 +80,7 @@ class InternalVariableModel implements InternalGenerationStep {
    * @param typeName Name of the variables type.
    * @param modifiable Flag that indicates whether the variable is not {@code final}.
    */
-  protected InternalVariableModel(
+  protected VariableModel(
       final String name, final String typeName, final boolean modifiable) {
     this.name = name;
     this.typeName = typeName;
@@ -115,7 +115,7 @@ class InternalVariableModel implements InternalGenerationStep {
   }
 
   @Override
-  public void writeToContext(final InternalGenerationContext context) {
+  public void writeToContext(final GenerationContext context) {
     if (!this.modifiable) {
       context.write("final ");
     }
@@ -124,7 +124,7 @@ class InternalVariableModel implements InternalGenerationStep {
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     return MoreObjects.toStringHelper(this)
         .add("name", this.name)
         .add("typeName", this.typeName)
@@ -133,66 +133,66 @@ class InternalVariableModel implements InternalGenerationStep {
   }
 
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     return Objects.hash(this.name, this.typeName, this.modifiable);
   }
 
   @Override
-  public final boolean equals(final Object other) {
+  public boolean equals(final Object other) {
     if (other == null) {
       return false;
     }
 
-    if (!(other instanceof InternalVariableModel)) {
+    if (!(other instanceof VariableModel)) {
       return false;
     }
 
-    final InternalVariableModel otherVariable = (InternalVariableModel) other;
+    final VariableModel otherVariable = (VariableModel) other;
     return (this.name.equals(otherVariable.name))
         && (this.typeName.equals(otherVariable.typeName))
         && (this.modifiable == otherVariable.modifiable);
   }
 
   /**
-   * Factory method that creates an {@code {@link InternalVariableModel}} from a {@code name}.
+   * Factory method that creates an {@code {@link VariableModel }} from a {@code name}.
    *
    * @param name Name of the variable.
-   * @return New instance of an {@code {@link InternalVariableModel}}.
+   * @return New instance of an {@code {@link VariableModel }}.
    */
-  static InternalVariableModel create(final String name) {
+  static VariableModel create(final String name) {
     Preconditions.checkNotNull(name);
 
-    return new InternalVariableModel(name);
+    return new VariableModel(name);
   }
 
   /**
-   * Factory method that creates an {@code {@link InternalVariableModel}} from a {@code name} and
+   * Factory method that creates an {@code {@link VariableModel }} from a {@code name} and
    * {@code typeName}.
    *
    * @param name Name of the variable.
    * @param typeName Name of the variables type.
-   * @return New instance of an {@code {@link InternalVariableModel}}.
+   * @return New instance of an {@code {@link VariableModel }}.
    */
-  static InternalVariableModel create(final String name, final String typeName) {
+  static VariableModel create(final String name, final String typeName) {
     Preconditions.checkNotNull(name);
     Preconditions.checkNotNull(typeName);
 
-    return new InternalVariableModel(name, typeName);
+    return new VariableModel(name, typeName);
   }
 
   /**
-   * Factory method that creates an {@code {@link InternalVariableModel}} with all arguments.
+   * Factory method that creates an {@code {@link VariableModel }} with all arguments.
    *
    * @param name Name of the variable.
    * @param typeName Name of the variables type.
    * @param modifiable Indicates whether the variable is not final.
-   * @return New instance of an {@code {@link InternalVariableModel}}.
+   * @return New instance of an {@code {@link VariableModel }}.
    */
-  static InternalVariableModel create(
+  static VariableModel create(
       final String name, final String typeName, final boolean modifiable) {
     Preconditions.checkNotNull(name);
     Preconditions.checkNotNull(typeName);
 
-    return new InternalVariableModel(name, typeName, modifiable);
+    return new VariableModel(name, typeName, modifiable);
   }
 }

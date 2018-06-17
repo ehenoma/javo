@@ -16,21 +16,18 @@
 
 package io.github.pojogen.generator.internal;
 
-import java.util.Collection;
+/**
+ * @author Merlin Osayimwen
+ * @see InternalPojoGenerator
+ * @see GenerationContext
+ * @since 1.0
+ */
+interface GenerationStep {
 
-final class InternalConstructorModel extends InternalMethodModel {
-
-  InternalConstructorModel(
-      final AccessModifier accessModifier,
-      final String className,
-      final Collection<InternalFieldModel> parameters) {
-    super(accessModifier, className, "", parameters);
-  }
-
-  public void writeBodyToContext(final InternalGenerationContext buffer) {
-    for (final InternalFieldModel parameter : parameters) {
-      // TODO: Check whether type is of array or collection and should be shallow copied.
-      buffer.append("this.").append(parameter.getName()).append(" = ").append(parameter.getName());
-    }
-  }
+  /**
+   * Writes the {@code steps} representation to the {@code context}.
+   *
+   * @param context Context that the {@code code representation} is written to.
+   */
+  void writeToContext(final GenerationContext context);
 }

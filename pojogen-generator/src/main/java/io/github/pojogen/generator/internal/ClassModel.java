@@ -19,18 +19,19 @@ package io.github.pojogen.generator.internal;
 import com.google.common.collect.ImmutableList;
 import java.util.Collection;
 
-final class InternalClassModel implements InternalGenerationStep {
+final class ClassModel implements GenerationStep {
 
   private final String className;
-  private final Collection<InternalFieldModel> fields;
-  private final Collection<InternalConstructorModel> constructors;
-  private final Collection<InternalMethodModel> methods;
+  private final Collection<FieldModel> fields;
+  private final Collection<ConstructorModel> constructors;
+  private final Collection<MethodModel> methods;
 
-  public InternalClassModel(
+  public ClassModel(
       final String className,
-      final Collection<InternalFieldModel> fields,
-      final Collection<InternalConstructorModel> constructors,
-      final Collection<InternalMethodModel> methods) {
+      final Collection<FieldModel> fields,
+      final Collection<ConstructorModel> constructors,
+      final Collection<MethodModel> methods) {
+
     this.className = className;
     this.fields = ImmutableList.copyOf(fields);
     this.constructors = ImmutableList.copyOf(constructors);
@@ -38,21 +39,21 @@ final class InternalClassModel implements InternalGenerationStep {
   }
 
   @Override
-  public void writeToContext(final InternalGenerationContext context) {}
+  public void writeToContext(final GenerationContext context) {}
 
   public String getClassName() {
     return this.className;
   }
 
-  public Collection<InternalFieldModel> getFields() {
+  public Collection<FieldModel> getFields() {
     return this.fields;
   }
 
-  public Collection<InternalConstructorModel> getConstructors() {
+  public Collection<ConstructorModel> getConstructors() {
     return this.constructors;
   }
 
-  public Collection<InternalMethodModel> getMethods() {
+  public Collection<MethodModel> getMethods() {
     return this.methods;
   }
 }

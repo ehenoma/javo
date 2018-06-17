@@ -23,27 +23,27 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-final class InternalCommonMethodGenerator {
+final class CommonMethodGenerator {
 
   private static final String COMMON_METHOD_HASHCODE = "hashCode";
   private static final String COMMON_METHOD_EQUALS = "equals";
   private static final String COMMON_METHOD_EQUALS_PARAM = "OTHER";
   public static final String COMMON_PRIMITIVES = "int|byte|short|long|float|double|char";
 
-  InternalMethodModel generateToStringMethod(final InternalClassModel container) {
+  MethodModel generateToStringMethod(final ClassModel container) {
     return null;
   }
 
-  InternalMethodModel generateEqualsMethod(final InternalClassModel container) {
-    final Collection<InternalFieldModel> parameters =
+  MethodModel generateEqualsMethod(final ClassModel container) {
+    final Collection<FieldModel> parameters =
         Collections.singleton(
-            new InternalFieldModel(
+            new FieldModel(
                 AccessModifier.PACKAGE_PRIVATE,
-                InternalCommonMethodGenerator.COMMON_METHOD_EQUALS_PARAM,
+                CommonMethodGenerator.COMMON_METHOD_EQUALS_PARAM,
                 Object.class.getSimpleName(),
                 true));
 
-    return InternalMethodModel.fromConsumer(
+    return MethodModel.fromConsumer(
         AccessModifier.PUBLIC,
         boolean.class.getSimpleName(),
         COMMON_METHOD_EQUALS,
@@ -68,8 +68,8 @@ final class InternalCommonMethodGenerator {
         });
   }
 
-  InternalMethodModel generateHashCodeMethod(final Collection<InternalFieldModel> memberFields) {
-    return InternalMethodModel.fromConsumer(
+  MethodModel generateHashCodeMethod(final Collection<FieldModel> memberFields) {
+    return MethodModel.fromConsumer(
         AccessModifier.PUBLIC,
         int.class.getSimpleName(),
         COMMON_METHOD_HASHCODE,
@@ -100,7 +100,7 @@ final class InternalCommonMethodGenerator {
   }
 
   private String generateEqualsStatement(
-      final String otherFieldName, final InternalFieldModel field) {
+      final String otherFieldName, final FieldModel field) {
     return this.isTypePrimitive(field.getTypeName())
         ? MessageFormat.format("this.{0} == {1}", field.getName(), otherFieldName)
         : MessageFormat.format("this.{0}.equals({1})", field.getName(), otherFieldName);
