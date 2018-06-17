@@ -39,7 +39,17 @@ final class ClassModel implements GenerationStep {
   }
 
   @Override
-  public void writeToContext(final GenerationContext context) {}
+  public void writeToContext(final GenerationContext context) {
+    context.writeFormatted("public final class {0} '{'", this.className);
+    context.increaseDepth().writeLineBreak();
+
+    fields.forEach(fieldModel -> fieldModel.writeToContext(context));
+    constructors.forEach(constructorModel -> constructorModel.writeToContext(context));
+    methods.forEach(methodModel -> methodModel.writeToContext(context));
+
+    context.decreaseDepth().writeLineBreak();
+    context.writeFormatted("'}'");
+  }
 
   public String getClassName() {
     return this.className;

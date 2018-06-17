@@ -57,10 +57,10 @@ final class FieldModel extends VariableModel implements GenerationStep {
 
   @Override
   public final void writeToContext(final GenerationContext context) {
-    context.write(this.accessModifier.getKeyword()).write(' ');
+    context.write(this.accessModifier.getKeyword().orElse("")).write(' ');
 
     super.writeToContext(context);
-    context.write(';');
+    context.write(";").writeLineBreak();
   }
 
   AccessModifier getAccessModifier() {
@@ -80,7 +80,7 @@ final class FieldModel extends VariableModel implements GenerationStep {
     Preconditions.checkNotNull(attribute);
 
     return fromVariable(
-        VariableModel.create(attribute.getName(), attribute.getTypeName(), attribute.isConstant()),
+        VariableModel.create(attribute.getName(), attribute.getTypeName(), !attribute.isConstant()),
         AccessModifier.PRIVATE);
   }
 }

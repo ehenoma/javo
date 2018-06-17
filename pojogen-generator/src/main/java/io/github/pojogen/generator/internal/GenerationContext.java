@@ -62,7 +62,7 @@ final class GenerationContext implements AutoCloseable {
   }
 
   GenerationContext writeLineBreak() {
-    return this.write(generateLinePrefix());
+    return this.write("\n" + generateLinePrefix());
   }
 
   GenerationContext writeLineBreak(final int repeats) {
