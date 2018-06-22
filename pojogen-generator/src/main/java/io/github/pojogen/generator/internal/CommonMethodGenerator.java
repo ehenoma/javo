@@ -29,6 +29,10 @@ final class CommonMethodGenerator {
   private static final String COMMON_METHOD_HASHCODE = "hashCode";
   private static final String COMMON_METHOD_EQUALS = "equals";
   private static final String COMMON_METHOD_EQUALS_PARAM = "OTHER";
+  private static final String COMMON_METHOD_EQUALS_BODY =
+      "if(this == {0}) {{2}return true;\n{3}}\nif({0} == null) {\n{2}return false;\n{3}}"
+          + "\n\n{3}if (!({0} instanceof {1})) {\n{2}return false;\n{3}}\n\n{3}return {4};";
+
   private static final String COMMON_PRIMITIVES = "int|byte|short|long|float|double|char";
 
   MethodModel generateToStringMethod(final ClassModel container) {
@@ -44,17 +48,8 @@ final class CommonMethodGenerator {
         buffer -> {
           final StringBuilder fieldComparisons = new StringBuilder();
           buffer.writeFormatted(
-              "if(this == {0}) {"
-                  + "{2}return true;"
-                  + "\n{3}}\n"
-                  + "if({0} == null) {"
-                  + "\n{2}return false;"
-                  + "\n{3}}"
-                  + "\n\n{3}if (!({0} instanceof {1})) {"
-                  + "\n{2}return false;"
-                  + "\n{3}}"
-                  + "\n\n{3}return {4};",
-              COMMON_METHOD_EQUALS_PARAM,
+              CommonMethodGenerator.COMMON_METHOD_EQUALS_BODY,
+              CommonMethodGenerator.COMMON_METHOD_EQUALS_PARAM,
               container.getClassName(),
               buffer.increaseDepth().generateLinePrefix(),
               buffer.decreaseDepth().generateLinePrefix(),
@@ -63,7 +58,7 @@ final class CommonMethodGenerator {
 
     return MethodModel.fromConsumer(
         boolean.class.getSimpleName(),
-        COMMON_METHOD_EQUALS,
+        CommonMethodGenerator.COMMON_METHOD_EQUALS,
         parameters,
         AccessModifier.PUBLIC,
         bodyWriter);

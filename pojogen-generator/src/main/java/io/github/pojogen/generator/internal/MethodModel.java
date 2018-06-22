@@ -59,15 +59,25 @@ public abstract class MethodModel implements GenerationStep {
   }
 
   @Override
-  public void writeToContext(GenerationContext context) {
+  public void writeToContext(final GenerationContext context) {
     context.write(this.accessModifier.getKeyword().orElse(""));
     context.write(" " + this.returnType);
 
+    // The name might be null or empty (eg: Constructors)
     if (!Strings.isNullOrEmpty(this.methodName)) {
       context.write(" " + this.methodName);
     }
 
     context.write('(');
+    this.writeParametersToContext(context);
+    context.write(") {").increaseDepth().writeLineBreak();
+
+    // Lets the implementation write the body to the context.
+    this.writeBodyToContext(context);
+    context.decreaseDepth().writeLineBreak().write('}').writeLineBreak();
+  }
+
+  private void writeParametersToContext(final GenerationContext context) {
 
     final Iterator<? extends VariableModel> parameterIterator = parameters.iterator();
     while (parameterIterator.hasNext()) {
@@ -82,16 +92,6 @@ public abstract class MethodModel implements GenerationStep {
         context.write(", ");
       }
     }
-
-    context.write(") {").increaseDepth();
-
-    context.writeLineBreak();
-
-    // Lets the implementation write the body to the context.
-    this.writeBodyToContext(context);
-
-    context.decreaseDepth();
-    context.writeLineBreak().write('}').writeLineBreak();
   }
 
   protected abstract void writeBodyToContext(final GenerationContext buffer);
