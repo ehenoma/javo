@@ -24,12 +24,12 @@ import com.google.common.base.Preconditions;
 /**
  * Immutable {@code value object} that is representing a local or global {@code variable}.
  *
- * <p>The {@code {@link VariableModel }} class is used to describe method parameters, local
- * and global variables that can be {@code immutable (final)}. It is open for implementations in
- * order for more explicit objects of type {@code variable}, to build up on this model. An example
- * for an implementation is the {@code {@link FieldModel }} class which has a additional
- * {@code access modifier}. The constructors are accessible from inside the package but using the
- * {@code factory-methods} is highly encouraged; they will do additional safety checks.
+ * <p>The {@code {@link VariableModel }} class is used to describe method parameters, local and
+ * global variables that can be {@code immutable (final)}. It is open for implementations in order
+ * for more explicit objects of type {@code variable}, to build up on this model. An example for an
+ * implementation is the {@code {@link FieldModel }} class which has a additional {@code access
+ * modifier}. The constructors are accessible from inside the package but using the {@code
+ * factory-methods} is highly encouraged; they will do additional safety checks.
  *
  * @author Merlin Osayimwen
  * @see ClassModel
@@ -80,8 +80,7 @@ class VariableModel implements GenerationStep {
    * @param typeName Name of the variables type.
    * @param modifiable Flag that indicates whether the variable is not {@code final}.
    */
-  protected VariableModel(
-      final String name, final String typeName, final boolean modifiable) {
+  protected VariableModel(final String name, final String typeName, final boolean modifiable) {
     this.name = name;
     this.typeName = typeName;
     this.modifiable = modifiable;
@@ -139,6 +138,10 @@ class VariableModel implements GenerationStep {
 
   @Override
   public boolean equals(final Object other) {
+    if (this == other) {
+      return true;
+    }
+
     if (other == null) {
       return false;
     }
@@ -166,8 +169,8 @@ class VariableModel implements GenerationStep {
   }
 
   /**
-   * Factory method that creates an {@code {@link VariableModel }} from a {@code name} and
-   * {@code typeName}.
+   * Factory method that creates an {@code {@link VariableModel }} from a {@code name} and {@code
+   * typeName}.
    *
    * @param name Name of the variable.
    * @param typeName Name of the variables type.
@@ -188,8 +191,7 @@ class VariableModel implements GenerationStep {
    * @param modifiable Indicates whether the variable is not final.
    * @return New instance of an {@code {@link VariableModel }}.
    */
-  static VariableModel create(
-      final String name, final String typeName, final boolean modifiable) {
+  static VariableModel create(final String name, final String typeName, final boolean modifiable) {
     Preconditions.checkNotNull(name);
     Preconditions.checkNotNull(typeName);
 
