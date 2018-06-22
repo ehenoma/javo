@@ -217,4 +217,8 @@ public final class MethodModel implements GenerationStep {
           accessModifier);
     }
   }
+
+  static Builder newBuilder() {
+    return new Builder();
+  }
 }
