@@ -17,6 +17,7 @@
 package io.github.pojogen.struct;
 
 import com.google.common.base.MoreObjects;
+import io.github.pojogen.struct.util.ObjectChecks;
 import java.util.Objects;
 
 import com.google.common.base.Preconditions;
@@ -116,16 +117,23 @@ public class StructAttribute {
   }
 
   @Override
-  public boolean equals(final Object object) {
-    if (object == null) {
+  public boolean equals(final Object checkTarget) {
+    return ObjectChecks.equalsDefinitely(this, checkTarget)
+        .orElseGet(() -> deepEquals(checkTarget));
+  }
+
+  /**
+   * Compares the attributes of both classes.
+   *
+   * @param other Instance who's attributes are compared to those of the invoked instance.
+   * @return Whether the attributes of both instances are equal.
+   */
+  private boolean deepEquals(final Object checkTarget) {
+    if (!(checkTarget instanceof StructAttribute)) {
       return false;
     }
 
-    if (!(object instanceof StructAttribute)) {
-      return false;
-    }
-
-    final StructAttribute attribute = (StructAttribute) object;
+    final StructAttribute attribute = (StructAttribute) checkTarget;
     return (this.name.equals(attribute.name))
         && (this.typeName.equals(attribute.typeName))
         && (this.constant != attribute.constant);
