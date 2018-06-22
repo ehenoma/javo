@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.pojogen.generator.internal;
+package io.github.pojogen.generator.internal.model;
 
 import com.google.common.base.Preconditions;
 import java.util.Optional;
@@ -25,14 +25,9 @@ import java.util.Optional;
  * <p>It is used in the {@code Class-member models} contained in the {@code internal} package. And
  * provides a {@code keyword} for its {@code code representation}.
  *
- * @author Merlin
- * @see ClassModel
- * @see ConstructorModel
- * @see FieldModel
- * @see MethodModel
  * @since 1.0
  */
-enum AccessModifier {
+public enum AccessModifier {
 
   /** Member or Class can only be accessed from within its package. */
   PACKAGE_PRIVATE,
@@ -47,11 +42,11 @@ enum AccessModifier {
   PUBLIC("public");
 
   /** Optional keyword of the {@code {@link AccessModifier }} that is used when generating code. */
-  private final Optional<String> keyword;
+  private final String keyword;
 
   /** Initializes the {@code {@link AccessModifier }} with an absent {@code keyword}. */
   AccessModifier() {
-    this.keyword = Optional.empty();
+    this.keyword = null;
   }
 
   /**
@@ -62,7 +57,7 @@ enum AccessModifier {
   AccessModifier(final String keyword) {
     Preconditions.checkNotNull(keyword);
 
-    this.keyword = Optional.of(keyword);
+    this.keyword = keyword;
   }
 
   /**
@@ -71,6 +66,6 @@ enum AccessModifier {
    * @return The modifiers {@code code} representation.
    */
   final Optional<String> getKeyword() {
-    return this.keyword;
+    return Optional.ofNullable(this.keyword);
   }
 }
