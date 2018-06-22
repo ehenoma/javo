@@ -16,110 +16,98 @@
 
 package io.github.pojogen.generator.internal;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import io.github.pojogen.generator.GenerationProfile;
-import java.text.MessageFormat;
+import io.github.pojogen.generator.util.MutableInt;
+import io.github.pojogen.generator.util.ObservableInt;
+import io.github.pojogen.generator.util.Observers;
+import java.util.Objects;
 
-/**
- * @author Merlin Osayimwen
- * @see GenerationStep
- * @since 1.0
- */
-final class GenerationContext implements AutoCloseable {
+public final class GenerationContext {
 
   private final GenerationProfile profile;
-  private final StringBuilder dedicatedBuffer;
-  private final String depthPrefix;
-  private short currentDepth;
+  private final GenerationContextBuffer buffer;
 
-  GenerationContext(final GenerationProfile profile, final String depthPrefix) {
-    this.dedicatedBuffer = new StringBuilder();
-    this.depthPrefix = depthPrefix;
+  private final ObservableInt depth;
+
+  private GenerationContext(final GenerationProfile profile) {
+    this(profile, (short) 0);
+  }
+
+  private GenerationContext(final GenerationProfile profile, final short baseDepth) {
     this.profile = profile;
+    this.buffer = GenerationContextBuffer.create();
+    this.depth = ObservableInt.from(baseDepth);
   }
 
-  GenerationContext write(final char character) {
-    this.dedicatedBuffer.append(character);
-    return this;
+  private void deployObserver() {
+    this.depth.addObserver(Observers.fromRunnable(this::updateNewLinePrefix));
   }
 
-  GenerationContext write(final CharSequence characters) {
-    Preconditions.checkNotNull(characters);
-
-    this.dedicatedBuffer.append(characters);
-    return this;
+  public String finish() {
+    return this.buffer.toString();
   }
 
-  GenerationContext write(final Object object) {
-    Preconditions.checkNotNull(object);
-
-    this.dedicatedBuffer.append(object.toString());
-    return this;
-  }
-
-  GenerationContext writeFormatted(final String rawString, final Object... arguments) {
-    return this.write(MessageFormat.format(rawString, arguments));
-  }
-
-  GenerationContext writeLineBreak() {
-    return this.write("\n" + generateLinePrefix());
-  }
-
-  GenerationContext writeLineBreak(final int repeats) {
-    for (int iteration = 0; iteration < repeats; iteration++) {
-      this.writeLineBreak();
+  private void updateNewLinePrefix() {
+    final StringBuilder prefixBuilder = new StringBuilder();
+    for (int iteration = 0; iteration < this.depth.getValue(); iteration++) {
+      prefixBuilder.append("");
     }
 
-    return this;
+    this.buffer.setNewLinePrefix(prefixBuilder.toString());
   }
 
-  GenerationContext increaseDepth() {
-    this.currentDepth += 1;
-    return this;
+  // Just publish the mutable int to provide a smaller interface.
+  public MutableInt getDepth() {
+    return this.depth;
   }
 
-  GenerationContext increaseDepthBy(final int amount) {
-    this.currentDepth += amount;
-    return this;
+  public GenerationContextBuffer getBuffer() {
+    return this.buffer;
   }
 
-  GenerationContext decreaseDepth() {
-    this.currentDepth -= 1;
-    return this;
-  }
-
-  GenerationContext decreaseDepthBy(final int amount) {
-    this.currentDepth -= amount;
-    return this;
-  }
-
-  String produceResult() {
-    return this.dedicatedBuffer.toString();
-  }
-
-  String generateLinePrefix() {
-    final StringBuilder prefixBuilder = new StringBuilder(this.currentDepth * depthPrefix.length());
-    for (int iteration = 0; iteration < this.currentDepth; iteration++) {
-      prefixBuilder.append(this.depthPrefix);
-    }
-
-    return prefixBuilder.toString();
-  }
-
-  GenerationProfile profile() {
+  public GenerationProfile getProfile() {
     return this.profile;
   }
 
   @Override
-  public void close() {
-    // Discards the buffer.
-    this.dedicatedBuffer.setLength(0);
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("profile", this.profile)
+        .add("buffer", this.buffer)
+        .add("depth", this.depth)
+        .toString();
   }
 
-  static GenerationContext create(final GenerationProfile profile, final String depthPrefix) {
-    Preconditions.checkNotNull(profile);
-    Preconditions.checkNotNull(depthPrefix);
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.profile, this.buffer, this.depth);
+  }
 
-    return new GenerationContext(profile, depthPrefix);
+  @Override
+  public boolean equals(Object obj) {
+    return super.equals(obj);
+  }
+
+  private boolean deepEquals(final Object other) {
+    if (!(other instanceof GenerationContext)) {
+      return false;
+    }
+
+    final GenerationContext otherContext = (GenerationContext) other;
+    return this.profile.equals(otherContext.profile)
+        && this.buffer.equals(otherContext.buffer)
+        && this.depth.equals(otherContext.depth);
+  }
+
+  static GenerationContext create(final GenerationProfile profile) {
+    Preconditions.checkNotNull(profile);
+
+    // TODO: Get the prefix from the profile.
+    final GenerationContext context = new GenerationContext(profile);
+    context.deployObserver(); // This escape is prevented.
+
+    return context;
   }
 }

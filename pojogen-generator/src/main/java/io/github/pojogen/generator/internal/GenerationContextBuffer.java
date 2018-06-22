@@ -97,10 +97,7 @@ public class GenerationContextBuffer {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("length", this.delegate.length())
-        .add("new-line-prefix", this.newLinePrefix)
-        .toString();
+    return this.delegate.toString();
   }
 
   @Override
