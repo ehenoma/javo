@@ -21,7 +21,6 @@ import io.github.pojogen.generator.GenerationProfile;
 import io.github.pojogen.generator.PojoGenerator;
 import io.github.pojogen.struct.Struct;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.stream.Collectors;
 
 final class InternalPojoGenerator implements PojoGenerator {
@@ -40,9 +39,8 @@ final class InternalPojoGenerator implements PojoGenerator {
       final Collection<FieldModel> fieldMembers =
           model.getAttributes().map(FieldModel::fromStructAttribute).collect(Collectors.toList());
 
-      final ClassModel parentModel =
-          new ClassModel(
-              model.getName(), fieldMembers, Collections.emptyList(), Collections.emptyList());
+      // TODO(merlinosayimwen): Generate constructors etc.
+      final ClassModel parentModel = new ClassModel(model.getName(), fieldMembers);
 
       parentModel.writeToContext(context);
       return context.produceResult();

@@ -16,54 +16,42 @@
 
 package io.github.pojogen.generator.internal;
 
-import com.google.common.collect.ImmutableList;
 import java.util.Collection;
+
+import com.google.common.collect.ImmutableList;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 final class ClassModel implements GenerationStep {
 
   private final String className;
-  private final Collection<FieldModel> fields;
-  private final Collection<ConstructorModel> constructors;
-  private final Collection<MethodModel> methods;
+  private final Collection<? extends GenerationStep> members;
 
-  public ClassModel(
-      final String className,
-      final Collection<FieldModel> fields,
-      final Collection<ConstructorModel> constructors,
-      final Collection<MethodModel> methods) {
-
+  ClassModel(final String className, final Collection<? extends GenerationStep> members) {
     this.className = className;
-    this.fields = ImmutableList.copyOf(fields);
-    this.constructors = ImmutableList.copyOf(constructors);
-    this.methods = ImmutableList.copyOf(methods);
+    this.members = ImmutableList.copyOf(members);
   }
 
   @Override
   public void writeToContext(final GenerationContext context) {
+    final Consumer<GenerationStep> writeStepToContextFunction =
+        step -> step.writeToContext(context);
+
+    // TODO(merlinosayimwen): Make this a little bit more configurable.
     context.writeFormatted("public final class {0} '{'", this.className);
     context.increaseDepth().writeLineBreak();
 
-    fields.forEach(fieldModel -> fieldModel.writeToContext(context));
-    constructors.forEach(constructorModel -> constructorModel.writeToContext(context));
-    methods.forEach(methodModel -> methodModel.writeToContext(context));
+    this.members.forEach(writeStepToContextFunction);
 
     context.decreaseDepth().writeLineBreak();
     context.writeFormatted("'}'");
   }
 
-  public String getClassName() {
+  String getClassName() {
     return this.className;
   }
 
-  public Collection<FieldModel> getFields() {
-    return this.fields;
-  }
-
-  public Collection<ConstructorModel> getConstructors() {
-    return this.constructors;
-  }
-
-  public Collection<MethodModel> getMethods() {
-    return this.methods;
+  Stream<? extends GenerationStep> getMembers() {
+    return this.members.stream();
   }
 }
