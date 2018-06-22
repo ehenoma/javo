@@ -14,20 +14,26 @@
  * limitations under the License.
  */
 
-package io.github.pojogen.generator.internal;
+package io.github.pojogen.generator.internal.model;
+
+import static java.text.MessageFormat.format;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+
+import io.github.pojogen.generator.internal.GenerationContext;
+import io.github.pojogen.generator.internal.GenerationStep;
 
 import java.util.Collection;
-
-import com.google.common.collect.ImmutableList;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-final class ClassModel implements GenerationStep {
+public final class ClassModel implements GenerationStep {
 
   private final String className;
   private final Collection<? extends GenerationStep> members;
 
-  ClassModel(final String className, final Collection<? extends GenerationStep> members) {
+  private ClassModel(final String className, final Collection<? extends GenerationStep> members) {
     this.className = className;
     this.members = ImmutableList.copyOf(members);
   }
@@ -38,20 +44,31 @@ final class ClassModel implements GenerationStep {
         step -> step.writeToContext(context);
 
     // TODO(merlinosayimwen): Make this a little bit more configurable.
-    context.writeFormatted("public final class {0} '{'", this.className);
-    context.increaseDepth().writeLineBreak();
+    context.getBuffer().write(format("public final class {0} '{'", this.className));
+    context.getDepth().incrementByOne();
+    context.getBuffer().writeLine();
 
+    // Writes every member to the context.
     this.members.forEach(writeStepToContextFunction);
 
-    context.decreaseDepth().writeLineBreak();
-    context.writeFormatted("'}'");
+    context.getDepth().decrementByOne();
+    context.getBuffer().writeLine();
+    context.getBuffer().write("}");
   }
 
-  String getClassName() {
+  public String getClassName() {
     return this.className;
   }
 
-  Stream<? extends GenerationStep> getMembers() {
+  public Stream<? extends GenerationStep> getMembers() {
     return this.members.stream();
+  }
+
+  public static ClassModel create(
+      final String className, final Collection<? extends GenerationStep> members) {
+    Preconditions.checkNotNull(className);
+    Preconditions.checkNotNull(members);
+
+    return new ClassModel(className, members);
   }
 }
