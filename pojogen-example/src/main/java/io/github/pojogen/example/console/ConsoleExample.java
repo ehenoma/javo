@@ -63,12 +63,18 @@ final class ConsoleExample {
 
     final StructParser parser = StructParserFactory.create().getInstance();
     final Struct parsedStruct = parser.parseOne(raw);
+    if (parsedStruct == null) {
+      if (LOG.isLoggable(Level.SEVERE)) {
+        LOG.severe("Failed to parse the input");
+      }
+      return;
+    }
 
     logInfo("Finished parsing the struct %s successfully.", parsedStruct.getName());
     logInfo("Starting the Pojo generation process");
 
     final PojoGenerator generator = PojoGeneratorFactory.create().getInstance();
-    final String generatedJavaClass = generator.generatePojoFromStruct(parsedStruct);
+    final String generatedJavaClass = generator.generate(parsedStruct);
 
     logInfo("Finished generating a Pojo successfully");
     System.out.printf("\nGenerated Pojo:\n%s\n", generatedJavaClass);
