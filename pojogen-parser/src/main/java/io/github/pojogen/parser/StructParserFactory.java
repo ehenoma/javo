@@ -26,7 +26,6 @@ import io.github.pojogen.parser.internal.InternalAccess;
  * implementations. This is done, so that no {@code internal} class is accessed by the client that
  * uses the library.
  *
- * @author Merlin Osayimwen
  * @see StructParser
  * @see InternalAccess
  * @since 1.0

@@ -40,7 +40,6 @@ import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
  * the {@code PojoGen-Generator} in order to generate a Pojo java file. Instances of this class are
  * immutable.
  *
- * @author Merlin Osayimwen
  * @see StructAttribute
  */
 public final class Struct {

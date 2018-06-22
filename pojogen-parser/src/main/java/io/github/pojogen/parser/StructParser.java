@@ -39,7 +39,6 @@ import io.github.pojogen.struct.Struct;
  * Exceptions like {@code {@link NullPointerException NPEs}} or {@code {@link
  * IllegalArgumentException} IAEs} are thrown as a response to invalid input.
  *
- * @author Merlin Osayimwen
  * @see Struct
  * @see StructParserException
  * @since 1.0

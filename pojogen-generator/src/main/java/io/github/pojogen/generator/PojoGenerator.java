@@ -19,7 +19,6 @@ package io.github.pojogen.generator;
 import io.github.pojogen.struct.Struct;
 
 /**
- * @author Merlin Osayimwen
  * @since 1.0
  * @see PojoGeneratorFactory
  * @see GenerationFlag

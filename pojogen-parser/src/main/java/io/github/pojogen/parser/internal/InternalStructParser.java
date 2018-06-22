@@ -43,7 +43,6 @@ import io.github.pojogen.struct.StructAttribute;
  * encapsulate code or data. The {@code {@link InternalStructParser}} class is package-private and
  * can only be accessed through the {@code {@link InternalAccess}} class.
  *
- * @author Merlin Osayimwen
  * @see StructParser
  * @see StructParserException
  * @see InternalAccess

@@ -25,7 +25,6 @@ import com.google.common.base.Preconditions;
 /**
  * Represents an attribute in a {@code Struct-Blueprint}.
  *
- * @author Merlin Osayimwen
  * @see Struct
  */
 public class StructAttribute {

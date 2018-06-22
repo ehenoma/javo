@@ -24,7 +24,6 @@ package io.github.pojogen.parser;
  * specifications. It is also thrown when another checked exception occurred during the process or
  * {@code parsing} an {@code prototype}.
  *
- * @author Merlin Osayimwen
  * @see Exception
  * @see StructParser
  * @since 1.0

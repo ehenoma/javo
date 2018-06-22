@@ -26,7 +26,6 @@ import io.github.pojogen.parser.StructParser;
  * The {@code {@link InternalAccess}} class provides {@code {@link Supplier suppliers}} of {@code
  * internal} library classes that can't be created from outside of the {@code internal} package.
  *
- * @author Merlin Osayimwen
  * @see InternalStructParser
  * @since 1.0
  */

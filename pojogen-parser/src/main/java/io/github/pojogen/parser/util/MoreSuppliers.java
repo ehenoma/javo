@@ -22,7 +22,6 @@ import java.util.function.Supplier;
  * Provides additional factory methods that help working with the {@code {@link Supplier}} class.
  * This class is more of an complement to {@code Guavas} utility-class.
  *
- * @author Merlin Osayimwen
  * @see Supplier
  * @since 1.0
  */

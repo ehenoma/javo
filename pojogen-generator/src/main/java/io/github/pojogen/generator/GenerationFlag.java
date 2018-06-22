@@ -25,7 +25,6 @@ package io.github.pojogen.generator;
  * made final. There is not value to a flag, determining whether it is enabled is used by checking
  * its presence in the {@code GenerationProfile}.
  *
- * @author Merlin Osayimwen
  * @since 1.0
  * @see GenerationProfile
  * @see PojoGenerator
