@@ -2,7 +2,7 @@
 
 What is *PojoGen*?
 ------------------
-[![Java Version](https://img.shields.io/badge/java-v1.8-blue.svg)](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f6b71c889034b7ca9ec7/maintainability)](https://codeclimate.com/github/merlinosayimwen/pojogen/maintainability)
 [![Latest](https://img.shields.io/badge/latest-v1.0-blue.svg)](https://github.com/merlinosayimwen/pojogen)
 [![License](https://img.shields.io/badge/license-apache--2.0-lightgrey.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
