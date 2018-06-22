@@ -20,8 +20,7 @@ import com.google.common.base.Preconditions;
 import java.util.Optional;
 
 /**
- * The {@code {@link AccessModifier }} enum represents the common {@code Java
- * access-modifiers}.
+ * The {@code {@link AccessModifier }} enum represents the common {@code Java access-modifiers}.
  *
  * <p>It is used in the {@code Class-member models} contained in the {@code internal} package. And
  * provides a {@code keyword} for its {@code code representation}.
@@ -47,10 +46,7 @@ enum AccessModifier {
   /** Member can be accessed from everywhere. */
   PUBLIC("public");
 
-  /**
-   * Optional keyword of the {@code {@link AccessModifier }} that is used when generating
-   * code.
-   */
+  /** Optional keyword of the {@code {@link AccessModifier }} that is used when generating code. */
   private final Optional<String> keyword;
 
   /** Initializes the {@code {@link AccessModifier }} with an absent {@code keyword}. */
@@ -70,8 +66,7 @@ enum AccessModifier {
   }
 
   /**
-   * Optional keyword of the {@code {@link AccessModifier }} that is used when generating
-   * code.
+   * Optional keyword of the {@code {@link AccessModifier }} that is used when generating code.
    *
    * @return The modifiers {@code code} representation.
    */
