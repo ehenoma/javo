@@ -17,12 +17,16 @@
 package io.github.pojogen.generator.internal;
 
 /**
- * @author Merlin Osayimwen
- * @see InternalPojoGenerator
+ * A GenerationStep is writing structured text to the {@code GenerationContext}.
+ *
+ * <p>It is an abstraction of classes which mostly represent members of Java classes. When
+ * generating a Pojo through the {@code PojoGenerator Implementation}, all defined steps are called
+ * to produce a final Pojo.
+ *
  * @see GenerationContext
  * @since 1.0
  */
-interface GenerationStep {
+public interface GenerationStep {
 
   /**
    * Writes the {@code steps} representation to the {@code context}.
