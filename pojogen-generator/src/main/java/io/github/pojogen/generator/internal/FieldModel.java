@@ -21,12 +21,6 @@ import static io.github.pojogen.generator.internal.AccessModifier.PACKAGE_PRIVAT
 import com.google.common.base.Preconditions;
 import io.github.pojogen.struct.StructAttribute;
 
-/**
- * @author Merlin Osayimwen
- * @see VariableModel
- * @see GenerationStep
- * @since 1.0
- */
 final class FieldModel extends VariableModel implements GenerationStep {
 
   private static final AccessModifier DEFAULT_ACCESS_MODIFIER = PACKAGE_PRIVATE;
@@ -67,16 +61,16 @@ final class FieldModel extends VariableModel implements GenerationStep {
     return this.accessModifier;
   }
 
-  public static FieldModel fromVariable(
+  static FieldModel fromVariable(
       final VariableModel variable, final AccessModifier accessModifier) {
+
     Preconditions.checkNotNull(variable);
     Preconditions.checkNotNull(accessModifier);
-
     return new FieldModel(
         variable.getName(), variable.getTypeName(), variable.isModifiable(), accessModifier);
   }
 
-  public static FieldModel fromStructAttribute(final StructAttribute attribute) {
+  static FieldModel fromStructAttribute(final StructAttribute attribute) {
     Preconditions.checkNotNull(attribute);
 
     return fromVariable(

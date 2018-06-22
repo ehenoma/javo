@@ -24,6 +24,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import io.github.pojogen.generator.GenerationFlag;
+import io.github.pojogen.struct.util.ObjectChecks;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Objects;
@@ -117,22 +118,16 @@ public abstract class MethodModel implements GenerationStep {
 
   @Override
   public boolean equals(final Object checkTarget) {
-    if (this == checkTarget) {
-      return true;
-    }
-    if (checkTarget == null) {
-      return false;
-    }
+    return ObjectChecks.equalsDefinitely(this, checkTarget)
+        .orElseGet(() -> deepEquals(checkTarget));
+  }
 
-    if (!(checkTarget instanceof MethodModel)) {
-      return false;
-    }
-
+  private boolean deepEquals(final Object checkTarget) {
     final MethodModel otherMethod = (MethodModel) checkTarget;
     return otherMethod.methodName.equals(this.methodName)
         && otherMethod.returnType.equals(this.returnType)
         && accessModifier.equals(otherMethod.accessModifier)
-        && deepEquals(this.parameters.toArray(), otherMethod.parameters.toArray());
+        && Objects.deepEquals(this.parameters.toArray(), otherMethod.parameters.toArray());
   }
 
   static MethodModel fromConsumer(
