@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.pojogen.generator.util;
+package io.github.pojogen.struct.util;
 
 import java.util.Optional;
 
