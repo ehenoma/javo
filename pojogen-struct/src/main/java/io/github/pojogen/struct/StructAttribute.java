@@ -125,7 +125,7 @@ public class StructAttribute {
   /**
    * Compares the attributes of both classes.
    *
-   * @param other Instance who's attributes are compared to those of the invoked instance.
+   * @param checkTarget Instance who's attributes are compared to those of the invoked instance.
    * @return Whether the attributes of both instances are equal.
    */
   private boolean deepEquals(final Object checkTarget) {
@@ -134,9 +134,9 @@ public class StructAttribute {
     }
 
     final StructAttribute attribute = (StructAttribute) checkTarget;
-    return (this.name.equals(attribute.name))
-        && (this.typeName.equals(attribute.typeName))
-        && (this.constant != attribute.constant);
+    return (Objects.equals(this.constant, attribute.constant))
+        && (this.name.equals(attribute.name))
+        && (this.typeName.equals(attribute.typeName));
   }
 
   @Override
