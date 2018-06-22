@@ -168,7 +168,7 @@ public class VariableModel implements GenerationStep {
    * @param name Name of the variable.
    * @return New instance of an {@code {@link VariableModel }}.
    */
-  static VariableModel create(final String name) {
+  public static VariableModel create(final String name) {
     Preconditions.checkNotNull(name);
 
     return new VariableModel(name);
@@ -182,7 +182,7 @@ public class VariableModel implements GenerationStep {
    * @param typeName Name of the variables type.
    * @return New instance of an {@code {@link VariableModel }}.
    */
-  static VariableModel create(final String name, final String typeName) {
+  public static VariableModel create(final String name, final String typeName) {
     Preconditions.checkNotNull(name);
     Preconditions.checkNotNull(typeName);
 
@@ -197,7 +197,8 @@ public class VariableModel implements GenerationStep {
    * @param modifiable Indicates whether the variable is not final.
    * @return New instance of an {@code {@link VariableModel }}.
    */
-  static VariableModel create(final String name, final String typeName, final boolean modifiable) {
+  public static VariableModel create(
+      final String name, final String typeName, final boolean modifiable) {
     Preconditions.checkNotNull(name);
     Preconditions.checkNotNull(typeName);
 
