@@ -22,7 +22,7 @@ import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.GenerationStep;
 import io.github.pojogen.struct.StructAttribute;
 
-final class FieldModel extends VariableModel implements GenerationStep {
+public final class FieldModel extends VariableModel implements GenerationStep {
 
   private final AccessModifier accessModifier;
 

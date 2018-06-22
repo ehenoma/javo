@@ -40,7 +40,7 @@ import java.util.Objects;
  * @see FieldModel
  * @since 1.0
  */
-class VariableModel implements GenerationStep {
+public class VariableModel implements GenerationStep {
 
   /** The default {typename} that is used as a {fallback value}. */
   protected static final String DEFAULT_TYPENAME = Object.class.getSimpleName();
