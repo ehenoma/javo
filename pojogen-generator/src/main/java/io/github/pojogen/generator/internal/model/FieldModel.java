@@ -14,30 +14,17 @@
  * limitations under the License.
  */
 
-package io.github.pojogen.generator.internal;
-
-import static io.github.pojogen.generator.internal.AccessModifier.PACKAGE_PRIVATE;
+package io.github.pojogen.generator.internal.model;
 
 import com.google.common.base.Preconditions;
+
+import io.github.pojogen.generator.internal.GenerationContext;
+import io.github.pojogen.generator.internal.GenerationStep;
 import io.github.pojogen.struct.StructAttribute;
 
 final class FieldModel extends VariableModel implements GenerationStep {
 
-  private static final AccessModifier DEFAULT_ACCESS_MODIFIER = PACKAGE_PRIVATE;
-
   private final AccessModifier accessModifier;
-
-  private FieldModel(final String name) {
-    this(name, VariableModel.DEFAULT_TYPENAME);
-  }
-
-  private FieldModel(final String name, final String typeName) {
-    this(name, typeName, VariableModel.DEFAULT_MODIFIABLE);
-  }
-
-  private FieldModel(final String name, final String typeName, final boolean modifiable) {
-    this(name, typeName, modifiable, FieldModel.DEFAULT_ACCESS_MODIFIER);
-  }
 
   private FieldModel(
       final String name,
@@ -51,13 +38,12 @@ final class FieldModel extends VariableModel implements GenerationStep {
 
   @Override
   public final void writeToContext(final GenerationContext context) {
-    context.write(this.accessModifier.getKeyword().orElse("")).write(' ');
-
+    this.accessModifier.getKeyword().ifPresent(keyword -> context.getBuffer().write(keyword + " "));
     super.writeToContext(context);
-    context.write(";").writeLineBreak();
+    context.getBuffer().write(";");
   }
 
-  AccessModifier getAccessModifier() {
+  public AccessModifier getAccessModifier() {
     return this.accessModifier;
   }
 
