@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package io.github.pojogen.generator.internal;
+package io.github.pojogen.generator.internal.model;
 
-import io.github.pojogen.struct.util.ObjectChecks;
-import java.util.Objects;
+import static java.text.MessageFormat.format;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
+import io.github.pojogen.generator.internal.GenerationContext;
+import io.github.pojogen.generator.internal.GenerationStep;
+import io.github.pojogen.struct.util.ObjectChecks;
+import java.util.Objects;
 
 /**
  * Immutable {@code value object} that is representing a local or global {@code variable}.
@@ -117,10 +120,10 @@ class VariableModel implements GenerationStep {
   @Override
   public void writeToContext(final GenerationContext context) {
     if (!this.modifiable) {
-      context.write("final ");
+      context.getBuffer().write("final ");
     }
 
-    context.writeFormatted("{0} {1}", this.typeName, this.name);
+    context.getBuffer().write(format("{0} {1}", this.typeName, this.name));
   }
 
   @Override
