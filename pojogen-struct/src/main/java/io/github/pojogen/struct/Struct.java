@@ -17,6 +17,7 @@
 package io.github.pojogen.struct;
 
 import com.google.common.base.Joiner;
+import io.github.pojogen.struct.util.ObjectChecks;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -142,10 +143,16 @@ public final class Struct {
 
   @Override
   public boolean equals(final Object other) {
-    if (other == null) {
-      return false;
-    }
+    return ObjectChecks.equalsDefinitely(this, other).orElseGet(() -> deepEquals(other));
+  }
 
+  /**
+   * Compares the attributes of both classes.
+   *
+   * @param other Instance who's attributes are compared to those of the invoked instance.
+   * @return Whether the attributes of both instances are equal.
+   */
+  private boolean deepEquals(final Object other) {
     if (!(other instanceof Struct)) {
       return false;
     }

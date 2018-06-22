@@ -16,6 +16,7 @@
 
 package io.github.pojogen.generator.internal;
 
+import io.github.pojogen.struct.util.ObjectChecks;
 import java.util.Objects;
 
 import com.google.common.base.MoreObjects;
@@ -138,14 +139,16 @@ class VariableModel implements GenerationStep {
 
   @Override
   public boolean equals(final Object other) {
-    if (this == other) {
-      return true;
-    }
+    return ObjectChecks.equalsDefinitely(this, other).orElseGet(() -> deepEquals(other));
+  }
 
-    if (other == null) {
-      return false;
-    }
-
+  /**
+   * Compares the attributes of both classes.
+   *
+   * @param other Instance who's attributes are compared to those of the invoked instance.
+   * @return Whether the attributes of both instances are equal.
+   */
+  private boolean deepEquals(final Object other) {
     if (!(other instanceof VariableModel)) {
       return false;
     }
