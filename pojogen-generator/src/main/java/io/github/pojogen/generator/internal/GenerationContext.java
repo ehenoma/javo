@@ -27,6 +27,8 @@ import java.util.Objects;
 
 public final class GenerationContext {
 
+  public static final String PROPERTY_NEW_LINE_PREFIX = "new_line_prefix";
+
   private final GenerationProfile profile;
   private final GenerationContextBuffer buffer;
 
@@ -53,7 +55,8 @@ public final class GenerationContext {
   private void updateNewLinePrefix() {
     final StringBuilder prefixBuilder = new StringBuilder();
     for (int iteration = 0; iteration < this.depth.getValue(); iteration++) {
-      prefixBuilder.append("");
+      prefixBuilder.append(
+          this.profile.getProperty(GenerationContext.PROPERTY_NEW_LINE_PREFIX).orElse("  "));
     }
 
     this.buffer.setNewLinePrefix(prefixBuilder.toString());
@@ -103,7 +106,7 @@ public final class GenerationContext {
         && this.depth.equals(otherContext.depth);
   }
 
-  static GenerationContext create(final GenerationProfile profile) {
+  public static GenerationContext create(final GenerationProfile profile) {
     Preconditions.checkNotNull(profile);
 
     // TODO: Get the prefix from the profile.
