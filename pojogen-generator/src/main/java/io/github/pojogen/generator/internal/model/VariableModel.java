@@ -94,7 +94,7 @@ public class VariableModel implements GenerationStep {
    *
    * @return The variables name.
    */
-  final String getName() {
+  public final String getName() {
     return this.name;
   }
 
@@ -103,7 +103,7 @@ public class VariableModel implements GenerationStep {
    *
    * @return The variables type.
    */
-  final String getTypeName() {
+  public final String getTypeName() {
     return this.typeName;
   }
 
@@ -112,7 +112,7 @@ public class VariableModel implements GenerationStep {
    *
    * @return is the variable not {@code final} ?
    */
-  final boolean isModifiable() {
+  public final boolean isModifiable() {
     return this.modifiable;
   }
 
