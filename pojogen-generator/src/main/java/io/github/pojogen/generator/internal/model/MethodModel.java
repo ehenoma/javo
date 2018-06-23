@@ -79,6 +79,7 @@ public final class MethodModel implements GenerationStep {
     context.getDepth().decrementByOne();
     context.getBuffer().writeLine();
     context.getBuffer().writeLine("}");
+    context.getBuffer().writeLine();
   }
 
   private void writeDeclarationBeginning(final GenerationContext context) {
