@@ -198,6 +198,11 @@ public final class MethodModel implements GenerationStep {
       return this;
     }
 
+    public Builder withAnnotations(final Collection<String> annotations) {
+      this.annotations = annotations;
+      return this;
+    }
+
     public Builder withParameters(final Collection<? extends VariableModel> parameters) {
       this.parameters = new ArrayList<>(parameters);
       return this;
@@ -205,6 +210,11 @@ public final class MethodModel implements GenerationStep {
 
     public Builder withWriterAction(final Consumer<GenerationContext> writerAction) {
       this.contextWriterAction = writerAction;
+      return this;
+    }
+
+    public Builder addAnnotation(final String annotation) {
+      this.annotations.add(annotation);
       return this;
     }
 
@@ -236,6 +246,19 @@ public final class MethodModel implements GenerationStep {
           this.parameters,
           this.contextWriterAction,
           this.accessModifier);
+    }
+
+    public Builder copy() {
+      this.ensureCollectionsPresent();
+
+      final Builder copied = new Builder();
+      copied.annotations = new ArrayList<>(this.annotations);
+      copied.parameters = new ArrayList<>(this.parameters);
+      copied.contextWriterAction = this.contextWriterAction;
+      copied.methodName = this.methodName;
+      copied.returnType = this.returnType;
+      copied.accessModifier = this.accessModifier;
+      return copied;
     }
   }
 
