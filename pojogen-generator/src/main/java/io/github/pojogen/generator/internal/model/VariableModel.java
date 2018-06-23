@@ -35,7 +35,6 @@ import java.util.Objects;
  * modifier}. The constructors are accessible from inside the package but using the {@code
  * factory-methods} is highly encouraged; they will do additional safety checks.
  *
- * @author Merlin Osayimwen
  * @see ClassModel
  * @see FieldModel
  * @since 1.0
