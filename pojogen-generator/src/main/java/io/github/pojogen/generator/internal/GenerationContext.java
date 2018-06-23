@@ -22,6 +22,7 @@ import io.github.pojogen.generator.GenerationProfile;
 import io.github.pojogen.generator.util.MutableInt;
 import io.github.pojogen.generator.util.ObservableInt;
 import io.github.pojogen.generator.util.Observers;
+import io.github.pojogen.struct.util.ObjectChecks;
 import java.util.Objects;
 
 public final class GenerationContext {
@@ -86,8 +87,9 @@ public final class GenerationContext {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    return super.equals(obj);
+  public boolean equals(final Object checkTarget) {
+    return ObjectChecks.equalsDefinitely(this, checkTarget)
+        .orElseGet(() -> deepEquals(checkTarget));
   }
 
   private boolean deepEquals(final Object other) {
