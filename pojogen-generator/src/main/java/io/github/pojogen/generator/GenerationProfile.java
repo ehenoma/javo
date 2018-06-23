@@ -16,18 +16,23 @@
 
 package io.github.pojogen.generator;
 
-import com.google.common.collect.ImmutableSet;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.stream.Stream;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-
 import io.github.pojogen.generator.util.ImmutableMemoizingObject;
+import io.github.pojogen.struct.util.ObjectChecks;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 /**
  * Lists settings and preferences or a {@code pojo generation}.
@@ -36,7 +41,6 @@ import io.github.pojogen.generator.util.ImmutableMemoizingObject;
  * internally. Those are either in the form of a {@code GenerationFlag} which is providing
  * fundamental configurability or {@code custom properties} which are there for finer preferences.
  *
- * @author Merlin Osayimwen
  * @since 1.0
  * @see ImmutableMemoizingObject
  * @see GenerationFlag
@@ -47,18 +51,28 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
   /** Collection of flags set for the generation. */
   private final Collection<GenerationFlag> flags;
 
+  private final Map<String, String> properties;
+
   /** No-args constructor of the GenerationProfile class. */
   private GenerationProfile() {
     this(Collections.emptyList());
+  }
+
+  private GenerationProfile(final Iterable<GenerationFlag> flags) {
+    this(flags, new HashMap<>());
   }
 
   /**
    * Parameterized constructor that creates a GenerationProfile with zero ore more flags.
    *
    * @param flags Zero ore more flags set for the generation.
+   * @param properties Map with custom properties for the generation.
    */
-  private GenerationProfile(final Iterable<GenerationFlag> flags) {
+  private GenerationProfile(
+      final Iterable<GenerationFlag> flags, final Map<String, String> properties) {
+
     this.flags = Sets.newEnumSet(flags, GenerationFlag.class);
+    this.properties = new ConcurrentHashMap<>(properties);
   }
 
   /**
@@ -95,34 +109,62 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
     return ImmutableSet.copyOf(this.flags);
   }
 
-  @Override
-  protected String generateStringRepresentationOnce() {
-    return MoreObjects.toStringHelper(this)
-        .add("flags", "{" + Joiner.on(',').join(this.flags) + "}")
-        .toString();
+  /**
+   * Gets the named property.
+   *
+   * @param name Name of the property that will be returned.
+   * @return Optional property with the given {@code name}.
+   */
+  public Optional<String> getProperty(final String name) {
+    Preconditions.checkNotNull(name);
+
+    return Optional.ofNullable(this.properties.get(name));
+  }
+
+  /**
+   * Gets the properties of the profile.
+   *
+   * @return Map of defined properties for the generation.
+   */
+  public Map<String, String> getProperties() {
+    return ImmutableMap.copyOf(properties);
   }
 
   @Override
   public boolean equals(final Object checkTarget) {
-    if (this == checkTarget) {
-      return true;
-    }
+    return ObjectChecks.equalsDefinitely(this, checkTarget)
+        .orElseGet(() -> deepEquals(checkTarget));
+  }
 
-    if (checkTarget == null) {
-      return false;
-    }
-
+  private boolean deepEquals(final Object checkTarget) {
     if (!(checkTarget instanceof GenerationProfile)) {
       return false;
     }
 
+    // TODO(merlinosayimwen): Add HashMap equals test.
     final GenerationProfile otherProfile = (GenerationProfile) checkTarget;
     return Objects.deepEquals(this.flags.toArray(), otherProfile.flags.toArray());
   }
 
   @Override
   protected int calculateHashCodeOnce() {
-    return this.streamFlags().mapToInt(GenerationFlag::hashCode).map(entry -> entry * 32).sum();
+    final int flagsHashed = Objects.hash(this.flags.toArray());
+    final int hashedProperties =
+        Objects.hash(properties.values().toArray()) + Objects.hash(properties.keySet().toArray());
+
+    return flagsHashed + hashedProperties;
+  }
+
+  @Override
+  protected String generateStringRepresentationOnce() {
+    final String flagsRepresentation = Joiner.on(',').join(this.flags);
+    final String propertiesRepresentation =
+        Joiner.on(",").withKeyValueSeparator(":").join(this.properties).toString();
+
+    return MoreObjects.toStringHelper(this)
+        .add("flags", "{" + flagsRepresentation + "}")
+        .add("properties", "{" + propertiesRepresentation + "}")
+        .toString();
   }
 
   /** Builder that allows easy creation of a GenerationProfile. */
