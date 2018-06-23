@@ -18,6 +18,7 @@ package io.github.pojogen.struct;
 
 import com.google.common.base.Joiner;
 import io.github.pojogen.struct.util.ObjectChecks;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -167,6 +168,51 @@ public final class Struct {
     return Objects.hash(this.name, this.constant, Arrays.deepHashCode(this.attributes.toArray()));
   }
 
+  public static final class Builder {
+
+    private String name;
+    private boolean constant;
+    private Collection<StructAttribute> attributes;
+
+    private Builder() {
+      this.attributes = new ArrayList<>();
+    }
+
+    public Builder withName(final String name) {
+      this.name = name;
+      return this;
+    }
+
+    public Builder withConstant(final boolean constant) {
+      this.constant = constant;
+      return this;
+    }
+
+    public Builder withAttribute(final Collection<StructAttribute> attribute) {
+      this.attributes = new ArrayList<>(attribute);
+      return this;
+    }
+
+    public Builder addAttribute(final StructAttribute attribute) {
+      this.ensureCollectionNotNull();
+      this.attributes.add(attribute);
+      return this;
+    }
+
+    private void ensureCollectionNotNull() {
+      if (this.attributes == null) {
+        this.attributes = new ArrayList<>();
+      }
+    }
+
+    public Struct create() {
+      Preconditions.checkNotNull(this.name);
+      this.ensureCollectionNotNull();
+
+      return new Struct(this.name, this.attributes, this.constant);
+    }
+  }
+
   /**
    * Creates a struct from just a name.
    *
@@ -218,6 +264,10 @@ public final class Struct {
     Preconditions.checkNotNull(struct);
 
     return new Struct(struct.name, struct.attributes, struct.constant);
+  }
+
+  public static Builder newBuilder() {
+    return new Builder();
   }
 
   public static void main(final String... ignoredArguments) {}

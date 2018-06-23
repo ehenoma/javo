@@ -16,22 +16,28 @@
 
 package io.github.pojogen.generator;
 
+import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.struct.Struct;
 import io.github.pojogen.struct.StructAttribute;
-import java.util.Arrays;
+import java.util.Collections;
 
 public final class GeneratorTests {
 
   public static void main(final String... ignoredArguments) {
     final PojoGenerator generator = PojoGeneratorFactory.create().getInstance();
+    final GenerationProfile profile =
+        GenerationProfile.create(
+            Collections.emptyList(),
+            Collections.singletonMap(GenerationContext.PROPERTY_NEW_LINE_PREFIX, "  "));
 
     final Struct model =
-        Struct.create(
-            "Test",
-            Arrays.asList(
-                StructAttribute.create("id", "Long", true),
-                StructAttribute.create("name", "String")));
+        Struct.newBuilder()
+            .withName("Person")
+            .addAttribute(StructAttribute.create("id", "long", true))
+            .addAttribute(StructAttribute.create("name", "String", false))
+            .addAttribute(StructAttribute.create("address", "Address", false))
+            .create();
 
-    System.out.println(generator.generate(model));
+    System.out.println(generator.generate(model, profile));
   }
 }
