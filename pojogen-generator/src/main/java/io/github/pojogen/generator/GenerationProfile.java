@@ -72,7 +72,7 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
       final Iterable<GenerationFlag> flags, final Map<String, String> properties) {
 
     this.flags = Sets.newEnumSet(flags, GenerationFlag.class);
-    this.properties = new ConcurrentHashMap<>(properties);
+    this.properties = ImmutableMap.copyOf(properties);
   }
 
   /**
@@ -209,5 +209,13 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
     Preconditions.checkNotNull(flags);
 
     return new GenerationProfile(flags);
+  }
+
+  public static GenerationProfile create(
+      final Iterable<GenerationFlag> flags, final Map<String, String> properties) {
+    Preconditions.checkNotNull(flags);
+    Preconditions.checkNotNull(properties);
+
+    return new GenerationProfile(flags, properties);
   }
 }
