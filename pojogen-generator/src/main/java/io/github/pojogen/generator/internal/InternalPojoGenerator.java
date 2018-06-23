@@ -17,13 +17,15 @@
 package io.github.pojogen.generator.internal;
 
 import com.google.common.base.Preconditions;
-
 import io.github.pojogen.generator.GenerationProfile;
 import io.github.pojogen.generator.PojoGenerator;
+import io.github.pojogen.generator.internal.method.ConstructorGenerator;
+import io.github.pojogen.generator.internal.method.GetterGenerator;
+import io.github.pojogen.generator.internal.method.SetterGenerator;
 import io.github.pojogen.generator.internal.model.ClassModel;
 import io.github.pojogen.generator.internal.model.FieldModel;
 import io.github.pojogen.struct.Struct;
-
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -40,13 +42,27 @@ final class InternalPojoGenerator implements PojoGenerator {
     Preconditions.checkNotNull(profile);
 
     final GenerationContext context = GenerationContext.create(profile);
-    final Collection<FieldModel> fieldMembers =
-        model.getAttributes().map(FieldModel::fromStructAttribute).collect(Collectors.toList());
-
-    // TODO(merlinosayimwen): Generate constructors etc.
-    final ClassModel parentModel = ClassModel.create(model.getName(), fieldMembers);
+    final ClassModel parentModel = ClassModel.create(model.getName(), this.fillSteps(model));
 
     parentModel.writeToContext(context);
     return context.finish();
+  }
+
+  private Collection<GenerationStep> fillSteps(final Struct model) {
+    final Collection<FieldModel> fields =
+        model.getAttributes().map(FieldModel::fromStructAttribute).collect(Collectors.toList());
+
+    final Collection<GenerationStep> steps = new ArrayList<>(fields);
+    steps.add(new LineBreakGenerationStep());
+    steps.add(ConstructorGenerator.create(model.getName(), fields).generate());
+    fields
+        .stream()
+        .filter(FieldModel::isModifiable)
+        .map(SetterGenerator::create)
+        .map(SetterGenerator::generate)
+        .forEach(steps::add);
+
+    fields.stream().map(GetterGenerator::create).map(GetterGenerator::generate).forEach(steps::add);
+    return steps;
   }
 }
