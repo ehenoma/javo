@@ -40,7 +40,7 @@ public final class FieldModel extends VariableModel implements GenerationStep {
   public final void writeToContext(final GenerationContext context) {
     this.accessModifier.getKeyword().ifPresent(keyword -> context.getBuffer().write(keyword + " "));
     super.writeToContext(context);
-    context.getBuffer().write(";");
+    context.getBuffer().writeLine(";");
   }
 
   public AccessModifier getAccessModifier() {
