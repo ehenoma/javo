@@ -58,5 +58,8 @@ public enum GenerationFlag {
    * in the {@code Object} class. The absence of this flag will lead in no common method to be
    * generated.
    */
-  GENERATE_COMMON_METHODS
+  GENERATE_COMMON_METHODS,
+
+  /** Tells whether to use Guava classes. */
+  DEPENDENCY_GUAVA
 }
