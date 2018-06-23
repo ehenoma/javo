@@ -18,24 +18,29 @@ package io.github.pojogen.generator.internal.model;
 
 import static java.text.MessageFormat.format;
 
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
 import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.GenerationStep;
 
+import io.github.pojogen.generator.internal.method.MethodGenerator;
+import io.github.pojogen.generator.internal.method.ToStringGenerator;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class ClassModel implements GenerationStep {
 
   private final String className;
-  private final Collection<? extends GenerationStep> members;
+  private final Collection<GenerationStep> members;
 
   private ClassModel(final String className, final Collection<? extends GenerationStep> members) {
     this.className = className;
-    this.members = ImmutableList.copyOf(members);
+    this.members = new ArrayList<>(members);
   }
 
   @Override
@@ -47,6 +52,7 @@ public final class ClassModel implements GenerationStep {
     context.getBuffer().write(format("public final class {0} '{'", this.className));
     context.getDepth().incrementByOne();
     context.getBuffer().writeLine();
+    context.getBuffer().writeLine();
 
     // Writes every member to the context.
     this.members.forEach(writeStepToContextFunction);
@@ -54,6 +60,18 @@ public final class ClassModel implements GenerationStep {
     context.getDepth().decrementByOne();
     context.getBuffer().writeLine();
     context.getBuffer().write("}");
+  }
+
+  private void generateCommonMethods() {
+    final MethodGenerator methodGenerator =
+        ToStringGenerator.create(
+            this.members
+                .stream()
+                .filter(member -> member instanceof VariableModel)
+                .map(member -> (VariableModel) member)
+                .collect(Collectors.toList()));
+
+    this.members.add(methodGenerator.generate());
   }
 
   public String getClassName() {
@@ -69,6 +87,9 @@ public final class ClassModel implements GenerationStep {
     Preconditions.checkNotNull(className);
     Preconditions.checkNotNull(members);
 
-    return new ClassModel(className, members);
+    final ClassModel model = new ClassModel(className, members);
+    model.generateCommonMethods();
+
+    return model;
   }
 }
