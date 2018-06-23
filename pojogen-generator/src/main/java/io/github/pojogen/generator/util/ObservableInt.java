@@ -25,7 +25,7 @@ public class ObservableInt extends Observable implements MutableInt {
   private int value;
 
   private ObservableInt() {
-    this.value = 0;
+    this(0);
   }
 
   private ObservableInt(final int value) {
