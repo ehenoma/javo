@@ -45,7 +45,6 @@ public final class ClassModel implements GenerationStep {
     final Consumer<GenerationStep> writeStepToContextFunction =
         step -> step.writeToContext(context);
 
-    // TODO(merlinosayimwen): Make this a little bit more configurable.
     context.getBuffer().write(format("public final class {0} '{'", this.className));
     context.getDepth().incrementByOne();
     context.getBuffer().writeLine();
