@@ -1,82 +1,49 @@
-[![Picture](http://icons.iconarchive.com/icons/andreasmyrup/cubicons/256/blueprint-icon.png)](https://github.com/merlinosayimwen/pojogen)
-
-What is *PojoGen*?
-------------------
-[![Maintainability](https://api.codeclimate.com/v1/badges/f6b71c889034b7ca9ec7/maintainability)](https://codeclimate.com/github/merlinosayimwen/pojogen/maintainability)
+# PojoGen 
+![LOC](https://sonarcloud.io/api/project_badges/measure?project=io.github.pojogen%3Apojogen-parent&metric=ncloc)
+[![JDK](https://img.shields.io/badge/java-SE8-blue.svg)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 [![Latest](https://img.shields.io/badge/latest-v1.0-blue.svg)](https://github.com/merlinosayimwen/pojogen)
-[![License](https://img.shields.io/badge/license-apache--2.0-lightgrey.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-The *PojoGen-Framework* is aiming to allow fast creation and highly
-configurable creation of *Java object classes* with optional *specifications*.
-The framework is divided into multiple modules in order to use its contents
-in different *use-cases*. The code of the *framework* is using
-[Google's Java Coding Style](https://google.github.io/styleguide/javaguide.html)
-and mostly follows the [SOLID](https://en.wikipedia.org/wiki/SOLID) princples.
+[![Blueprint](resources/icon_blueprint.png)](#struct-blueprints) [![Generator](resources/icon_generator.png)](#the-generator) [![Quality](resources/icon_quality.png)](#code-quality) 
 
-So called *Structs* are providing the *Blueprints* to create *POJOs*.
-The syntax of a *struct* is fairly simple and *tabs* are allowed. The
-current syntax of a defined *struct* with one *attribute* looks as follows:
+The PojoGen software provides a tool for quick and easy snooping of value objects and beans in Java.
+An important goal is to keep the quality and safety of the created classes high. 
+For example, for objects that should be immutable, defensive copies are used in the mutator and 
+accessors as needed to ensure this immutability. 
+
+###Struct Blueprints
+
+The framework has its own language to create so-called struct blueprints. This is case-sensitive,
+includes generic wildcards and allows attributes to be written as in UML.
+Struct blueprints are used to specify the structure for a value object or JavaBean, which can then be parsed by
+the framework and converted into a valid Java source code.
+
+The following source text shows how a valid structure blueprint can be written.
+ 
 ```
-[modifier] struct (Name) {
-  [modifier] (attributeName) : (AttributeType)[;]
-  ...
+struct Foo {
+  bar: Bar
 }
 ```
+For a detailed introduction, there is a [page]() in the wiki.
 
-An implementation of the *struct specifications* might look like this:
-
-```
-struct Blogpost {
-  const id : int
-  creationDate : Date
-
-  title : String
-  content : String
-
-  rating : float
-  readersComments : Collection<Comment>
-}
-```
-
-The shown struct represents a *Blogpost*
-
-Getting started
---
-
-Following shows how you can add the `pojogen-generator` module to your dependencies when using a common *build tool*.
-
-To add it to your **maven** project use following code:
-```xml
-<dependency>
-  <groupId>io.github.pojogen</groupId>
-  <artifactId>pojogen-generator</artifactId>
-  <version>1.0</version>
-</dependency>
-```
-
-If you use **gradle** this is the code for you:
-```groovy
-dependencies {
-  compile 'io.github.pojogen:pojogen-generator:1.0'
-}
-```
-
-What it CAN do
---
-PojoGen can speed up your development process by allowing
-you to rather write blueprints than big classes and pass the work
-to the generator. It allows you to parse and read so called *Structs* and 
-provides multiple *Generator Settings* for the generation of *POJO* classes.
-
-What it CANT do
---
-While developing the generator I noticed, that automatic imports
-of custom unknown classes would be something
-rather time consuming than useful. While I could use the classpath to search for
-those classes by their simple name, I decided to remove the feature of
-automated imports. If you are using an IDE that should be now problem though.
+###The Generator 
 
 
-Links
---
-- https://de.wikipedia.org/wiki/Plain_Old_Java_Object
+ ###Code Quality
+
+
+[![Code Style](https://img.shields.io/badge/codestyle-google-blue.svg)](https://google.github.io/styleguide/javaguide.html)
+![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=io.github.pojogen%3Apojogen-parent&metric=alert_status)
+![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=io.github.pojogen%3Apojogen-parent&metric=sqale_rating)
+![Reliability](https://sonarcloud.io/api/project_badges/measure?project=io.github.pojogen%3Apojogen-parent&metric=reliability_rating)
+![Security](https://sonarcloud.io/api/project_badges/measure?project=io.github.pojogen%3Apojogen-parent&metric=security_rating)  
+
+For me, quality and cleanliness in the development of software is very important. This project has a
+high standard and uses the most effective and best practices to elegantly solve the addressed problems. 
+Third-party software is used for quality control purposes and guaranties a secure, functioning and, 
+above all, clean source code. The principles that should be followed when participating are simply
+the basic principles of object-oriented design, and there are also project-specific principles and conventions.
+The style of the source code is based on the style guidelines of Google, but is somewhat more regulated and concretized.
+
+Parts ot the code that may be upgradeable or not yet documented are reworked.
+If there is a suggestion for improvement regarding the source text, please write it to us as an issue.
