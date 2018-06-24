@@ -71,7 +71,7 @@ public final class ToStringGenerator implements MethodGenerator {
       final String line = format("\t.add(\"{0}\", {1})", variable.getName(), toStringStatement);
       context.getBuffer().writeLine(line);
     }
-    context.getBuffer().write("\t.toString()");
+    context.getBuffer().write("\t.toString();");
   }
 
   public Collection<VariableModel> getVariableModels() {
