@@ -52,20 +52,6 @@ public class PlainReferenceType extends ReferenceType {
     super(typeName, generic, concrete, primitive);
   }
 
-  public static PlainReferenceType createConcrete(final String typeName) {
-    return PlainReferenceType.create(typeName, true);
-  }
-
-  public static PlainReferenceType create(final String typeName, final boolean concrete) {
-    Preconditions.checkNotNull(typeName);
-
-    final boolean primitive = PlainReferenceType.PRIMITIVE_TYPES.contains(typeName);
-    final boolean generic =
-        !primitive && typeName.matches(PlainReferenceType.GENERIC_MATCHER_EXPRESSION);
-
-    return new PlainReferenceType(typeName, generic, concrete, primitive);
-  }
-
   @Override
   public String toStringStatement(String variableName) {
     return this.isPrimitive()
@@ -120,5 +106,19 @@ public class PlainReferenceType extends ReferenceType {
   public String copyStatement(final String variableName) {
     // Simply doesn't copy the reference.
     return variableName;
+  }
+
+  public static PlainReferenceType createConcrete(final String typeName) {
+    return PlainReferenceType.create(typeName, true);
+  }
+
+  public static PlainReferenceType create(final String typeName, final boolean concrete) {
+    Preconditions.checkNotNull(typeName);
+
+    final boolean primitive = PlainReferenceType.PRIMITIVE_TYPES.contains(typeName);
+    final boolean generic =
+        !primitive && typeName.matches(PlainReferenceType.GENERIC_MATCHER_EXPRESSION);
+
+    return new PlainReferenceType(typeName, generic, concrete, primitive);
   }
 }

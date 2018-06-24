@@ -28,12 +28,6 @@ public final class ArrayReferenceType extends ReferenceType {
     super(rawType + "[]", false, true, false);
   }
 
-  public static ArrayReferenceType fromRawType(final String rawType) {
-    Preconditions.checkNotNull(rawType);
-
-    return new ArrayReferenceType(rawType);
-  }
-
   @Override
   public String toStringStatement(String variableName) {
     return format("Arrays.deepToString({0})", variableName);
@@ -52,5 +46,11 @@ public final class ArrayReferenceType extends ReferenceType {
   @Override
   public String copyStatement(String variableName) {
     return variableName + ".clone()";
+  }
+
+  public static ArrayReferenceType fromRawType(final String rawType) {
+    Preconditions.checkNotNull(rawType);
+
+    return new ArrayReferenceType(rawType);
   }
 }

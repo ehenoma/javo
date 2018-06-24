@@ -24,20 +24,6 @@ public final class CollectionReferenceType extends ReferenceType {
     super(typeName, true, concrete, false);
   }
 
-  public static CollectionReferenceType createConcrete(final String typeName) {
-    return create(typeName, false);
-  }
-
-  public static CollectionReferenceType createAbstract(final String typeName) {
-    return create(typeName, false);
-  }
-
-  public static CollectionReferenceType create(final String typeName, final boolean concrete) {
-    Preconditions.checkNotNull(typeName);
-
-    return new CollectionReferenceType(typeName, concrete);
-  }
-
   @Override
   public String copyStatement(String variableName) {
     return null;
@@ -56,5 +42,19 @@ public final class CollectionReferenceType extends ReferenceType {
   @Override
   public String toStringStatement(String variableName) {
     return null;
+  }
+
+  public static CollectionReferenceType createConcrete(final String typeName) {
+    return create(typeName, false);
+  }
+
+  public static CollectionReferenceType createAbstract(final String typeName) {
+    return create(typeName, false);
+  }
+
+  public static CollectionReferenceType create(final String typeName, final boolean concrete) {
+    Preconditions.checkNotNull(typeName);
+
+    return new CollectionReferenceType(typeName, concrete);
   }
 }
