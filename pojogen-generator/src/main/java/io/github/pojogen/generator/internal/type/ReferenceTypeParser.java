@@ -64,7 +64,8 @@ public final class ReferenceTypeParser {
   }
 
   private ReferenceType parseGenericCollectionType(final Matcher matcher) {
-    return null;
+    // TODO: Add concretion detection.
+    return CollectionReferenceType.create(matcher.group(1) + "<" + matcher.group(2) + ">", false);
   }
 
   private static boolean hasGroups(final Matcher matcher, final int... groups) {
