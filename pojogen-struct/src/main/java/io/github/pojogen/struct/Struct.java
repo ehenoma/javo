@@ -16,22 +16,17 @@
 
 package io.github.pojogen.struct;
 
-import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import io.github.pojogen.struct.util.ObjectChecks;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
-import java.util.StringJoiner;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
-
-import com.google.common.base.MoreObjects;
-import com.google.common.base.MoreObjects.ToStringHelper;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
 
 /**
  * Value-Object representation of a {@code Struct-Blueprint}.
@@ -53,15 +48,6 @@ public final class Struct {
 
   /** Flag that indicates whether the struct is "final". */
   private final boolean constant;
-
-  /**
-   * Parameterized constructor that initializes a struct from a name.
-   *
-   * @param name The name that the struct will have.
-   */
-  private Struct(final String name) {
-    this(name, Collections.emptyList());
-  }
 
   /**
    * Parameterized constructor that initializes a struct from name and collection of attributes.
