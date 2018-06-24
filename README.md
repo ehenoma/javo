@@ -19,7 +19,7 @@ the framework and converted into a valid Java source code.
 
 The following source text shows how a valid structure blueprint can be written.
  
-```go
+```cpp
 struct Foo {
   bar: Bar
 }
