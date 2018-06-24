@@ -24,6 +24,8 @@ import io.github.pojogen.generator.PojoGeneratorFactory;
 
 public final class InternalAccess {
 
+  private InternalAccess() {}
+
   public static Supplier<PojoGeneratorFactory> getInternalGeneratorFactorySupply() {
     return Suppliers.memoize(InternalPojoGeneratorFactory::new);
   }
