@@ -24,14 +24,12 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import io.github.pojogen.generator.util.ImmutableMemoizingObject;
 import io.github.pojogen.struct.util.ObjectChecks;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 /**
@@ -73,6 +71,35 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
 
     this.flags = Sets.newEnumSet(flags, GenerationFlag.class);
     this.properties = ImmutableMap.copyOf(properties);
+  }
+
+  /**
+   * Creates a GenerationProfile without any flags given.
+   *
+   * @return Newly created plain GenerationProfile.
+   */
+  public static GenerationProfile create() {
+    return new GenerationProfile();
+  }
+
+  /**
+   * Creates a GenerationProfile from the given {@code flags}.
+   *
+   * @param flags Flags chosen for the generation.
+   * @return Newly created profile with the given flags.
+   */
+  public static GenerationProfile create(final Iterable<GenerationFlag> flags) {
+    Preconditions.checkNotNull(flags);
+
+    return new GenerationProfile(flags);
+  }
+
+  public static GenerationProfile create(
+      final Iterable<GenerationFlag> flags, final Map<String, String> properties) {
+    Preconditions.checkNotNull(flags);
+    Preconditions.checkNotNull(properties);
+
+    return new GenerationProfile(flags, properties);
   }
 
   /**
@@ -173,6 +200,10 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
       this.flags = Sets.newHashSet();
     }
 
+    public static Builder newBuilder() {
+      return new Builder();
+    }
+
     public Builder addFlag(final GenerationFlag flag) {
       this.flags.add(flag);
       return this;
@@ -181,38 +212,5 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
     public GenerationProfile create() {
       return GenerationProfile.create(this.flags);
     }
-
-    public static Builder newBuilder() {
-      return new Builder();
-    }
-  }
-
-  /**
-   * Creates a GenerationProfile without any flags given.
-   *
-   * @return Newly created plain GenerationProfile.
-   */
-  public static GenerationProfile create() {
-    return new GenerationProfile();
-  }
-
-  /**
-   * Creates a GenerationProfile from the given {@code flags}.
-   *
-   * @param flags Flags chosen for the generation.
-   * @return Newly created profile with the given flags.
-   */
-  public static GenerationProfile create(final Iterable<GenerationFlag> flags) {
-    Preconditions.checkNotNull(flags);
-
-    return new GenerationProfile(flags);
-  }
-
-  public static GenerationProfile create(
-      final Iterable<GenerationFlag> flags, final Map<String, String> properties) {
-    Preconditions.checkNotNull(flags);
-    Preconditions.checkNotNull(properties);
-
-    return new GenerationProfile(flags, properties);
   }
 }

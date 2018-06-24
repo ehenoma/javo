@@ -19,8 +19,6 @@ package io.github.pojogen.generator.internal;
 import static com.google.common.base.Strings.nullToEmpty;
 import static java.util.Objects.isNull;
 
-import com.google.common.base.MoreObjects;
-
 import io.github.pojogen.struct.util.ObjectChecks;
 import java.util.Objects;
 import javax.annotation.Nullable;
@@ -43,6 +41,15 @@ public class GenerationContextBuffer {
   private GenerationContextBuffer(final StringBuilder delegate, final String newLinePrefix) {
     this.delegate = delegate;
     this.newLinePrefix = newLinePrefix;
+  }
+
+  public static GenerationContextBuffer create() {
+    return new GenerationContextBuffer();
+  }
+
+  public static GenerationContextBuffer create(final String newLinePrefix) {
+
+    return new GenerationContextBuffer(new StringBuilder(), nullToEmpty(newLinePrefix));
   }
 
   public void write(@Nullable final Object object) {
@@ -121,14 +128,5 @@ public class GenerationContextBuffer {
     // Using Object#equals(Object,Object) because of the chance that the {newLinePrefix} is null.
     return Objects.equals(this.newLinePrefix, otherBuffer.newLinePrefix)
         && this.delegate.equals(otherBuffer.delegate);
-  }
-
-  public static GenerationContextBuffer create() {
-    return new GenerationContextBuffer();
-  }
-
-  public static GenerationContextBuffer create(final String newLinePrefix) {
-
-    return new GenerationContextBuffer(new StringBuilder(), nullToEmpty(newLinePrefix));
   }
 }

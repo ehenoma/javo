@@ -16,6 +16,13 @@
 
 package io.github.pojogen.parser.internal;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
+import io.github.pojogen.parser.StructParser;
+import io.github.pojogen.parser.StructParserException;
+import io.github.pojogen.parser.util.MoreSuppliers;
+import io.github.pojogen.struct.Struct;
+import io.github.pojogen.struct.StructAttribute;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,15 +32,6 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-
-import io.github.pojogen.parser.StructParser;
-import io.github.pojogen.parser.StructParserException;
-import io.github.pojogen.parser.util.MoreSuppliers;
-import io.github.pojogen.struct.Struct;
-import io.github.pojogen.struct.StructAttribute;
 
 /**
  * Internal implementation of the {@code {@link StructParser}} interface that follows the default

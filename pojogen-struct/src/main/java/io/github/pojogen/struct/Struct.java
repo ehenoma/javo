@@ -75,6 +75,63 @@ public final class Struct {
   }
 
   /**
+   * Creates a struct from just a name.
+   *
+   * @param name Name that is given to the struct.
+   * @return Created struct with the given {@code name} and no attributes.
+   */
+  public static Struct create(final String name) {
+    return Struct.create(name, Collections.emptyList());
+  }
+
+  /**
+   * Creates a struct from a name and some attributes.
+   *
+   * @param name Name that is given to the struct.
+   * @param attributes Iterable collection of attributes.
+   * @return Created struct with the given {@code name} and {@code attributes}.
+   */
+  public static Struct create(final String name, final Iterable<StructAttribute> attributes) {
+    return Struct.create(name, attributes, false);
+  }
+
+  /**
+   * Creates a struct with all possible arguments.
+   *
+   * @param name Name that is given to the struct.
+   * @param attributes Iterable collection of attributes.
+   * @param constant Indicates whether the struct is "final".
+   * @return Struct created from the given arguments.
+   */
+  public static Struct create(
+      final String name, final Iterable<StructAttribute> attributes, final boolean constant) {
+
+    Preconditions.checkNotNull(name);
+    Preconditions.checkNotNull(attributes);
+
+    return new Struct(name, attributes, constant);
+  }
+
+  /**
+   * Creates a copy of the given struct and returns it.
+   *
+   * <p>Even though the class is immutable and acts as a VO but instances may still need to be
+   * copied and this class-method allows to easily do that.
+   *
+   * @param struct Struct that is to be copied.
+   * @return Copy of the {@code struct}.
+   */
+  public static Struct copyOf(final Struct struct) {
+    Preconditions.checkNotNull(struct);
+
+    return new Struct(struct.name, struct.attributes, struct.constant);
+  }
+
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
+  /**
    * Returns the structs name.
    *
    * @return Name of the struct.
@@ -197,62 +254,5 @@ public final class Struct {
 
       return new Struct(this.name, this.attributes, this.constant);
     }
-  }
-
-  /**
-   * Creates a struct from just a name.
-   *
-   * @param name Name that is given to the struct.
-   * @return Created struct with the given {@code name} and no attributes.
-   */
-  public static Struct create(final String name) {
-    return Struct.create(name, Collections.emptyList());
-  }
-
-  /**
-   * Creates a struct from a name and some attributes.
-   *
-   * @param name Name that is given to the struct.
-   * @param attributes Iterable collection of attributes.
-   * @return Created struct with the given {@code name} and {@code attributes}.
-   */
-  public static Struct create(final String name, final Iterable<StructAttribute> attributes) {
-    return Struct.create(name, attributes, false);
-  }
-
-  /**
-   * Creates a struct with all possible arguments.
-   *
-   * @param name Name that is given to the struct.
-   * @param attributes Iterable collection of attributes.
-   * @param constant Indicates whether the struct is "final".
-   * @return Struct created from the given arguments.
-   */
-  public static Struct create(
-      final String name, final Iterable<StructAttribute> attributes, final boolean constant) {
-
-    Preconditions.checkNotNull(name);
-    Preconditions.checkNotNull(attributes);
-
-    return new Struct(name, attributes, constant);
-  }
-
-  /**
-   * Creates a copy of the given struct and returns it.
-   *
-   * <p>Even though the class is immutable and acts as a VO but instances may still need to be
-   * copied and this class-method allows to easily do that.
-   *
-   * @param struct Struct that is to be copied.
-   * @return Copy of the {@code struct}.
-   */
-  public static Struct copyOf(final Struct struct) {
-    Preconditions.checkNotNull(struct);
-
-    return new Struct(struct.name, struct.attributes, struct.constant);
-  }
-
-  public static Builder newBuilder() {
-    return new Builder();
   }
 }

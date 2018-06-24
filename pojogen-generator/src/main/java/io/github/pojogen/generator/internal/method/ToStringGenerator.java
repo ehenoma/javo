@@ -24,7 +24,6 @@ import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.model.AccessModifier;
 import io.github.pojogen.generator.internal.model.MethodModel;
 import io.github.pojogen.generator.internal.model.VariableModel;
-
 import io.github.pojogen.generator.internal.type.PlainReferenceType;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +41,12 @@ public final class ToStringGenerator implements MethodGenerator {
 
   private ToStringGenerator(final Collection<? extends VariableModel> variableModels) {
     this.variableModels = new ArrayList<>(variableModels);
+  }
+
+  public static ToStringGenerator create(final Collection<? extends VariableModel> variableModels) {
+    Preconditions.checkNotNull(variableModels);
+
+    return new ToStringGenerator(variableModels);
   }
 
   @Override
@@ -76,11 +81,5 @@ public final class ToStringGenerator implements MethodGenerator {
 
   public Collection<VariableModel> getVariableModels() {
     return new ArrayList<>(this.variableModels);
-  }
-
-  public static ToStringGenerator create(final Collection<? extends VariableModel> variableModels) {
-    Preconditions.checkNotNull(variableModels);
-
-    return new ToStringGenerator(variableModels);
   }
 }

@@ -16,11 +16,10 @@
 
 package io.github.pojogen.parser;
 
+import io.github.pojogen.struct.Struct;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.Collection;
-
-import io.github.pojogen.struct.Struct;
 
 /**
  * The {@code {@link StructParser}} is generating one or multiple {@code {@link Struct}} objects

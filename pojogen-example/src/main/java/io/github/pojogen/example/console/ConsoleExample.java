@@ -16,17 +16,15 @@
 
 package io.github.pojogen.example.console;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.common.util.concurrent.Uninterruptibles;
-
 import io.github.pojogen.generator.PojoGenerator;
 import io.github.pojogen.generator.PojoGeneratorFactory;
 import io.github.pojogen.parser.StructParser;
 import io.github.pojogen.parser.StructParserException;
 import io.github.pojogen.parser.StructParserFactory;
 import io.github.pojogen.struct.Struct;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 final class ConsoleExample {
 

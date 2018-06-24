@@ -16,11 +16,9 @@
 
 package io.github.pojogen.parser.internal;
 
-import java.util.function.Supplier;
-
 import com.google.common.base.Suppliers;
-
 import io.github.pojogen.parser.StructParser;
+import java.util.function.Supplier;
 
 /**
  * The {@code {@link InternalAccess}} class provides {@code {@link Supplier suppliers}} of {@code

@@ -17,10 +17,9 @@
 package io.github.pojogen.struct;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Preconditions;
 import io.github.pojogen.struct.util.ObjectChecks;
 import java.util.Objects;
-
-import com.google.common.base.Preconditions;
 
 /**
  * Represents an attribute in a {@code Struct-Blueprint}.
@@ -77,6 +76,61 @@ public class StructAttribute {
     this.name = name;
     this.typeName = typeName;
     this.constant = constant;
+  }
+
+  /**
+   * Creates a StructAttribute from a name.
+   *
+   * @param name Name that will be given to the attribute.
+   * @return Created attribute with the {@code name} given.
+   */
+  public static StructAttribute create(final String name) {
+    Preconditions.checkNotNull(name);
+
+    return new StructAttribute(name);
+  }
+
+  /**
+   * Creates a StructAttribute from a name and with a typeName.
+   *
+   * @param name Name that will be given to the struct.
+   * @param typeName Name of the attributes type.
+   * @return Created attribute with the {@code name} and {@code typeName}.
+   */
+  public static StructAttribute create(final String name, final String typeName) {
+    Preconditions.checkNotNull(name);
+    Preconditions.checkNotNull(typeName);
+
+    return new StructAttribute(name, typeName);
+  }
+
+  /**
+   * Creates a StructAttribute with all possible arguments.
+   *
+   * @param name Name that will be given to the struct.
+   * @param typeName Name of the attributes type.
+   * @param constant Flag that indicates whether the attribute should be "final".
+   * @return Created attribute with all possible arguments set.
+   */
+  public static StructAttribute create(
+      final String name, final String typeName, final boolean constant) {
+
+    Preconditions.checkNotNull(name);
+    Preconditions.checkNotNull(typeName);
+
+    return new StructAttribute(name, typeName, constant);
+  }
+
+  /**
+   * Creates a copy of the given {@code struct}.
+   *
+   * @param struct Struct which is copied.
+   * @return Copy of the given {@code struct}.
+   */
+  public static StructAttribute copyOf(final StructAttribute struct) {
+    Preconditions.checkNotNull(struct);
+
+    return new StructAttribute(struct);
   }
 
   /**
@@ -141,60 +195,5 @@ public class StructAttribute {
   @Override
   public int hashCode() {
     return Objects.hash(this.name, this.typeName, this.constant);
-  }
-
-  /**
-   * Creates a StructAttribute from a name.
-   *
-   * @param name Name that will be given to the attribute.
-   * @return Created attribute with the {@code name} given.
-   */
-  public static StructAttribute create(final String name) {
-    Preconditions.checkNotNull(name);
-
-    return new StructAttribute(name);
-  }
-
-  /**
-   * Creates a StructAttribute from a name and with a typeName.
-   *
-   * @param name Name that will be given to the struct.
-   * @param typeName Name of the attributes type.
-   * @return Created attribute with the {@code name} and {@code typeName}.
-   */
-  public static StructAttribute create(final String name, final String typeName) {
-    Preconditions.checkNotNull(name);
-    Preconditions.checkNotNull(typeName);
-
-    return new StructAttribute(name, typeName);
-  }
-
-  /**
-   * Creates a StructAttribute with all possible arguments.
-   *
-   * @param name Name that will be given to the struct.
-   * @param typeName Name of the attributes type.
-   * @param constant Flag that indicates whether the attribute should be "final".
-   * @return Created attribute with all possible arguments set.
-   */
-  public static StructAttribute create(
-      final String name, final String typeName, final boolean constant) {
-
-    Preconditions.checkNotNull(name);
-    Preconditions.checkNotNull(typeName);
-
-    return new StructAttribute(name, typeName, constant);
-  }
-
-  /**
-   * Creates a copy of the given {@code struct}.
-   *
-   * @param struct Struct which is copied.
-   * @return Copy of the given {@code struct}.
-   */
-  public static StructAttribute copyOf(final StructAttribute struct) {
-    Preconditions.checkNotNull(struct);
-
-    return new StructAttribute(struct);
   }
 }

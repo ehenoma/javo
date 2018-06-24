@@ -44,6 +44,16 @@ public final class GenerationContext {
     this.depth = ObservableInt.from(baseDepth);
   }
 
+  public static GenerationContext create(final GenerationProfile profile) {
+    Preconditions.checkNotNull(profile);
+
+    // TODO: Get the prefix from the profile.
+    final GenerationContext context = new GenerationContext(profile);
+    context.deployObserver(); // This escape is prevented.
+
+    return context;
+  }
+
   private void deployObserver() {
     this.depth.addObserver(Observers.fromRunnable(this::updateNewLinePrefix));
   }
@@ -104,15 +114,5 @@ public final class GenerationContext {
     return this.profile.equals(otherContext.profile)
         && this.buffer.equals(otherContext.buffer)
         && this.depth.equals(otherContext.depth);
-  }
-
-  public static GenerationContext create(final GenerationProfile profile) {
-    Preconditions.checkNotNull(profile);
-
-    // TODO: Get the prefix from the profile.
-    final GenerationContext context = new GenerationContext(profile);
-    context.deployObserver(); // This escape is prevented.
-
-    return context;
   }
 }

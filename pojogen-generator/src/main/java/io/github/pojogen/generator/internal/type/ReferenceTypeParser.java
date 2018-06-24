@@ -22,7 +22,6 @@ import com.google.common.base.Preconditions;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.Nullable;
 
 public final class ReferenceTypeParser {
 
@@ -30,6 +29,25 @@ public final class ReferenceTypeParser {
       compile("(\\w+)?(?:<(\\w+)>)|(\\[(\\w+)])");
 
   private ReferenceTypeParser() {}
+
+  private static boolean hasGroups(final Matcher matcher, final int... groups) {
+    try {
+      for (final int group : groups) {
+        if (matcher.group(group) == null) {
+          return false;
+        }
+      }
+    } catch (final RuntimeException failure) {
+      // Exception can be ignored since it is just an indicator for the
+      // group being out of bounds ir illegal.
+    }
+
+    return true;
+  }
+
+  public static ReferenceTypeParser create() {
+    return new ReferenceTypeParser();
+  }
 
   public ReferenceType parseReference(final String entry) {
     Preconditions.checkNotNull(entry);
@@ -66,24 +84,5 @@ public final class ReferenceTypeParser {
   private ReferenceType parseGenericCollectionType(final Matcher matcher) {
     // TODO: Add concretion detection.
     return CollectionReferenceType.create(matcher.group(1) + "<" + matcher.group(2) + ">", false);
-  }
-
-  private static boolean hasGroups(final Matcher matcher, final int... groups) {
-    try {
-      for (final int group : groups) {
-        if (matcher.group(group) == null) {
-          return false;
-        }
-      }
-    } catch (final RuntimeException failure) {
-      // Exception can be ignored since it is just an indicator for the
-      // group being out of bounds ir illegal.
-    }
-
-    return true;
-  }
-
-  public static ReferenceTypeParser create() {
-    return new ReferenceTypeParser();
   }
 }

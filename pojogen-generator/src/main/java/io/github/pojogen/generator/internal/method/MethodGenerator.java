@@ -21,5 +21,4 @@ import io.github.pojogen.generator.internal.model.MethodModel;
 public interface MethodGenerator {
 
   MethodModel generate();
-
 }

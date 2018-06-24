@@ -17,7 +17,6 @@
 package io.github.pojogen.generator.internal.model;
 
 import com.google.common.base.Preconditions;
-
 import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.GenerationStep;
 import io.github.pojogen.generator.internal.type.ReferenceType;
@@ -40,17 +39,6 @@ public final class FieldModel extends VariableModel implements GenerationStep {
     this.accessModifier = accessModifier;
   }
 
-  @Override
-  public final void writeToContext(final GenerationContext context) {
-    this.accessModifier.getKeyword().ifPresent(keyword -> context.getBuffer().write(keyword + " "));
-    super.writeToContext(context);
-    context.getBuffer().writeLine(";");
-  }
-
-  public AccessModifier getAccessModifier() {
-    return this.accessModifier;
-  }
-
   public static FieldModel fromVariable(
       final VariableModel variable, final AccessModifier accessModifier) {
 
@@ -69,5 +57,16 @@ public final class FieldModel extends VariableModel implements GenerationStep {
     return fromVariable(
         VariableModel.create(attribute.getName(), type, !attribute.isConstant()),
         AccessModifier.PRIVATE);
+  }
+
+  @Override
+  public final void writeToContext(final GenerationContext context) {
+    this.accessModifier.getKeyword().ifPresent(keyword -> context.getBuffer().write(keyword + " "));
+    super.writeToContext(context);
+    context.getBuffer().writeLine(";");
+  }
+
+  public AccessModifier getAccessModifier() {
+    return this.accessModifier;
   }
 }

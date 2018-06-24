@@ -16,9 +16,8 @@
 
 package io.github.pojogen.parser;
 
-import java.util.function.Supplier;
-
 import io.github.pojogen.parser.internal.InternalAccess;
+import java.util.function.Supplier;
 
 /**
  * The {@code {@link StructParserFactory}} provides instances of the {@code {@link StructParser}} by
@@ -43,6 +42,15 @@ public final class StructParserFactory {
   private StructParserFactory() {}
 
   /**
+   * Creates a new instance of the StructParserFactory.
+   *
+   * @return Instance of the factory.
+   */
+  public static StructParserFactory create() {
+    return new StructParserFactory();
+  }
+
+  /**
    * Resolves the instance of a {@code {@link StructParser}} implementation.
    *
    * <p>The {@code return-value} is most probably not created every time that this method is invoked
@@ -52,14 +60,5 @@ public final class StructParserFactory {
    */
   public StructParser getInstance() {
     return StructParserFactory.supplier.get();
-  }
-
-  /**
-   * Creates a new instance of the StructParserFactory.
-   *
-   * @return Instance of the factory.
-   */
-  public static StructParserFactory create() {
-    return new StructParserFactory();
   }
 }

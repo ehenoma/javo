@@ -18,9 +18,8 @@ package io.github.pojogen.generator.internal;
 
 import com.google.common.base.Suppliers;
 import io.github.pojogen.generator.PojoGenerator;
-import java.util.function.Supplier;
-
 import io.github.pojogen.generator.PojoGeneratorFactory;
+import java.util.function.Supplier;
 
 public final class InternalAccess {
 

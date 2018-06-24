@@ -14,23 +14,14 @@
  * limitations under the License.
  */
 
-package io.github.pojogen.generator.util;
+package io.github.pojogen.generator.internal.method;
 
-public interface MutableInt {
+import io.github.pojogen.generator.internal.model.MethodModel;
 
-  int getValue();
+public final class EqualsGenerator implements MethodGenerator {
 
-  void setValue(final int value);
-
-  default void incrementByOne() {
-    this.incrementBy(1);
+  @Override
+  public MethodModel generate() {
+    return null;
   }
-
-  void incrementBy(final int value);
-
-  default void decrementByOne() {
-    this.decrementBy(1);
-  }
-
-  void decrementBy(final int value);
 }

@@ -66,6 +66,10 @@ public final class MethodModel implements GenerationStep {
     this.parameters = ImmutableList.copyOf(parameters);
   }
 
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
   @Override
   public void writeToContext(final GenerationContext context) {
     this.annotations.forEach(context.getBuffer()::writeLine);
@@ -267,9 +271,5 @@ public final class MethodModel implements GenerationStep {
       copied.accessModifier = this.accessModifier;
       return copied;
     }
-  }
-
-  public static Builder newBuilder() {
-    return new Builder();
   }
 }
