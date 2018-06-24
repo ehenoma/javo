@@ -242,7 +242,7 @@ final class InternalStructParser implements StructParser {
     final boolean constant =
         (modifier != null)
             && (STRUCT_MODIFIER_CONST.equalsIgnoreCase(modifier.replace("[ \t]", "")));
-    return new StructAttribute(parsedAttribute.group(2), parsedAttribute.group(3), constant);
+    return StructAttribute.create(parsedAttribute.group(2), parsedAttribute.group(3), constant);
   }
 
   @Override
