@@ -37,12 +37,6 @@ public class GetterGenerator implements MethodGenerator {
     this.attribute = attribute;
   }
 
-  public static GetterGenerator create(final VariableModel attribute) {
-    Preconditions.checkNotNull(attribute);
-
-    return new GetterGenerator(attribute);
-  }
-
   @Override
   public MethodModel generate() {
     final String methodName =
@@ -62,5 +56,11 @@ public class GetterGenerator implements MethodGenerator {
     final String copyStatement = this.attribute.getType().copyStatement(this.attribute.getName());
 
     context.getBuffer().write(format("return this.{0};", copyStatement));
+  }
+
+  public static GetterGenerator create(final VariableModel attribute) {
+    Preconditions.checkNotNull(attribute);
+
+    return new GetterGenerator(attribute);
   }
 }
