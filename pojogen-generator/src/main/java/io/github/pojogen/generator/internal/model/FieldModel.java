@@ -20,19 +20,23 @@ import com.google.common.base.Preconditions;
 
 import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.GenerationStep;
+import io.github.pojogen.generator.internal.type.ReferenceType;
+import io.github.pojogen.generator.internal.type.ReferenceTypeParser;
 import io.github.pojogen.struct.StructAttribute;
 
 public final class FieldModel extends VariableModel implements GenerationStep {
+
+  private static final ReferenceTypeParser REFERENCE_TYPE_PARSER = ReferenceTypeParser.create();
 
   private final AccessModifier accessModifier;
 
   private FieldModel(
       final String name,
-      final String typeName,
+      final ReferenceType type,
       final boolean modifiable,
       final AccessModifier accessModifier) {
 
-    super(name, typeName, modifiable);
+    super(name, type, modifiable);
     this.accessModifier = accessModifier;
   }
 
@@ -60,7 +64,10 @@ public final class FieldModel extends VariableModel implements GenerationStep {
     Preconditions.checkNotNull(attribute);
 
     return fromVariable(
-        VariableModel.create(attribute.getName(), attribute.getTypeName(), !attribute.isConstant()),
+        VariableModel.create(
+            attribute.getName(),
+            FieldModel.REFERENCE_TYPE_PARSER.parseReference(attribute.getTypeName()),
+            !attribute.isConstant()),
         AccessModifier.PRIVATE);
   }
 }
