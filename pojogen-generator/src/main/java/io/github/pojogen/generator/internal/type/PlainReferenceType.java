@@ -80,7 +80,7 @@ public class PlainReferenceType extends ReferenceType {
 
   private String primitiveHashCodeStatement(final String variableName) {
     final String className =
-        PlainReferenceType.WRAPPER_CLASSES.getOrDefault(variableName, "Objects");
+        PlainReferenceType.WRAPPER_CLASSES.getOrDefault(getTypeName(), "Objects");
 
     return format("{0}.hashCode({1})", className, variableName);
   }
