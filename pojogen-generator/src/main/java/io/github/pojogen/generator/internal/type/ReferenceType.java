@@ -23,11 +23,13 @@ import java.util.Objects;
 public abstract class ReferenceType {
 
   private final String typeName;
-  private boolean parameterized;
+  private final boolean parameterized;
+  private final boolean concrete;
 
-  public ReferenceType(final String typeName, final boolean generic) {
+  public ReferenceType(final String typeName, final boolean generic, final boolean concrete) {
     this.typeName = typeName;
     this.parameterized = generic;
+    this.concrete = concrete;
   }
 
   public abstract String toStringStatement(final String variableName);
@@ -42,6 +44,10 @@ public abstract class ReferenceType {
     return parameterized;
   }
 
+  public boolean isConcrete() {
+    return concrete;
+  }
+
   public String getTypeName() {
     return typeName;
   }
@@ -51,12 +57,13 @@ public abstract class ReferenceType {
     return MoreObjects.toStringHelper(this)
         .add("typeName", this.typeName)
         .add("parameterized", this.parameterized)
+        .add("concrete", this.concrete)
         .toString();
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.typeName, this.parameterized);
+    return Objects.hash(this.typeName, this.parameterized, this.concrete);
   }
 
   @Override
@@ -72,6 +79,7 @@ public abstract class ReferenceType {
 
     final ReferenceType otherType = (ReferenceType) checkTarget;
     return this.typeName.equals(otherType.typeName)
-        && this.parameterized == otherType.parameterized;
+        && this.parameterized == otherType.parameterized
+        && this.concrete == otherType.concrete;
   }
 }
