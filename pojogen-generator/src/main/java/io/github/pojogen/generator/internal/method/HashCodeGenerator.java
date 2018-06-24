@@ -56,7 +56,7 @@ public final class HashCodeGenerator implements MethodGenerator {
   }
 
   private void writeToContext(final GenerationContext context) {
-    if (this.attributes.isEmpty() {
+    if (this.attributes.isEmpty()) {
       context.getBuffer().write("return 0;");
       return;
     }
