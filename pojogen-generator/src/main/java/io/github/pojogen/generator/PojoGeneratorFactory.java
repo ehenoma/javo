@@ -20,9 +20,9 @@ import io.github.pojogen.generator.internal.InternalAccess;
 
 public interface PojoGeneratorFactory {
 
+  PojoGenerator getInstance();
+
   static PojoGeneratorFactory create() {
     return InternalAccess.getInternalGeneratorFactorySupply().get();
   }
-
-  PojoGenerator getInstance();
 }
