@@ -25,13 +25,13 @@ public final class ConsoleInputAcceptor extends Thread {
   private static final String KEYWORD_STRUCT_END = "@fin";
   private static final String KEYWORD_APP_END = "@stop";
 
-  private final StringBuffer structBuffer;
+  private final StringBuilder structBuffer;
   private final Consumer<String> structAcceptor;
   private final Scanner scanner;
 
   ConsoleInputAcceptor(final InputStream delegate, final Consumer<String> structAcceptor) {
     this.scanner = new Scanner(delegate);
-    this.structBuffer = new StringBuffer();
+    this.structBuffer = new StringBuilder();
     this.structAcceptor = structAcceptor;
   }
 
