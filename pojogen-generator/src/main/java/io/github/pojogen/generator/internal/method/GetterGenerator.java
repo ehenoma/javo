@@ -39,19 +39,23 @@ public class GetterGenerator implements MethodGenerator {
 
   @Override
   public MethodModel generate() {
+    final String methodName =
+        format("get{0}", GetterGenerator.NAMING_CONVENTION.apply(this.attribute.getName()));
+
     return GetterGenerator.TEMPLATE_MODEL
         .copy()
-        .withReturnType(this.attribute.getTypeName())
+        .withReturnType(this.attribute.getType())
         .withAccessModifier(AccessModifier.PUBLIC)
-        .withMethodName(
-            format("get{0}", GetterGenerator.NAMING_CONVENTION.apply(this.attribute.getName())))
+        .withMethodName(methodName)
         .withWriterAction(this::writeToContext)
         .create();
   }
 
   // TODO: Shallow copy for mutable classes.
   private void writeToContext(final GenerationContext context) {
-    context.getBuffer().write(format("return this.{0};", this.attribute.getName()));
+    final String copyStatement = this.attribute.getType().copyStatement(this.attribute.getName());
+
+    context.getBuffer().write(format("return this.{0};", copyStatement));
   }
 
   public static GetterGenerator create(final VariableModel attribute) {

@@ -23,13 +23,14 @@ import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.model.AccessModifier;
 import io.github.pojogen.generator.internal.model.MethodModel;
 import io.github.pojogen.generator.internal.model.VariableModel;
+import io.github.pojogen.generator.internal.type.PlainReferenceType;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public final class ConstructorGenerator implements MethodGenerator {
 
   private static final MethodModel.Builder TEMPLATE_METHOD =
-      MethodModel.newBuilder().withAccessModifier(AccessModifier.PUBLIC).withReturnType("");
+      MethodModel.newBuilder().withAccessModifier(AccessModifier.PUBLIC);
 
   private final String typeName;
   private final Collection<VariableModel> attributes;
@@ -45,7 +46,7 @@ public final class ConstructorGenerator implements MethodGenerator {
   public MethodModel generate() {
     return ConstructorGenerator.TEMPLATE_METHOD
         .copy()
-        .withReturnType(this.typeName)
+        .withReturnType(PlainReferenceType.createConcrete(this.typeName))
         .withParameters(this.attributes)
         .withWriterAction(this::writeToContext)
         .create();
