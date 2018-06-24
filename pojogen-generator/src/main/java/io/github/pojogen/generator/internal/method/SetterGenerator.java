@@ -31,7 +31,7 @@ public final class SetterGenerator implements MethodGenerator {
   private static final NamingConvention NAMING_CONVENTION = new UpperCamelCaseNamingConvention();
 
   private static final MethodModel.Builder TEMPLATE_METHOD =
-      MethodModel.newBuilder().withReturnType("void").withAccessModifier(AccessModifier.PUBLIC);
+      MethodModel.newBuilder().withAccessModifier(AccessModifier.PUBLIC);
 
   private final VariableModel attribute;
 
