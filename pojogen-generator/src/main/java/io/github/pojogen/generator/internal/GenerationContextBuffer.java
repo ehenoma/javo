@@ -43,15 +43,6 @@ public class GenerationContextBuffer {
     this.newLinePrefix = newLinePrefix;
   }
 
-  public static GenerationContextBuffer create() {
-    return new GenerationContextBuffer();
-  }
-
-  public static GenerationContextBuffer create(final String newLinePrefix) {
-
-    return new GenerationContextBuffer(new StringBuilder(), nullToEmpty(newLinePrefix));
-  }
-
   public void write(@Nullable final Object object) {
     if (isNull(object)) {
       this.writeNull();
@@ -128,5 +119,14 @@ public class GenerationContextBuffer {
     // Using Object#equals(Object,Object) because of the chance that the {newLinePrefix} is null.
     return Objects.equals(this.newLinePrefix, otherBuffer.newLinePrefix)
         && this.delegate.equals(otherBuffer.delegate);
+  }
+
+  public static GenerationContextBuffer create() {
+    return new GenerationContextBuffer();
+  }
+
+  public static GenerationContextBuffer create(final String newLinePrefix) {
+
+    return new GenerationContextBuffer(new StringBuilder(), nullToEmpty(newLinePrefix));
   }
 }
