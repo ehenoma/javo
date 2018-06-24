@@ -98,8 +98,6 @@ public final class MethodModel implements GenerationStep {
             .orElse(Strings.nullToEmpty(this.returnType.getTypeName()));
 
     context.getBuffer().write(methodDeclarationBeginning);
-
-    // The name might be null or empty (eg: Constructors)
     if (!Strings.isNullOrEmpty(this.methodName)) {
       context.getBuffer().write(" " + this.methodName);
     }
@@ -109,7 +107,6 @@ public final class MethodModel implements GenerationStep {
     final Function<VariableModel, String> parameterToStringMapper =
         parameter -> format("{0} {1}", parameter.getType().getTypeName(), parameter.getName());
 
-    // TODO: Add line breaks when having a lot of parameters.
     final Collection<String> mappedParameters =
         this.parameters.stream().map(parameterToStringMapper).collect(Collectors.toList());
 
