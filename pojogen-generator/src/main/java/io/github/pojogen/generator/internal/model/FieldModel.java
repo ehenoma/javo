@@ -63,11 +63,11 @@ public final class FieldModel extends VariableModel implements GenerationStep {
   public static FieldModel fromStructAttribute(final StructAttribute attribute) {
     Preconditions.checkNotNull(attribute);
 
+    final ReferenceType type =
+        FieldModel.REFERENCE_TYPE_PARSER.parseReference(attribute.getTypeName());
+
     return fromVariable(
-        VariableModel.create(
-            attribute.getName(),
-            FieldModel.REFERENCE_TYPE_PARSER.parseReference(attribute.getTypeName()),
-            !attribute.isConstant()),
+        VariableModel.create(attribute.getName(), type, !attribute.isConstant()),
         AccessModifier.PRIVATE);
   }
 }
