@@ -43,12 +43,6 @@ public final class ToStringGenerator implements MethodGenerator {
     this.variableModels = new ArrayList<>(variableModels);
   }
 
-  public static ToStringGenerator create(final Collection<? extends VariableModel> variableModels) {
-    Preconditions.checkNotNull(variableModels);
-
-    return new ToStringGenerator(variableModels);
-  }
-
   @Override
   public MethodModel generate() {
     return ToStringGenerator.METHOD_TEMPLATE.copy().withWriterAction(this::writeToContext).create();
@@ -81,5 +75,11 @@ public final class ToStringGenerator implements MethodGenerator {
 
   public Collection<VariableModel> getVariableModels() {
     return new ArrayList<>(this.variableModels);
+  }
+
+  public static ToStringGenerator create(final Collection<? extends VariableModel> variableModels) {
+    Preconditions.checkNotNull(variableModels);
+
+    return new ToStringGenerator(variableModels);
   }
 }
