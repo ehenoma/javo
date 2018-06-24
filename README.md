@@ -10,7 +10,7 @@ accessors as needed to ensure this immutability.
 
 ***
 
-## [![Blueprint](resources/icon_blueprint.png)]() Struct Blueprints
+## ![Blueprint](resources/icon_blueprint.png) Struct Blueprints
 
 The framework has its own language to create so-called struct blueprints. This is case-sensitive,
 includes generic wildcards and allows attributes to be written as in UML.
@@ -28,7 +28,7 @@ For a detailed introduction, there is a [page]() in the wiki.
 
 ---
 
-## [![Generator](resources/icon_generator.png)]() The Generator 
+## ![Generator](resources/icon_generator.png) The Generator 
 The generator module does the actual job of converting from a blueprint to valid Java source code.
 It has a simple interface and is very easily expandable internally. Configuration options are of 
 course also given, whereby these come either in the form of flags or properties.
@@ -56,8 +56,7 @@ compile group: 'io.github.pojogen', name: 'pojogen-generator', version: '1.0'
 ---
 
 
- ## [![Quality](resources/icon_quality.png)]() Code Quality
-
+ ## ![Quality](resources/icon_quality.png) Code Quality
 
 [![Code Style](https://img.shields.io/badge/codestyle-google-blue.svg)](https://google.github.io/styleguide/javaguide.html)
 ![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=io.github.pojogen%3Apojogen-parent&metric=alert_status)
