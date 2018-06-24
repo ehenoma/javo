@@ -21,6 +21,7 @@ import static java.util.Objects.isNull;
 
 import com.google.common.base.MoreObjects;
 
+import io.github.pojogen.struct.util.ObjectChecks;
 import java.util.Objects;
 import javax.annotation.Nullable;
 
@@ -107,7 +108,8 @@ public class GenerationContextBuffer {
 
   @Override
   public boolean equals(Object checkTarget) {
-    return super.equals(checkTarget);
+    return ObjectChecks.equalsDefinitely(this, checkTarget)
+        .orElseGet(() -> deepEquals(checkTarget));
   }
 
   private boolean deepEquals(final Object checkTarget) {
