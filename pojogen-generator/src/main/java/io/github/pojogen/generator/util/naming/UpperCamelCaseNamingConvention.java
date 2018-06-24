@@ -20,7 +20,6 @@ import com.google.common.base.Preconditions;
 
 public final class UpperCamelCaseNamingConvention implements NamingConvention {
 
-  // TODO(merlinosayimwen): Support delimiters like {'-','_',' '}.
   public String apply(final String text) {
     Preconditions.checkNotNull(text);
     if (text.length() == 0) {
