@@ -21,6 +21,7 @@ import static java.text.MessageFormat.format;
 import com.google.common.base.Preconditions;
 import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.GenerationStep;
+import io.github.pojogen.generator.internal.method.HashCodeGenerator;
 import io.github.pojogen.generator.internal.method.MethodGenerator;
 import io.github.pojogen.generator.internal.method.ToStringGenerator;
 import java.util.ArrayList;
@@ -59,22 +60,24 @@ public final class ClassModel implements GenerationStep {
   }
 
   private void generateCommonMethods() {
-    final MethodGenerator methodGenerator =
-        ToStringGenerator.create(
-            this.members
-                .stream()
-                .filter(member -> member instanceof VariableModel)
-                .map(member -> (VariableModel) member)
-                .collect(Collectors.toList()));
+    final Collection<VariableModel> attributes =
+        this.members
+            .stream()
+            .filter(member -> member instanceof VariableModel)
+            .map(member -> (VariableModel) member)
+            .collect(Collectors.toList());
 
-    this.members.add(methodGenerator.generate());
+    final MethodGenerator toString = ToStringGenerator.create(attributes);
+    final MethodGenerator hashCode = HashCodeGenerator.create(attributes);
+    this.members.add(toString.generate());
+    this.members.add(hashCode.generate());
   }
 
   public String getClassName() {
     return this.className;
   }
 
-  public Stream<? extends GenerationStep> getMembers() {
+  public Stream<GenerationStep> getMembers() {
     return this.members.stream();
   }
 
