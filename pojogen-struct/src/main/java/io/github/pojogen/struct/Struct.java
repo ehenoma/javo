@@ -255,6 +255,4 @@ public final class Struct {
   public static Builder newBuilder() {
     return new Builder();
   }
-
-  public static void main(final String... ignoredArguments) {}
 }
