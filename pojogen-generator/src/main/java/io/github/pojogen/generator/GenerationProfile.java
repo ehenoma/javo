@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import io.github.pojogen.generator.util.ImmutableMemoizingObject;
 import io.github.pojogen.struct.util.ObjectChecks;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -165,9 +166,11 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
       return false;
     }
 
-    // TODO(merlinosayimwen): Add HashMap equals test.
-    final GenerationProfile otherProfile = (GenerationProfile) checkTarget;
-    return Objects.deepEquals(this.flags.toArray(), otherProfile.flags.toArray());
+    final GenerationProfile other = (GenerationProfile) checkTarget;
+
+    return Arrays.deepEquals(this.flags.toArray(), other.flags.toArray())
+        && Arrays.deepEquals(properties.entrySet().toArray(), other.properties.entrySet().toArray())
+        && Arrays.deepEquals(properties.values().toArray(), other.properties.values().toArray());
   }
 
   @Override
