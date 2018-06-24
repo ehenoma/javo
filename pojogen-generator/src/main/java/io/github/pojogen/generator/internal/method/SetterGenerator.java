@@ -53,7 +53,8 @@ public final class SetterGenerator implements MethodGenerator {
   }
 
   private void writeToContext(final GenerationContext context) {
-    context.getBuffer().write(format("this.{0} = {0};", this.attribute.getName()));
+    final String copyStatement = this.attribute.getType().copyStatement(this.attribute.getName());
+    context.getBuffer().write(format("this.{0} = {1};", this.attribute.getName(), copyStatement));
   }
 
   public static SetterGenerator create(final VariableModel variableModel) {
