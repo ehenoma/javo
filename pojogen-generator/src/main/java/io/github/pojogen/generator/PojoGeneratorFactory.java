@@ -18,11 +18,11 @@ package io.github.pojogen.generator;
 
 import io.github.pojogen.generator.internal.InternalAccess;
 
-public abstract class PojoGeneratorFactory {
+public interface PojoGeneratorFactory {
 
-  public static PojoGeneratorFactory create() {
+  static PojoGeneratorFactory create() {
     return InternalAccess.getInternalGeneratorFactorySupply().get();
   }
 
-  public abstract PojoGenerator getInstance();
+  PojoGenerator getInstance();
 }
