@@ -27,15 +27,14 @@ public final class GeneratorTests {
     final PojoGenerator generator = PojoGeneratorFactory.create().getInstance();
     final GenerationProfile profile =
         GenerationProfile.create(
-            Collections.emptyList(),
+            Collections.singleton(GenerationFlag.DEPENDENCY_GUAVA),
             Collections.singletonMap(GenerationContext.PROPERTY_NEW_LINE_PREFIX, "  "));
 
     final Struct model =
         Struct.newBuilder()
             .withName("Person")
             .addAttribute(StructAttribute.create("id", "long", true))
-            .addAttribute(StructAttribute.create("name", "String", false))
-            .addAttribute(StructAttribute.create("address", "Address", false))
+            .addAttribute(StructAttribute.create("names", "[String]", false))
             .create();
 
     System.out.println(generator.generate(model, profile));
