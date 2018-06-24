@@ -104,7 +104,7 @@ public class VariableModel implements GenerationStep {
    *
    * @return The variables type.
    */
-  public final ReferenceType getTypeName() {
+  public final ReferenceType getType() {
     return this.type;
   }
 

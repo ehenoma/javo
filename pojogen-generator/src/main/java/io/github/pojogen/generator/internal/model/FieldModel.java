@@ -57,7 +57,7 @@ public final class FieldModel extends VariableModel implements GenerationStep {
     Preconditions.checkNotNull(variable);
     Preconditions.checkNotNull(accessModifier);
     return new FieldModel(
-        variable.getName(), variable.getTypeName(), variable.isModifiable(), accessModifier);
+        variable.getName(), variable.getType(), variable.isModifiable(), accessModifier);
   }
 
   public static FieldModel fromStructAttribute(final StructAttribute attribute) {
