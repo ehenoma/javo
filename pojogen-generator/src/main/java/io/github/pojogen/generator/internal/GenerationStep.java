@@ -26,6 +26,7 @@ package io.github.pojogen.generator.internal;
  * @see GenerationContext
  * @since 1.0
  */
+@FunctionalInterface
 public interface GenerationStep {
 
   /**
