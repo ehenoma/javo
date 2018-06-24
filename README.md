@@ -29,8 +29,32 @@ For a detailed introduction, there is a [page]() in the wiki.
 ---
 
 ## [![Generator](resources/icon_generator.png)]() The Generator 
+The generator module does the actual job of converting from a blueprint to valid Java source code.
+It has a simple interface and is very easily expandable internally. Configuration options are of 
+course also given, whereby these come either in the form of flags or properties.
+
+The following text shows how the Builder module can be used to add generator modules to your dependencies.
+
+##### Maven
+```xml
+<dependency>
+  <groupId>io.github.pojogen</groupId>
+  <artifactId>pojogen-generator</artifactId>
+  <version>1.0</version>
+</dependency>
+```
+##### Gradle
+```groovy
+compile group: 'io.github.pojogen', name: 'pojogen-generator', version: '1.0'
+```
+##### Ivy
+```ivy
+<dependency org="io.github.pojogen" name="pojogen-generator" rev="1.0"/>
+```
+
 
 ---
+
 
  ## [![Quality](resources/icon_quality.png)]() Code Quality
 
