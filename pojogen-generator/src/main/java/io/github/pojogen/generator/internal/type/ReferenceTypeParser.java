@@ -48,21 +48,13 @@ public final class ReferenceTypeParser {
     if (matcher.groupCount() != 4) {
       throw new IllegalArgumentException("Invalid Input");
     }
-    try {
-      if (matcher.group(1) != null && matcher.group(2) != null) {
-        return Optional.of(this.parseGenericCollectionType(matcher));
-      }
-    } catch (final RuntimeException failure) {
-      // Just continue... The exception does not need any handling
-      // since it's just an indicator that the groups are not available.
+
+    if (ReferenceTypeParser.hasGroups(matcher, 1, 2)) {
+      return Optional.of(this.parseGenericCollectionType(matcher));
     }
 
-    try {
-      if (matcher.group(3) != null && matcher.group(4) != null) {
-        return Optional.of(this.parseArrayType(matcher));
-      }
-    } catch (final RuntimeException failure) {
-      // This does not need handling neither.
+    if (ReferenceTypeParser.hasGroups(matcher, 3, 4)) {
+      return Optional.of(this.parseArrayType(matcher));
     }
     return Optional.empty();
   }
@@ -73,6 +65,21 @@ public final class ReferenceTypeParser {
 
   private ReferenceType parseGenericCollectionType(final Matcher matcher) {
     return null;
+  }
+
+  private static boolean hasGroups(final Matcher matcher, final int... groups) {
+    try {
+      for (final int group : groups) {
+        if (matcher.group(group) == null) {
+          return false;
+        }
+      }
+    } catch (final RuntimeException failure) {
+      // Exception can be ignored since it is just an indicator for the
+      // group being out of bounds ir illegal.
+    }
+
+    return true;
   }
 
   public static ReferenceTypeParser create() {
