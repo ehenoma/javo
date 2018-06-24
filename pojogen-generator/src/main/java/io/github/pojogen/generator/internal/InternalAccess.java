@@ -29,7 +29,7 @@ public final class InternalAccess {
     return Suppliers.memoize(InternalPojoGeneratorFactory::new);
   }
 
-  static final class InternalPojoGeneratorFactory extends PojoGeneratorFactory {
+  static final class InternalPojoGeneratorFactory implements PojoGeneratorFactory {
 
     @Override
     public PojoGenerator getInstance() {
