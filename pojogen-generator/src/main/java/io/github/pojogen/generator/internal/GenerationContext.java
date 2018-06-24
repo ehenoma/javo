@@ -108,8 +108,6 @@ public final class GenerationContext {
 
   public static GenerationContext create(final GenerationProfile profile) {
     Preconditions.checkNotNull(profile);
-
-    // TODO: Get the prefix from the profile.
     final GenerationContext context = new GenerationContext(profile);
     context.deployObserver(); // This escape is prevented.
 
