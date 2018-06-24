@@ -18,13 +18,9 @@ package io.github.pojogen.generator.internal.model;
 
 import static java.text.MessageFormat.format;
 
-import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-
 import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.GenerationStep;
-
 import io.github.pojogen.generator.internal.method.MethodGenerator;
 import io.github.pojogen.generator.internal.method.ToStringGenerator;
 import java.util.ArrayList;
