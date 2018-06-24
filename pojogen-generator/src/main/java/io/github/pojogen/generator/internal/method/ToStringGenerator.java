@@ -16,12 +16,16 @@
 
 package io.github.pojogen.generator.internal.method;
 
+import static java.text.MessageFormat.format;
+
+import com.google.common.base.Preconditions;
 import io.github.pojogen.generator.GenerationFlag;
 import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.model.AccessModifier;
 import io.github.pojogen.generator.internal.model.MethodModel;
 import io.github.pojogen.generator.internal.model.VariableModel;
 
+import io.github.pojogen.generator.internal.type.PlainReferenceType;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -30,7 +34,7 @@ public final class ToStringGenerator implements MethodGenerator {
   private static final MethodModel.Builder METHOD_TEMPLATE =
       MethodModel.newBuilder()
           .withMethodName("toString")
-          .withReturnType("String")
+          .withReturnType(PlainReferenceType.createConcrete("String"))
           .addAnnotation("@Override")
           .withAccessModifier(AccessModifier.PUBLIC);
 
@@ -55,14 +59,28 @@ public final class ToStringGenerator implements MethodGenerator {
   }
 
   private void writeToContextInPlainJava(final GenerationContext context) {
-    context.getBuffer().writeLine("return \"\";");
+    context.getBuffer().write("return \"\";");
   }
 
   private void writeToContextInGuava(final GenerationContext context) {
-    context.getBuffer().writeLine("return \"\";");
+    context.getBuffer().writeLine("return MoreObjects.toStringHelper(this)");
+    for (final VariableModel variable : this.variableModels) {
+      final String toStringStatement =
+          variable.getType().toStringStatement("this." + variable.getName());
+
+      final String line = format("\t.add(\"{0}\", {1})", variable.getName(), toStringStatement);
+      context.getBuffer().writeLine(line);
+    }
+    context.getBuffer().write("\t.toString()");
   }
 
   public Collection<VariableModel> getVariableModels() {
     return new ArrayList<>(this.variableModels);
+  }
+
+  public static ToStringGenerator create(final Collection<? extends VariableModel> variableModels) {
+    Preconditions.checkNotNull(variableModels);
+
+    return new ToStringGenerator(variableModels);
   }
 }
