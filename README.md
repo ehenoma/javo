@@ -52,9 +52,21 @@ compile group: 'io.github.pojogen', name: 'pojogen-generator', version: '1.0'
 <dependency org="io.github.pojogen" name="pojogen-generator" rev="1.0"/>
 ```
 
+The following example illustrates how the generator can be used to convert an already 
+parsed blueprint into a Java class.
+
+```java
+final Logger logger = Logger.getLogger("Pojo Example");
+logger.setLevel(Level.ALL);
+
+final PojoGenerator generator = PojoGeneratorFactory.create().getInstance();
+final Struct parsedBlueprint = ...
+
+final String generatedClass = generator.generate(parsedBlueprint);
+logger.fine(generatedClass);
+```
 
 ---
-
 
  ## ![Quality](resources/icon_quality.png) Code Quality
 
