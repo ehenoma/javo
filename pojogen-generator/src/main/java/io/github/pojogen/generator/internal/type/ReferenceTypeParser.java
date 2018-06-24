@@ -54,7 +54,6 @@ public final class ReferenceTypeParser {
 
     final Matcher parsed = ReferenceTypeParser.COLLECTION_PARSE_EXPRESSION.matcher(entry);
     if (!parsed.matches()) {
-      // TODO: Implement abstract/concrete checks.
       return PlainReferenceType.create(entry, false);
     }
 
@@ -82,7 +81,6 @@ public final class ReferenceTypeParser {
   }
 
   private ReferenceType parseGenericCollectionType(final Matcher matcher) {
-    // TODO: Add concretion detection.
     return CollectionReferenceType.create(matcher.group(1) + "<" + matcher.group(2) + ">", false);
   }
 }
