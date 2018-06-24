@@ -107,6 +107,10 @@ public class PlainReferenceType extends ReferenceType {
     return variableName;
   }
 
+  public static PlainReferenceType createConcrete(final String typeName) {
+    return PlainReferenceType.create(typeName, true);
+  }
+
   public static PlainReferenceType create(final String typeName, final boolean concrete) {
     Preconditions.checkNotNull(typeName);
 
