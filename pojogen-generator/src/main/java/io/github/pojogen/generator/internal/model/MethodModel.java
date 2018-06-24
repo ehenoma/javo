@@ -103,7 +103,7 @@ public final class MethodModel implements GenerationStep {
 
   private void writeParametersToContext(final GenerationContext context) {
     final Function<VariableModel, String> parameterToStringMapper =
-        parameter -> format("{0} {1}", parameter.getType(), parameter.getName());
+        parameter -> format("{0} {1}", parameter.getType().getTypeName(), parameter.getName());
 
     // TODO: Add line breaks when having a lot of parameters.
     final Collection<String> mappedParameters =
