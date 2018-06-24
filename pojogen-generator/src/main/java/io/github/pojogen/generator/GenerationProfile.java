@@ -103,9 +103,6 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
    * @return Iterable of all flags configured in the profile.
    */
   public Iterable<GenerationFlag> getFlags() {
-    // Adding additional immutability ensurance.
-    // The returned iterable cant be modified with the type {Iterable}
-    // but they might be casted to a normal collection and modified
     return ImmutableSet.copyOf(this.flags);
   }
 
