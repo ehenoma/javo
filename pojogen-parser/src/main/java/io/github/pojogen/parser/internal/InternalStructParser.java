@@ -238,7 +238,6 @@ final class InternalStructParser implements StructParser {
   private StructAttribute parseAttributeWithModifierFromMatcher(final Matcher parsedAttribute) {
     final String modifier = parsedAttribute.group(1);
     // Currently using additional modification of the parsed group because the expression.
-    // TODO: Fix the expression to make the code more scalable and configurable.
     final boolean constant =
         (modifier != null)
             && (STRUCT_MODIFIER_CONST.equalsIgnoreCase(modifier.replace("[ \t]", "")));
