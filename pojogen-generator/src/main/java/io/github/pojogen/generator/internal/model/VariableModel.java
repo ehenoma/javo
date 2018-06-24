@@ -22,6 +22,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.GenerationStep;
+import io.github.pojogen.generator.internal.type.ReferenceType;
 import io.github.pojogen.struct.util.ObjectChecks;
 import java.util.Objects;
 
@@ -41,8 +42,8 @@ import java.util.Objects;
  */
 public class VariableModel implements GenerationStep {
 
-  /** The default {typename} that is used as a {fallback value}. */
-  protected static final String DEFAULT_TYPENAME = Object.class.getSimpleName();
+  /** The default {type} that is used as a {fallback value}. */
+  protected static final ReferenceType DEFAULT_TYPE = null;
 
   /** The default {modifiable} flag that is used as a {fallback value}. */
   protected static final boolean DEFAULT_MODIFIABLE = true;
@@ -51,7 +52,7 @@ public class VariableModel implements GenerationStep {
   protected final String name;
 
   /** Name of the variables type. */
-  protected final String typeName;
+  protected final ReferenceType type;
 
   /** Flag that indicates whether the variable is not {@code final}. */
   protected final boolean modifiable;
@@ -62,7 +63,7 @@ public class VariableModel implements GenerationStep {
    * @param name Name of the variable.
    */
   protected VariableModel(final String name) {
-    this(name, VariableModel.DEFAULT_TYPENAME);
+    this(name, VariableModel.DEFAULT_TYPE);
   }
 
   /**
@@ -70,22 +71,22 @@ public class VariableModel implements GenerationStep {
    * typeName}.
    *
    * @param name Name of the variable.
-   * @param typeName Name of the variables type.
+   * @param type Type of the reference.
    */
-  protected VariableModel(final String name, final String typeName) {
-    this(name, typeName, VariableModel.DEFAULT_MODIFIABLE);
+  protected VariableModel(final String name, final ReferenceType type) {
+    this(name, type, VariableModel.DEFAULT_MODIFIABLE);
   }
 
   /**
    * Parameterized constructor that initializes the instance with all {@code field-members} given.
    *
    * @param name Name of the variable.
-   * @param typeName Name of the variables type.
+   * @param type Type of the variable.
    * @param modifiable Flag that indicates whether the variable is not {@code final}.
    */
-  protected VariableModel(final String name, final String typeName, final boolean modifiable) {
+  protected VariableModel(final String name, final ReferenceType type, final boolean modifiable) {
     this.name = name;
-    this.typeName = typeName;
+    this.type = type;
     this.modifiable = modifiable;
   }
 
@@ -103,8 +104,8 @@ public class VariableModel implements GenerationStep {
    *
    * @return The variables type.
    */
-  public final String getTypeName() {
-    return this.typeName;
+  public final ReferenceType getTypeName() {
+    return this.type;
   }
 
   /**
@@ -122,21 +123,21 @@ public class VariableModel implements GenerationStep {
       context.getBuffer().write("final ");
     }
 
-    context.getBuffer().write(format("{0} {1}", this.typeName, this.name));
+    context.getBuffer().write(format("{0} {1}", this.type.getTypeName(), this.name));
   }
 
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
         .add("name", this.name)
-        .add("typeName", this.typeName)
+        .add("typeName", this.type)
         .add("modifiable", this.modifiable)
         .toString();
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.name, this.typeName, this.modifiable);
+    return Objects.hash(this.name, this.type, this.modifiable);
   }
 
   @Override
@@ -157,7 +158,7 @@ public class VariableModel implements GenerationStep {
 
     final VariableModel otherVariable = (VariableModel) other;
     return (this.name.equals(otherVariable.name))
-        && (this.typeName.equals(otherVariable.typeName))
+        && (this.type.equals(otherVariable.type))
         && (this.modifiable == otherVariable.modifiable);
   }
 
@@ -178,29 +179,29 @@ public class VariableModel implements GenerationStep {
    * typeName}.
    *
    * @param name Name of the variable.
-   * @param typeName Name of the variables type.
+   * @param type Type of the variables.
    * @return New instance of an {@code {@link VariableModel }}.
    */
-  public static VariableModel create(final String name, final String typeName) {
+  public static VariableModel create(final String name, final ReferenceType type) {
     Preconditions.checkNotNull(name);
-    Preconditions.checkNotNull(typeName);
+    Preconditions.checkNotNull(type);
 
-    return new VariableModel(name, typeName);
+    return new VariableModel(name, type);
   }
 
   /**
    * Factory method that creates an {@code {@link VariableModel }} with all arguments.
    *
    * @param name Name of the variable.
-   * @param typeName Name of the variables type.
+   * @param type Type of the variable.
    * @param modifiable Indicates whether the variable is not final.
    * @return New instance of an {@code {@link VariableModel }}.
    */
   public static VariableModel create(
-      final String name, final String typeName, final boolean modifiable) {
+      final String name, final ReferenceType type, final boolean modifiable) {
     Preconditions.checkNotNull(name);
-    Preconditions.checkNotNull(typeName);
+    Preconditions.checkNotNull(type);
 
-    return new VariableModel(name, typeName, modifiable);
+    return new VariableModel(name, type, modifiable);
   }
 }

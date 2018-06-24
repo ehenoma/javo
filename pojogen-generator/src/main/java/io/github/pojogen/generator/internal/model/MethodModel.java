@@ -25,6 +25,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.GenerationStep;
+import io.github.pojogen.generator.internal.type.ReferenceType;
 import io.github.pojogen.struct.util.ObjectChecks;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +41,7 @@ public final class MethodModel implements GenerationStep {
   private static final AccessModifier FALLBACK_ACCESS_MODIFIER = AccessModifier.PACKAGE_PRIVATE;
 
   private final AccessModifier accessModifier;
-  private final String returnType;
+  private final ReferenceType returnType;
   private final String methodName;
   private final Collection<String> annotations;
   private final Collection<VariableModel> parameters;
@@ -48,7 +49,7 @@ public final class MethodModel implements GenerationStep {
 
   private MethodModel(
       final String methodName,
-      final String returnType,
+      final ReferenceType returnType,
       final Collection<String> annotations,
       final Collection<? extends VariableModel> parameters,
       final Consumer<GenerationContext> contextWriterAction,
@@ -86,8 +87,8 @@ public final class MethodModel implements GenerationStep {
     final String methodDeclarationBeginning =
         this.accessModifier
             .getKeyword()
-            .map(keyword -> keyword + ' ' + Strings.nullToEmpty(this.returnType))
-            .orElse(Strings.nullToEmpty(this.returnType));
+            .map(keyword -> keyword + ' ' + Strings.nullToEmpty(this.returnType.getTypeName()))
+            .orElse(Strings.nullToEmpty(this.returnType.getTypeName()));
 
     context.getBuffer().write(methodDeclarationBeginning);
 
@@ -125,7 +126,7 @@ public final class MethodModel implements GenerationStep {
     return this.methodName;
   }
 
-  public String getReturnType() {
+  public ReferenceType getReturnType() {
     return this.returnType;
   }
 
@@ -172,7 +173,7 @@ public final class MethodModel implements GenerationStep {
   public static final class Builder {
 
     private AccessModifier accessModifier;
-    private String returnType;
+    private ReferenceType returnType;
     private String methodName;
     private Collection<String> annotations;
     private Collection<VariableModel> parameters;
@@ -184,7 +185,7 @@ public final class MethodModel implements GenerationStep {
       this.annotations = new ArrayList<>();
     }
 
-    public Builder withReturnType(final String returnType) {
+    public Builder withReturnType(final ReferenceType returnType) {
       this.returnType = returnType;
       return this;
     }
@@ -236,13 +237,14 @@ public final class MethodModel implements GenerationStep {
     }
 
     public MethodModel create() {
+      Preconditions.checkNotNull(this.returnType);
       Preconditions.checkNotNull(this.contextWriterAction);
       Preconditions.checkNotNull(this.accessModifier);
 
       this.ensureCollectionsPresent();
       return new MethodModel(
           Strings.nullToEmpty(this.methodName),
-          Strings.nullToEmpty(this.returnType),
+          this.returnType,
           this.annotations,
           this.parameters,
           this.contextWriterAction,
