@@ -91,49 +91,6 @@ public class VariableModel implements GenerationStep {
   }
 
   /**
-   * Factory method that creates an {@code {@link VariableModel }} from a {@code name}.
-   *
-   * @param name Name of the variable.
-   * @return New instance of an {@code {@link VariableModel }}.
-   */
-  public static VariableModel create(final String name) {
-    Preconditions.checkNotNull(name);
-
-    return new VariableModel(name);
-  }
-
-  /**
-   * Factory method that creates an {@code {@link VariableModel }} from a {@code name} and {@code
-   * typeName}.
-   *
-   * @param name Name of the variable.
-   * @param type Type of the variables.
-   * @return New instance of an {@code {@link VariableModel }}.
-   */
-  public static VariableModel create(final String name, final ReferenceType type) {
-    Preconditions.checkNotNull(name);
-    Preconditions.checkNotNull(type);
-
-    return new VariableModel(name, type);
-  }
-
-  /**
-   * Factory method that creates an {@code {@link VariableModel }} with all arguments.
-   *
-   * @param name Name of the variable.
-   * @param type Type of the variable.
-   * @param modifiable Indicates whether the variable is not final.
-   * @return New instance of an {@code {@link VariableModel }}.
-   */
-  public static VariableModel create(
-      final String name, final ReferenceType type, final boolean modifiable) {
-    Preconditions.checkNotNull(name);
-    Preconditions.checkNotNull(type);
-
-    return new VariableModel(name, type, modifiable);
-  }
-
-  /**
    * Returns the name of the variable.
    *
    * @return The variables name.
@@ -203,5 +160,47 @@ public class VariableModel implements GenerationStep {
     return (this.name.equals(otherVariable.name))
         && (this.type.equals(otherVariable.type))
         && (this.modifiable == otherVariable.modifiable);
+  }
+  /**
+   * Factory method that creates an {@code {@link VariableModel }} from a {@code name}.
+   *
+   * @param name Name of the variable.
+   * @return New instance of an {@code {@link VariableModel }}.
+   */
+  public static VariableModel create(final String name) {
+    Preconditions.checkNotNull(name);
+
+    return new VariableModel(name);
+  }
+
+  /**
+   * Factory method that creates an {@code {@link VariableModel }} from a {@code name} and {@code
+   * typeName}.
+   *
+   * @param name Name of the variable.
+   * @param type Type of the variables.
+   * @return New instance of an {@code {@link VariableModel }}.
+   */
+  public static VariableModel create(final String name, final ReferenceType type) {
+    Preconditions.checkNotNull(name);
+    Preconditions.checkNotNull(type);
+
+    return new VariableModel(name, type);
+  }
+
+  /**
+   * Factory method that creates an {@code {@link VariableModel }} with all arguments.
+   *
+   * @param name Name of the variable.
+   * @param type Type of the variable.
+   * @param modifiable Indicates whether the variable is not final.
+   * @return New instance of an {@code {@link VariableModel }}.
+   */
+  public static VariableModel create(
+      final String name, final ReferenceType type, final boolean modifiable) {
+    Preconditions.checkNotNull(name);
+    Preconditions.checkNotNull(type);
+
+    return new VariableModel(name, type, modifiable);
   }
 }

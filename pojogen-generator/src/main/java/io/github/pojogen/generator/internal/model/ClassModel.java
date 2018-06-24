@@ -40,17 +40,6 @@ public final class ClassModel implements GenerationStep {
     this.members = new ArrayList<>(members);
   }
 
-  public static ClassModel create(
-      final String className, final Collection<? extends GenerationStep> members) {
-    Preconditions.checkNotNull(className);
-    Preconditions.checkNotNull(members);
-
-    final ClassModel model = new ClassModel(className, members);
-    model.generateCommonMethods();
-
-    return model;
-  }
-
   @Override
   public void writeToContext(final GenerationContext context) {
     final Consumer<GenerationStep> writeStepToContextFunction =
@@ -90,5 +79,16 @@ public final class ClassModel implements GenerationStep {
 
   public Stream<GenerationStep> getMembers() {
     return this.members.stream();
+  }
+
+  public static ClassModel create(
+      final String className, final Collection<? extends GenerationStep> members) {
+    Preconditions.checkNotNull(className);
+    Preconditions.checkNotNull(members);
+
+    final ClassModel model = new ClassModel(className, members);
+    model.generateCommonMethods();
+
+    return model;
   }
 }
