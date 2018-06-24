@@ -10,7 +10,7 @@ An important goal is to keep the quality and safety of the created classes high.
 For example, for objects that should be immutable, defensive copies are used in the mutator and 
 accessors as needed to ensure this immutability. 
 
-###Struct Blueprints
+### Struct Blueprints
 
 The framework has its own language to create so-called struct blueprints. This is case-sensitive,
 includes generic wildcards and allows attributes to be written as in UML.
@@ -26,10 +26,10 @@ struct Foo {
 ```
 For a detailed introduction, there is a [page]() in the wiki.
 
-###The Generator 
+### The Generator 
 
 
- ###Code Quality
+ ### Code Quality
 
 
 [![Code Style](https://img.shields.io/badge/codestyle-google-blue.svg)](https://google.github.io/styleguide/javaguide.html)
