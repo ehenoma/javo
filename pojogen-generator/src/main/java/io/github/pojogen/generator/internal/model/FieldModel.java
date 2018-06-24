@@ -16,6 +16,7 @@
 
 package io.github.pojogen.generator.internal.model;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.GenerationStep;
@@ -48,6 +49,34 @@ public final class FieldModel extends VariableModel implements GenerationStep {
 
   public AccessModifier getAccessModifier() {
     return this.accessModifier;
+  }
+
+  @Override
+  public boolean equals(final Object checkTarget) {
+    if (!super.equals(checkTarget)) {
+      return false;
+    }
+
+    if (!(checkTarget instanceof FieldModel)) {
+      return false;
+    }
+
+    return this.accessModifier.equals(((FieldModel) checkTarget).accessModifier);
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode() + this.accessModifier.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("name", this.name)
+        .add("typeName", this.type)
+        .add("modifiable", this.modifiable)
+        .add("access-modifier", this.accessModifier)
+        .toString();
   }
 
   public static FieldModel fromVariable(
