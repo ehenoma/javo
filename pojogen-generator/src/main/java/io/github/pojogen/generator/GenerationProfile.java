@@ -183,7 +183,7 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
   protected String generateStringRepresentationOnce() {
     final String flagsRepresentation = Joiner.on(',').join(this.flags);
     final String propertiesRepresentation =
-        Joiner.on(",").withKeyValueSeparator(":").join(this.properties).toString();
+        Joiner.on(",").withKeyValueSeparator(":").join(this.properties);
 
     return MoreObjects.toStringHelper(this)
         .add("flags", "{" + flagsRepresentation + "}")
