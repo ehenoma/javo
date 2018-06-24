@@ -1,16 +1,16 @@
 # PojoGen 
-![LOC](https://sonarcloud.io/api/project_badges/measure?project=io.github.pojogen%3Apojogen-parent&metric=ncloc)
 [![JDK](https://img.shields.io/badge/java-SE8-blue.svg)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 [![Latest](https://img.shields.io/badge/latest-v1.0-blue.svg)](https://github.com/merlinosayimwen/pojogen)
-
-[![Blueprint](resources/icon_blueprint.png)](#struct-blueprints) [![Generator](resources/icon_generator.png)](#the-generator) [![Quality](resources/icon_quality.png)](#code-quality) 
+![LOC](https://sonarcloud.io/api/project_badges/measure?project=io.github.pojogen%3Apojogen-parent&metric=ncloc)
 
 The PojoGen software provides a tool for quick and easy snooping of value objects and beans in Java.
 An important goal is to keep the quality and safety of the created classes high. 
 For example, for objects that should be immutable, defensive copies are used in the mutator and 
 accessors as needed to ensure this immutability. 
 
-### Struct Blueprints
+***
+
+### ![Blueprint](resources/icon_blueprint.png) Struct Blueprints
 
 The framework has its own language to create so-called struct blueprints. This is case-sensitive,
 includes generic wildcards and allows attributes to be written as in UML.
@@ -26,10 +26,13 @@ struct Foo {
 ```
 For a detailed introduction, there is a [page]() in the wiki.
 
-### The Generator 
+---
 
+### ![Generator](resources/icon_generator.png) The Generator 
 
- ### Code Quality
+---
+
+ ### ![Quality](resources/icon_quality.png) Code Quality
 
 
 [![Code Style](https://img.shields.io/badge/codestyle-google-blue.svg)](https://google.github.io/styleguide/javaguide.html)
