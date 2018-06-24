@@ -24,8 +24,12 @@ import io.github.pojogen.parser.StructParserFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileExample {
+
+  private static final Logger LOGGER = Logger.getLogger(FileExample.class.getSimpleName());
 
   public static void main(final String... ignoredArguments) throws StructParserException {
     try (final Scanner scanner = new Scanner(System.in)) {
@@ -56,7 +60,9 @@ public class FileExample {
 
       return bodyBuilder.toString();
     } catch (final IOException ioFailure) {
-      ioFailure.printStackTrace();
+      if (FileExample.LOGGER.isLoggable(Level.SEVERE)) {
+        FileExample.LOGGER.log(Level.SEVERE, "Exception while reading the files body.", ioFailure);
+      }
     }
 
     return "ERROR(NO_BODY)";
