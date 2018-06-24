@@ -77,7 +77,7 @@ final class ConsoleExample {
     final String generatedJavaClass = generator.generate(parsedStruct);
 
     logInfo("Finished generating a Pojo successfully");
-    System.out.printf("\nGenerated Pojo:\n%s\n", generatedJavaClass);
+    logInfo("\nGenerated Pojo:%n%s%n", generatedJavaClass);
   }
 
   private static void logInfo(final String message, final Object... formattingArguments) {
