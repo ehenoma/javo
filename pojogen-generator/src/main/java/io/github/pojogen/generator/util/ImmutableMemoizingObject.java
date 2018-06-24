@@ -16,6 +16,7 @@
 
 package io.github.pojogen.generator.util;
 
+import io.github.pojogen.struct.util.ObjectChecks;
 import java.util.function.Supplier;
 
 public abstract class ImmutableMemoizingObject {
@@ -40,5 +41,11 @@ public abstract class ImmutableMemoizingObject {
   @Override
   public final String toString() {
     return this.stringRepresentationFunction.get();
+  }
+
+  @Override
+  public boolean equals(final Object checkTarget) {
+    return ObjectChecks.equalsDefinitely(this, checkTarget)
+        .orElseGet(() -> checkTarget.hashCode() == this.hashCode());
   }
 }
