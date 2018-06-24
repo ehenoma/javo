@@ -159,7 +159,6 @@ final class InternalStructParser implements StructParser {
       throws StructParserException {
 
     final String structModifier = source.group(1);
-    final String structType = source.group(2);
     final String structName = source.group(3);
     final String structBody = source.group(4);
 
@@ -181,7 +180,6 @@ final class InternalStructParser implements StructParser {
    *     from the {@code source}.
    */
   private Struct parseStructFromMatcher(final Matcher source) throws StructParserException {
-    final String structType = source.group(1);
     final String structName = source.group(2);
     final String structBody = source.group(3);
 
