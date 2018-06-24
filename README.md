@@ -10,7 +10,7 @@ accessors as needed to ensure this immutability.
 
 ***
 
-### [![Blueprint](resources/icon_blueprint.png)]() Struct Blueprints
+## [![Blueprint](resources/icon_blueprint.png)]() Struct Blueprints
 
 The framework has its own language to create so-called struct blueprints. This is case-sensitive,
 includes generic wildcards and allows attributes to be written as in UML.
@@ -28,11 +28,11 @@ For a detailed introduction, there is a [page]() in the wiki.
 
 ---
 
-### [![Generator](resources/icon_generator.png)]() The Generator 
+## [![Generator](resources/icon_generator.png)]() The Generator 
 
 ---
 
- ### [![Quality](resources/icon_quality.png)]() Code Quality
+ ## [![Quality](resources/icon_quality.png)]() Code Quality
 
 
 [![Code Style](https://img.shields.io/badge/codestyle-google-blue.svg)](https://google.github.io/styleguide/javaguide.html)
