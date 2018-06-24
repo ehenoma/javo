@@ -24,6 +24,7 @@ import io.github.pojogen.generator.util.naming.NamingConvention;
 import io.github.pojogen.generator.util.naming.UpperCamelCaseNamingConvention;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 public class PlainReferenceType extends ReferenceType {
@@ -38,7 +39,7 @@ public class PlainReferenceType extends ReferenceType {
   static {
     final NamingConvention convention = new UpperCamelCaseNamingConvention();
 
-    WRAPPER_CLASSES = Maps.toMap(PRIMITIVE_TYPES, convention::apply);
+    WRAPPER_CLASSES = new HashMap<>(Maps.toMap(PRIMITIVE_TYPES, convention::apply));
     WRAPPER_CLASSES.put("char", "Character");
   }
 
