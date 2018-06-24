@@ -59,7 +59,7 @@ final class InternalStructParser implements StructParser {
 
   /** Expression that parses attributes in the body of a struct definition. */
   private static final Pattern STRUCT_ATTRIBUTE_REGEX =
-      Pattern.compile("[ \\t]*(\\w+[ \\t]+)?(\\w+)[ \\t]*:[ \\t]*(\\w+).*");
+      Pattern.compile("[ \\t]*(\\w+[ \\t]+)?(\\w+)[ \\t]*:[ \\t]*([\\w\\[\\]<>]+).*");
 
   /** Package private constructor of the {@code InternalStructParser}. */
   InternalStructParser() {}
