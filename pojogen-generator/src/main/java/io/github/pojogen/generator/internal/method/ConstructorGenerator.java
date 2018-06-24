@@ -53,10 +53,12 @@ public final class ConstructorGenerator implements MethodGenerator {
   }
 
   private void writeToContext(final GenerationContext context) {
-    this.attributes
-        .stream()
-        .map(attribute -> format("this.{0} = {0};", attribute.getName()))
-        .forEach(context.getBuffer()::writeLine);
+    this.attributes.stream().map(this::formatterFunction).forEach(context.getBuffer()::writeLine);
+  }
+
+  private String formatterFunction(final VariableModel attribute) {
+    final String copyStatement = attribute.getType().copyStatement(attribute.getName());
+    return format("this.{0} = {1};", attribute.getName(), copyStatement);
   }
 
   public static ConstructorGenerator create(
