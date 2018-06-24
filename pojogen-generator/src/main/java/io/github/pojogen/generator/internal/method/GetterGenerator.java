@@ -51,7 +51,6 @@ public class GetterGenerator implements MethodGenerator {
         .create();
   }
 
-  // TODO: Shallow copy for mutable classes.
   private void writeToContext(final GenerationContext context) {
     final String copyStatement = this.attribute.getType().copyStatement(this.attribute.getName());
 
