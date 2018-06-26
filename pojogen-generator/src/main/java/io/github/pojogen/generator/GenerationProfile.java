@@ -75,35 +75,6 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
   }
 
   /**
-   * Creates a GenerationProfile without any flags given.
-   *
-   * @return Newly created plain GenerationProfile.
-   */
-  public static GenerationProfile create() {
-    return new GenerationProfile();
-  }
-
-  /**
-   * Creates a GenerationProfile from the given {@code flags}.
-   *
-   * @param flags Flags chosen for the generation.
-   * @return Newly created profile with the given flags.
-   */
-  public static GenerationProfile create(final Iterable<GenerationFlag> flags) {
-    Preconditions.checkNotNull(flags);
-
-    return new GenerationProfile(flags);
-  }
-
-  public static GenerationProfile create(
-      final Iterable<GenerationFlag> flags, final Map<String, String> properties) {
-    Preconditions.checkNotNull(flags);
-    Preconditions.checkNotNull(properties);
-
-    return new GenerationProfile(flags, properties);
-  }
-
-  /**
    * Gets whether the given {@code flag} is contained in the profiles flags.
    *
    * @param flag Flag who's presence in the profiles flags is to be tested.
@@ -215,5 +186,34 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
     public GenerationProfile create() {
       return GenerationProfile.create(this.flags);
     }
+  }
+
+  /**
+   * Creates a GenerationProfile without any flags given.
+   *
+   * @return Newly created plain GenerationProfile.
+   */
+  public static GenerationProfile create() {
+    return new GenerationProfile();
+  }
+
+  /**
+   * Creates a GenerationProfile from the given {@code flags}.
+   *
+   * @param flags Flags chosen for the generation.
+   * @return Newly created profile with the given flags.
+   */
+  public static GenerationProfile create(final Iterable<GenerationFlag> flags) {
+    Preconditions.checkNotNull(flags);
+
+    return new GenerationProfile(flags);
+  }
+
+  public static GenerationProfile create(
+      final Iterable<GenerationFlag> flags, final Map<String, String> properties) {
+    Preconditions.checkNotNull(flags);
+    Preconditions.checkNotNull(properties);
+
+    return new GenerationProfile(flags, properties);
   }
 }
