@@ -16,27 +16,46 @@
 
 package io.github.pojogen.generator;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsNull.notNullValue;
+
 import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.struct.Struct;
 import io.github.pojogen.struct.StructAttribute;
 import java.util.Collections;
+import org.junit.Before;
+import org.junit.Test;
 
 public final class GeneratorTests {
 
-  public static void main(final String... ignoredArguments) {
-    final PojoGenerator generator = PojoGeneratorFactory.create().getInstance();
-    final GenerationProfile profile =
+  private PojoGenerator generator;
+  private GenerationProfile profile;
+
+  @Before
+  public void initialize() {
+    this.generator = PojoGeneratorFactory.create().getInstance();
+    this.profile =
         GenerationProfile.create(
             Collections.singleton(GenerationFlag.DEPENDENCY_GUAVA),
-            Collections.singletonMap(GenerationContext.PROPERTY_NEW_LINE_PREFIX, "  "));
+            Collections.singletonMap(GenerationContext.PROPERTY_NEW_LINE_PREFIX, " "));
+  }
+
+  @Test
+  public void testGeneration() {
+    assertThat(generator, notNullValue());
+    assertThat(profile, notNullValue());
 
     final Struct model =
         Struct.newBuilder()
             .withName("Person")
             .addAttribute(StructAttribute.create("id", "long", true))
-            .addAttribute(StructAttribute.create("names", "[String]", false))
+            .addAttribute(StructAttribute.create("names", "<String>", false))
             .create();
 
-    System.out.println(generator.generate(model, profile));
+    final String pojo = generator.generate(model);
+
+    assertThat(pojo, notNullValue());
+    assertThat(pojo, is(""));
   }
 }
