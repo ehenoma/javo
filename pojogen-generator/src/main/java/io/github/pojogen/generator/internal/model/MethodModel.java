@@ -25,7 +25,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.GenerationStep;
-import io.github.pojogen.generator.internal.type.PlainReferenceType;
+import io.github.pojogen.generator.internal.type.ObjectReferenceType;
 import io.github.pojogen.generator.internal.type.ReferenceType;
 import io.github.pojogen.struct.util.ObjectChecks;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ import java.util.stream.Stream;
 
 public final class MethodModel implements GenerationStep {
 
-  public static final ReferenceType VOID_RETURN_TYPE = PlainReferenceType.createConcrete("void");
+  public static final ReferenceType VOID_RETURN_TYPE = ObjectReferenceType.createConcrete("void");
 
   private static final AccessModifier FALLBACK_ACCESS_MODIFIER = AccessModifier.PACKAGE_PRIVATE;
 

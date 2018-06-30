@@ -22,6 +22,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.GenerationStep;
+import io.github.pojogen.generator.internal.type.ObjectReferenceType;
 import io.github.pojogen.generator.internal.type.ReferenceType;
 import io.github.pojogen.struct.util.ObjectChecks;
 import java.util.Objects;
@@ -43,7 +44,7 @@ import java.util.Objects;
 public class VariableModel implements GenerationStep {
 
   /** The default {type} that is used as a {fallback value}. */
-  protected static final ReferenceType DEFAULT_TYPE = null;
+  protected static final ReferenceType DEFAULT_TYPE = ObjectReferenceType.createConcrete("Object");
 
   /** The default {modifiable} flag that is used as a {fallback value}. */
   protected static final boolean DEFAULT_MODIFIABLE = true;
