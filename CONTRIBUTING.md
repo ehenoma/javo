@@ -12,4 +12,9 @@ email (merlinosayimwen@gmail.com), or any other method with the owners of this r
    Pull Request would represent. We are using the [semantic](http://semver.org/) versioning system.
 4. After being accepted by the repositories owner, the pull-request will be merged.
 
+
+
+
+
+
 ![High Five](https://media.giphy.com/media/5wWf7GW1AzV6pF3MaVW/giphy.gif)
