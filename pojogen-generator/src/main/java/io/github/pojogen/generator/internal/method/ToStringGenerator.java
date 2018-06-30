@@ -24,7 +24,7 @@ import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.model.AccessModifier;
 import io.github.pojogen.generator.internal.model.MethodModel;
 import io.github.pojogen.generator.internal.model.VariableModel;
-import io.github.pojogen.generator.internal.type.PlainReferenceType;
+import io.github.pojogen.generator.internal.type.ObjectReferenceType;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -33,7 +33,7 @@ public final class ToStringGenerator implements MethodGenerator {
   private static final MethodModel.Builder METHOD_TEMPLATE =
       MethodModel.newBuilder()
           .withMethodName("toString")
-          .withReturnType(PlainReferenceType.createConcrete("String"))
+          .withReturnType(ObjectReferenceType.createConcrete("String"))
           .addAnnotation("@Override")
           .withAccessModifier(AccessModifier.PUBLIC);
 
@@ -58,7 +58,10 @@ public final class ToStringGenerator implements MethodGenerator {
   }
 
   private void writeToContextInPlainJava(final GenerationContext context) {
-    context.getBuffer().write("return \"\";");
+    final String formattedStatement =
+        format("return String.format(\"%s({0})\", this.getClass().getSimpleName(), {1});");
+
+    context.getBuffer().write(formattedStatement);
   }
 
   private void writeToContextInGuava(final GenerationContext context) {

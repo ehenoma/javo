@@ -54,11 +54,11 @@ public final class ReferenceTypeParser {
 
     final Matcher parsed = ReferenceTypeParser.COLLECTION_PARSE_EXPRESSION.matcher(entry);
     if (!parsed.matches()) {
-      return PlainReferenceType.create(entry, false);
+      return ObjectReferenceType.create(entry, false);
     }
 
     return this.parseCollectionType(parsed)
-        .orElseGet(() -> PlainReferenceType.create(entry, false));
+        .orElseGet(() -> ObjectReferenceType.create(entry, false));
   }
 
   private Optional<ReferenceType> parseCollectionType(final Matcher matcher) {

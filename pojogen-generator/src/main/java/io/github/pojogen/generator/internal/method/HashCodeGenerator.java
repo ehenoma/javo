@@ -25,7 +25,7 @@ import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.model.AccessModifier;
 import io.github.pojogen.generator.internal.model.MethodModel;
 import io.github.pojogen.generator.internal.model.VariableModel;
-import io.github.pojogen.generator.internal.type.PlainReferenceType;
+import io.github.pojogen.generator.internal.type.ObjectReferenceType;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -35,7 +35,7 @@ public final class HashCodeGenerator implements MethodGenerator {
       MethodModel.newBuilder()
           .withAccessModifier(AccessModifier.PUBLIC)
           .addAnnotation("@Override")
-          .withReturnType(PlainReferenceType.createConcrete("int"))
+          .withReturnType(ObjectReferenceType.createConcrete("int"))
           .withMethodName("hashCode");
 
   private final Collection<VariableModel> attributes;

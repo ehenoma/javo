@@ -16,12 +16,51 @@
 
 package io.github.pojogen.generator.internal.method;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import io.github.pojogen.generator.internal.GenerationContext;
+import io.github.pojogen.generator.internal.model.AccessModifier;
 import io.github.pojogen.generator.internal.model.MethodModel;
+import io.github.pojogen.generator.internal.model.VariableModel;
+import io.github.pojogen.generator.internal.type.ObjectReferenceType;
+import java.util.Collection;
 
 public final class EqualsGenerator implements MethodGenerator {
 
+  private static final String PARAMETER_NAME = "checkTarget";
+
+  private static final MethodModel.Builder TEMPLATE_METHOD =
+      MethodModel.newBuilder()
+          .addAnnotation("@Override")
+          .addParameter(VariableModel.create(EqualsGenerator.PARAMETER_NAME))
+          .withReturnType(ObjectReferenceType.createConcrete("false"))
+          .withAccessModifier(AccessModifier.PUBLIC)
+          .withMethodName("equals");
+
+  private final String typeName;
+  private final Collection<VariableModel> attributes;
+
+  private EqualsGenerator(final String typeName, final Collection<VariableModel> attributes) {
+    this.typeName = typeName;
+    this.attributes = ImmutableList.copyOf(attributes);
+  }
+
   @Override
   public MethodModel generate() {
-    return null;
+    return EqualsGenerator.TEMPLATE_METHOD.withWriterAction(this::writeMethodToContext).create();
+  }
+
+  private void writeMethodToContext(final GenerationContext context) {
+    if(this.attributes.isEmpty()) {
+      context.getBuffer().write("return true");
+    }
+  }
+
+  public static EqualsGenerator create(
+      final String typeName, final Collection<VariableModel> attributes) {
+    Preconditions.checkNotNull(typeName);
+    Preconditions.checkNotNull(attributes);
+
+    return new EqualsGenerator(typeName, attributes);
   }
 }

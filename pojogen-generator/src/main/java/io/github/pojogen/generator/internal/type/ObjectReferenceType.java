@@ -27,7 +27,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlainReferenceType extends ReferenceType {
+public class ObjectReferenceType extends ReferenceType {
 
   private static final String GENERIC_MATCHER_EXPRESSION = "\\w+\\s*<(?:\\w+)?>";
 
@@ -43,7 +43,7 @@ public class PlainReferenceType extends ReferenceType {
     WRAPPER_CLASSES.put("char", "Character");
   }
 
-  private PlainReferenceType(
+  private ObjectReferenceType(
       final String typeName,
       final boolean generic,
       final boolean concrete,
@@ -80,7 +80,7 @@ public class PlainReferenceType extends ReferenceType {
 
   private String primitiveHashCodeStatement(final String variableName) {
     final String className =
-        PlainReferenceType.WRAPPER_CLASSES.getOrDefault(getTypeName(), "Objects");
+        ObjectReferenceType.WRAPPER_CLASSES.getOrDefault(getTypeName(), "Objects");
 
     return format("{0}.hashCode({1})", className, variableName);
   }
@@ -108,17 +108,17 @@ public class PlainReferenceType extends ReferenceType {
     return variableName;
   }
 
-  public static PlainReferenceType createConcrete(final String typeName) {
-    return PlainReferenceType.create(typeName, true);
+  public static ObjectReferenceType createConcrete(final String typeName) {
+    return ObjectReferenceType.create(typeName, true);
   }
 
-  public static PlainReferenceType create(final String typeName, final boolean concrete) {
+  public static ObjectReferenceType create(final String typeName, final boolean concrete) {
     Preconditions.checkNotNull(typeName);
 
-    final boolean primitive = PlainReferenceType.PRIMITIVE_TYPES.contains(typeName);
+    final boolean primitive = ObjectReferenceType.PRIMITIVE_TYPES.contains(typeName);
     final boolean generic =
-        !primitive && typeName.matches(PlainReferenceType.GENERIC_MATCHER_EXPRESSION);
+        !primitive && typeName.matches(ObjectReferenceType.GENERIC_MATCHER_EXPRESSION);
 
-    return new PlainReferenceType(typeName, generic, concrete, primitive);
+    return new ObjectReferenceType(typeName, generic, concrete, primitive);
   }
 }
