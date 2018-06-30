@@ -59,7 +59,7 @@ public final class ToStringGenerator implements MethodGenerator {
 
   private void writeToContextInPlainJava(final GenerationContext context) {
     final String formattedStatement =
-        format("return String.format(\"%s({0})\", this.getClass().getSimpleName(), {1});");
+        format("return String.format(\"%s({0})\", this.getClass().getSimpleName(), {1});", "", "");
 
     context.getBuffer().write(formattedStatement);
   }

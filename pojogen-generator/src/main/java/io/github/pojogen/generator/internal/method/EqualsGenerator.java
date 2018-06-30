@@ -51,9 +51,11 @@ public final class EqualsGenerator implements MethodGenerator {
   }
 
   private void writeMethodToContext(final GenerationContext context) {
-    if(this.attributes.isEmpty()) {
+    if (this.attributes.isEmpty()) {
       context.getBuffer().write("return true");
     }
+
+    context.getBuffer().write(this.typeName);
   }
 
   public static EqualsGenerator create(
