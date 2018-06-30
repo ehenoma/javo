@@ -21,6 +21,7 @@ import static java.text.MessageFormat.format;
 import com.google.common.base.Preconditions;
 import io.github.pojogen.generator.internal.GenerationContext;
 import io.github.pojogen.generator.internal.GenerationStep;
+import io.github.pojogen.generator.internal.method.EqualsGenerator;
 import io.github.pojogen.generator.internal.method.HashCodeGenerator;
 import io.github.pojogen.generator.internal.method.MethodGenerator;
 import io.github.pojogen.generator.internal.method.ToStringGenerator;
@@ -68,6 +69,8 @@ public final class ClassModel implements GenerationStep {
 
     final MethodGenerator toString = ToStringGenerator.create(attributes);
     final MethodGenerator hashCode = HashCodeGenerator.create(attributes);
+    final MethodGenerator equals = EqualsGenerator.create(this.className, attributes);
+    this.members.add(equals.generate());
     this.members.add(toString.generate());
     this.members.add(hashCode.generate());
   }
