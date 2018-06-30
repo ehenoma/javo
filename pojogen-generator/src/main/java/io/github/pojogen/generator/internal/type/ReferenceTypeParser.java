@@ -28,6 +28,8 @@ public final class ReferenceTypeParser {
   private static final Pattern COLLECTION_PARSE_EXPRESSION =
       compile("(\\w+)?(?:<(\\w+)>)|(\\[(\\w+)])");
 
+  private static final String FALLBACK_COLLECTION_TYPE_NAME = "Collection";
+
   private ReferenceTypeParser() {}
 
   private static boolean hasGroups(final Matcher matcher, final int... groups) {
@@ -66,7 +68,7 @@ public final class ReferenceTypeParser {
       throw new IllegalArgumentException("Invalid Input");
     }
 
-    if (ReferenceTypeParser.hasGroups(matcher, 1, 2)) {
+    if (ReferenceTypeParser.hasGroups(matcher, 2)) {
       return Optional.of(this.parseGenericCollectionType(matcher));
     }
 
@@ -81,6 +83,13 @@ public final class ReferenceTypeParser {
   }
 
   private ReferenceType parseGenericCollectionType(final Matcher matcher) {
-    return CollectionReferenceType.create(matcher.group(1) + "<" + matcher.group(2) + ">", false);
+    final String collectionType;
+    if (matcher.group(1) != null) {
+      collectionType = matcher.group(1);
+    } else {
+      collectionType = ReferenceTypeParser.FALLBACK_COLLECTION_TYPE_NAME;
+    }
+
+    return CollectionReferenceType.create(collectionType + "<" + matcher.group(2) + ">", false);
   }
 }

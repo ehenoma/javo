@@ -16,6 +16,8 @@
 
 package io.github.pojogen.generator.internal.type;
 
+import static java.text.MessageFormat.format;
+
 import com.google.common.base.Preconditions;
 
 public final class CollectionReferenceType extends ReferenceType {
@@ -31,17 +33,17 @@ public final class CollectionReferenceType extends ReferenceType {
 
   @Override
   public String equalsStatement(String variableName, String otherVariable) {
-    return null;
+    return format("Arrays.deepEquals({0}.toArray(),{1}.toArray())", variableName, otherVariable);
   }
 
   @Override
   public String hashCodeStatement(String variableName) {
-    return null;
+    return format("Arrays.deepHashCode({0}.toArray())", variableName);
   }
 
   @Override
   public String toStringStatement(String variableName) {
-    return null;
+    return format("Joiner.on(\", \").join({0})", variableName);
   }
 
   public static CollectionReferenceType createConcrete(final String typeName) {
