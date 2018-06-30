@@ -19,6 +19,8 @@ package io.github.pojogen.generator;
 import io.github.pojogen.struct.Struct;
 
 /**
+ * Class which generates POJOs from Struct Blueprints.
+ *
  * @since 1.0
  * @see PojoGeneratorFactory
  * @see GenerationFlag
@@ -27,15 +29,19 @@ import io.github.pojogen.struct.Struct;
 public interface PojoGenerator {
 
   /**
-   * @param model The blueprint used to generate a Pojo.
+   * Generates a valid Java Source Code from the {@code blueprint} given.
+   *
+   * @param blueprint The blueprint used to generate a Pojo.
    * @return Pojo generated from the {@code model}.
    */
-  String generate(final Struct model);
+  String generate(final Struct blueprint);
 
   /**
-   * @param model The blueprint used to generate a Pojo.
+   * Generates a valid Java Source Code from the {@code blueprint} given.
+   *
+   * @param blueprint The blueprint used to generate a Pojo.
    * @param profile Preferences and settings given for the generation.
    * @return Pojo generated from the {@code model}.
    */
-  String generate(final Struct model, final GenerationProfile profile);
+  String generate(final Struct blueprint, final GenerationProfile profile);
 }
