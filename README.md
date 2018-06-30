@@ -21,7 +21,9 @@ The following source text shows how a valid structure blueprint can be written.
  
 ```cpp
 struct Foo {
-  bar: Bar
+  bar: Bar   // Single Bar attribute.
+  baz: [Baz] // Array of Baz objects
+  qux: <Qux> // Collection of Qux objects.
 }
 ```
 For a detailed introduction, there is a [page]() in the wiki.
