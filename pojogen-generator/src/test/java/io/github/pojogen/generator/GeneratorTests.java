@@ -16,8 +16,8 @@
 
 package io.github.pojogen.generator;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 import io.github.pojogen.generator.internal.GenerationContext;
@@ -56,6 +56,6 @@ public final class GeneratorTests {
     final String pojo = generator.generate(model);
 
     assertThat(pojo, notNullValue());
-    assertThat(pojo, is(""));
+    assertThat(pojo, not(""));
   }
 }
