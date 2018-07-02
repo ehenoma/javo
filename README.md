@@ -35,7 +35,7 @@ The generator module does the actual job of converting from a blueprint to valid
 It has a simple interface and is very easily expandable internally. Configuration options are of 
 course also given, whereby these come either in the form of flags or properties.
 
-The following text shows how the Builder module can be used to add generator modules to your dependencies.
+The following text shows how common BuildTools can be used to add the generator modules to your dependencies.
 
 ##### Maven
 ```xml
