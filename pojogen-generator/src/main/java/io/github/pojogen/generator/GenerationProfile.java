@@ -22,7 +22,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import io.github.pojogen.generator.util.ImmutableMemoizingObject;
+import io.github.pojogen.generator.util.RepresentationSnapshot;
 import io.github.pojogen.struct.util.ObjectChecks;
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,16 +41,18 @@ import java.util.stream.Stream;
  * fundamental configurability or {@code custom properties} which are there for finer preferences.
  *
  * @since 1.0
- * @see ImmutableMemoizingObject
+ * @see RepresentationSnapshot
  * @see GenerationFlag
  * @see PojoGenerator
  */
-public final class GenerationProfile extends ImmutableMemoizingObject {
+public final class GenerationProfile {
 
   /** Collection of flags set for the generation. */
   private final Collection<GenerationFlag> flags;
 
   private final Map<String, String> properties;
+
+  private RepresentationSnapshot representation;
 
   /** No-args constructor of the GenerationProfile class. */
   private GenerationProfile() {
@@ -145,7 +147,11 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
   }
 
   @Override
-  protected int calculateHashCodeOnce() {
+  public int hashCode() {
+    return this.representation.getHashCode();
+  }
+
+  private int calculateHashCodeOnce() {
     final int flagsHashed = Objects.hash(this.flags.toArray());
     final int hashedProperties =
         Objects.hash(properties.values().toArray()) + Objects.hash(properties.keySet().toArray());
@@ -154,7 +160,11 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
   }
 
   @Override
-  protected String generateStringRepresentationOnce() {
+  public String toString() {
+    return this.representation.getStringRepresentation();
+  }
+
+  private String generateStringRepresentationOnce() {
     final String flagsRepresentation = Joiner.on(',').join(this.flags);
     final String propertiesRepresentation =
         Joiner.on(",").withKeyValueSeparator(":").join(this.properties);
@@ -174,10 +184,6 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
       this.flags = Sets.newHashSet();
     }
 
-    public static Builder newBuilder() {
-      return new Builder();
-    }
-
     public Builder addFlag(final GenerationFlag flag) {
       this.flags.add(flag);
       return this;
@@ -185,6 +191,10 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
 
     public GenerationProfile create() {
       return GenerationProfile.create(this.flags);
+    }
+
+    public static Builder newBuilder() {
+      return new Builder();
     }
   }
 
@@ -194,7 +204,7 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
    * @return Newly created plain GenerationProfile.
    */
   public static GenerationProfile create() {
-    return new GenerationProfile();
+    return GenerationProfile.create(Collections.emptyList());
   }
 
   /**
@@ -204,16 +214,20 @@ public final class GenerationProfile extends ImmutableMemoizingObject {
    * @return Newly created profile with the given flags.
    */
   public static GenerationProfile create(final Iterable<GenerationFlag> flags) {
-    Preconditions.checkNotNull(flags);
-
-    return new GenerationProfile(flags);
+    return GenerationProfile.create(flags, Collections.emptyMap());
   }
 
   public static GenerationProfile create(
       final Iterable<GenerationFlag> flags, final Map<String, String> properties) {
+
     Preconditions.checkNotNull(flags);
     Preconditions.checkNotNull(properties);
 
-    return new GenerationProfile(flags, properties);
+    final GenerationProfile profile = new GenerationProfile(flags, properties);
+    profile.representation =
+        RepresentationSnapshot.create(
+            profile::calculateHashCodeOnce, profile::generateStringRepresentationOnce);
+
+    return profile;
   }
 }
