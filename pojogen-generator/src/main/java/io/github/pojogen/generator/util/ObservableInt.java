@@ -32,20 +32,6 @@ public class ObservableInt extends Observable implements MutableInt {
     this.value = value;
   }
 
-  public static ObservableInt from(final int value) {
-    return new ObservableInt(value);
-  }
-
-  public static ObservableInt copyOf(final ObservableInt value) {
-    Preconditions.checkNotNull(value);
-
-    return new ObservableInt(value.getValue());
-  }
-
-  public static ObservableInt create() {
-    return new ObservableInt();
-  }
-
   @Override
   public void incrementBy(final int amount) {
     this.setValue(this.value + amount);
@@ -94,4 +80,19 @@ public class ObservableInt extends Observable implements MutableInt {
 
     return this.value == ((ObservableInt) other).value;
   }
+  
+  public static ObservableInt from(final int value) {
+    return new ObservableInt(value);
+  }
+
+  public static ObservableInt copyOf(final ObservableInt value) {
+    Preconditions.checkNotNull(value);
+
+    return new ObservableInt(value.getValue());
+  }
+
+  public static ObservableInt create() {
+    return new ObservableInt();
+  }
+  
 }
