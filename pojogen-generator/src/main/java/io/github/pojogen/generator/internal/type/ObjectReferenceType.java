@@ -41,6 +41,7 @@ public class ObjectReferenceType extends ReferenceType {
 
     WRAPPER_CLASSES = new HashMap<>(Maps.toMap(PRIMITIVE_TYPES, convention::apply));
     WRAPPER_CLASSES.put("char", "Character");
+    WRAPPER_CLASSES.put("int", "Integer");
   }
 
   private ObjectReferenceType(
