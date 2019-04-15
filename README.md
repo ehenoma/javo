@@ -3,7 +3,7 @@
 [![Latest](https://img.shields.io/badge/latest-v1.0-blue.svg)](https://github.com/merlinosayimwen/pojogen)
 ![LOC](https://sonarcloud.io/api/project_badges/measure?project=io.github.pojogen%3Apojogen-parent&metric=ncloc)
 
-The PojoGen software provides a tool for quick and easy snooping of value objects and beans in Java.
+The PojoGen software provides a tool for quick and easy creation of value objects and beans in Java.
 An important goal is to keep the quality and safety of the created classes high. 
 For example, for objects that should be immutable, defensive copies are used in the mutator and 
 accessors as needed to ensure this immutability. 
