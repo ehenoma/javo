@@ -4,10 +4,7 @@
 
 package io.github.merlinosayimwen.javo;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Stream;
 
 import com.google.common.base.MoreObjects;
@@ -30,7 +27,22 @@ import io.github.merlinosayimwen.javo.util.MorePreconditions;
 public final class Struct {
 
   public enum Modifier {
-    IMMUTABLE
+    IMMUTABLE("immutable");
+
+    private String code;
+    Modifier(String code) {
+      this.code = code;
+    }
+
+    public static Optional<Modifier> fromCode(String code) {
+      Preconditions.checkNotNull(code);
+      for (Modifier modifier : values()) {
+        if (modifier.code.equals(code)) {
+          return Optional.of(modifier);
+        }
+      }
+      return Optional.empty();
+    }
   }
 
   /** Name of the struct. */
