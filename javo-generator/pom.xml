@@ -4,8 +4,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>pojogen-parent</artifactId>
-    <groupId>io.github.pojogen</groupId>
+    <artifactId>javo-parent</artifactId>
+    <groupId>io.github.merlinosayimwen.javo</groupId>
     <version>1.0</version>
   </parent>
 
@@ -13,13 +13,13 @@
 
   <dependencies>
     <dependency>
-      <groupId>io.github.pojogen</groupId>
-      <artifactId>pojogen-struct</artifactId>
+      <groupId>io.github.merlinosayimwen.javo</groupId>
+      <artifactId>javo-common</artifactId>
       <version>1.0</version>
     </dependency>
     <dependency>
-      <groupId>io.github.pojogen</groupId>
-      <artifactId>pojogen-parser</artifactId>
+      <groupId>io.github.merlinosayimwen.javo</groupId>
+      <artifactId>javo-parser</artifactId>
       <version>1.0</version>
     </dependency>
   </dependencies>
