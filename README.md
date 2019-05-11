@@ -1,6 +1,6 @@
 # Javo
 [![JDK](https://img.shields.io/badge/java-SE8-blue.svg)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-[![Latest](https://img.shields.io/badge/latest-v1.0-blue.svg)](https://github.com/merlinosayimwen/pojogen)
+[![Latest](https://img.shields.io/badge/latest-v1.0-blue.svg)](https://github.com/merlinosayimwen/javo)
 
 Javo *(Java Value Objects)* is a tool for quick and easy creation of value objects and beans in Java.
 An important goal is to keep the quality and safety of the created classes high. 
@@ -40,18 +40,18 @@ The following text shows how common BuildTools can be used to add the generator 
 ##### Maven
 ```xml
 <dependency>
-  <groupId>io.github.pojogen</groupId>
-  <artifactId>pojogen-generator</artifactId>
+  <groupId>io.github.merlinosayimwen.javo</groupId>
+  <artifactId>javo-generator</artifactId>
   <version>1.0</version>
 </dependency>
 ```
 ##### Gradle
 ```groovy
-compile group: 'io.github.pojogen', name: 'pojogen-generator', version: '1.0'
+compile 'io.github.merlinosayimwen.javo:javo-generator:1.0'
 ```
 ##### Ivy
 ```ivy
-<dependency org="io.github.pojogen" name="pojogen-generator" rev="1.0"/>
+<dependency org="io.github.merlinosayimwen.javo" name="javo-generator" rev="1.0"/>
 ```
 
 The following example illustrates how the generator can be used to convert an already 
@@ -61,7 +61,7 @@ parsed blueprint into a Java class.
 Logger logger = Logger.getLogger("Pojo Example");
 logger.setLevel(Level.ALL);
 
-PojoGenerator generator = PojoGeneratorFactory.create().getInstance();
+PojoGenerator generator = JavoGeneratorFactory.create().getInstance();
 Struct parsed = // Your parsed struct.
 
 String generatedCode = generator.generate(parserd);
