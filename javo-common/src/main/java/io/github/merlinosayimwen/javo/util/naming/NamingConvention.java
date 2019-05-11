@@ -5,6 +5,5 @@
 package io.github.merlinosayimwen.javo.util.naming;
 
 public interface NamingConvention {
-
-  String apply(final String entry);
+  String apply(String entry);
 }

@@ -4,41 +4,43 @@
 
 package io.github.merlinosayimwen.javo.util;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Supplier;
+import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 
-import static com.google.common.base.Suppliers.memoize;
+import com.google.common.base.Preconditions;
 
 public final class RepresentationSnapshot {
-
-  private final Supplier<Integer> hashCodeSupplier;
-  private final Supplier<String> stringRepresentationSupplier;
+  private IntSupplier hashCode;
+  private Supplier<String> stringRepresentation;
 
   private RepresentationSnapshot(
-      final Supplier<Integer> hashCodeSupplier,
-      final Supplier<String> stringRepresentationSupplier) {
+      IntSupplier hashCode,
+      Supplier<String> stringRepresentation) {
 
-    this.hashCodeSupplier = hashCodeSupplier;
-    this.stringRepresentationSupplier = stringRepresentationSupplier;
+    this.hashCode = hashCode;
+    this.stringRepresentation = stringRepresentation;
   }
 
   public int getHashCode() {
-    return this.hashCodeSupplier.get();
+    return this.hashCode.getAsInt();
   }
 
   public String getStringRepresentation() {
-    return this.stringRepresentationSupplier.get();
+    return this.stringRepresentation.get();
   }
 
   public static RepresentationSnapshot create(
-      final Supplier<Integer> hashCodeSupplier, final Supplier<String> toStringSupplier) {
+      IntSupplier hashCode,
+      Supplier<String> stringRepresentation) {
 
-    Preconditions.checkNotNull(hashCodeSupplier);
-    Preconditions.checkNotNull(toStringSupplier);
-    return new RepresentationSnapshot(memoize(hashCodeSupplier), memoize(toStringSupplier));
+    Preconditions.checkNotNull(hashCode);
+    Preconditions.checkNotNull(stringRepresentation);
+    return new RepresentationSnapshot(
+      IntSuppliers.memoize(hashCode),
+      MoreSuppliers.memoize(stringRepresentation));
   }
 
-  public static RepresentationSnapshot take(final Object instance) {
+  public static RepresentationSnapshot take(Object instance) {
     Preconditions.checkNotNull(instance);
 
     return RepresentationSnapshot.create(instance::hashCode, instance::toString);
